@@ -1,9 +1,5 @@
+import ResourceTable from './components/ResourceTable';
+
 Nova.booting((Vue, router, store) => {
-  router.addRoutes([
-    {
-      name: 'nova-sortable',
-      path: '/nova-sortable',
-      component: require('./components/Tool'),
-    },
-  ]);
+  Vue.component('resource-table', ResourceTable);
 });

@@ -1,6 +1,6 @@
 # Nova Page Manager
 
-This [Laravel Nova](https://nova.laravel.com) package allows you to reorder models in a Nova resource's index view.
+This [Laravel Nova](https://nova.laravel.com) package allows you to reorder models in a Nova resource's index view using drag & drop.
 
 ## Requirements
 
@@ -23,7 +23,7 @@ Add an order field to the model using Laravel migrations:
 
 ```bash
 # Add order field
-$table->unsignedInteger('sort_order')->nullable();
+$table->integer('sort_order')->nullable();
 ```
 
 Implement the Spatie's `eloquent-sortable` interface and apply the trait:
@@ -37,9 +37,22 @@ class MyModel extends Eloquent implements Sortable
   use SortableTrait;
 
   public $sortable = [
-    'order_column_name' => 'order_column',
+    'order_column_name' => 'sort_order',
     'sort_when_creating' => true,
   ];
+
+  ...
+}
+```
+
+Apply `HasSortableRows` trait from this package on the Resource:
+
+```php
+use OptimistDigital\NovaSortable\Traits\HasSortableRows;
+
+class MyResource extends Resource
+{
+  use HasSortableRows;
 
   ...
 }
