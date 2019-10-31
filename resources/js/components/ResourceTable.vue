@@ -36,27 +36,27 @@
         <th>&nbsp;</th>
       </tr>
     </thead>
-    <draggable v-model="resources" tag="tbody">
-      <tr
-        v-for="(resource, index) in resources"
-        @actionExecuted="$emit('actionExecuted')"
-        :testId="`${resourceName}-items-${index}`"
-        :key="resource.id.value"
-        :delete-resource="deleteResource"
-        :restore-resource="restoreResource"
-        is="resource-table-row"
-        :resource="resource"
-        :resource-name="resourceName"
-        :relationship-type="relationshipType"
-        :via-relationship="viaRelationship"
-        :via-resource="viaResource"
-        :via-resource-id="viaResourceId"
-        :via-many-to-many="viaManyToMany"
-        :checked="selectedResources.indexOf(resource) > -1"
-        :actions-are-available="actionsAreAvailable"
-        :should-show-checkboxes="shouldShowCheckboxes"
-        :update-selection-status="updateSelectionStatus"
-      />
+    <draggable v-model="resources" tag="tbody" v-bind="dragOptions" handle=".handle">
+        <tr
+          v-for="(resource, index) in resources"
+          @actionExecuted="$emit('actionExecuted')"
+          :testId="`${resourceName}-items-${index}`"
+          :key="resource.id.value"
+          :delete-resource="deleteResource"
+          :restore-resource="restoreResource"
+          is="resource-table-row"
+          :resource="resource"
+          :resource-name="resourceName"
+          :relationship-type="relationshipType"
+          :via-relationship="viaRelationship"
+          :via-resource="viaResource"
+          :via-resource-id="viaResourceId"
+          :via-many-to-many="viaManyToMany"
+          :checked="selectedResources.indexOf(resource) > -1"
+          :actions-are-available="actionsAreAvailable"
+          :should-show-checkboxes="shouldShowCheckboxes"
+          :update-selection-status="updateSelectionStatus"
+        />
     </draggable>
   </table>
 </template>
@@ -67,6 +67,7 @@ import Draggable from 'vuedraggable';
 
 export default {
   mixins: [InteractsWithResourceInformation],
+
   components: { Draggable },
 
   props: {
@@ -165,6 +166,21 @@ export default {
     viaHasOne() {
       return this.relationshipType == 'hasOne' || this.relationshipType == 'morphOne';
     },
+
+    dragOptions() {
+      return {
+        animation: 0,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost',
+      };
+    },
   },
 };
 </script>
+
+<style>
+.flip-list-move {
+  transition: transform 0.25s;
+}
+</style>
