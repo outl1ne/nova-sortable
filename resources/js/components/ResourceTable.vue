@@ -36,7 +36,7 @@
         <th>&nbsp;</th>
       </tr>
     </thead>
-    <draggable v-model="resources" tag="tbody" v-bind="dragOptions" handle=".handle">
+    <draggable v-model="resources" tag="tbody" handle=".handle" @update="updateOrdering">
         <tr
           v-for="(resource, index) in resources"
           @actionExecuted="$emit('actionExecuted')"
@@ -56,6 +56,9 @@
           :actions-are-available="actionsAreAvailable"
           :should-show-checkboxes="shouldShowCheckboxes"
           :update-selection-status="updateSelectionStatus"
+          :reorder-disabled="reorderDisabled"
+          @moveToFirst="moveToFirst(resource)"
+          @moveToLast="moveToLast(resource)"
         />
     </draggable>
   </table>
@@ -118,6 +121,7 @@ export default {
     selectAllResources: false,
     selectAllMatching: false,
     resourceCount: null,
+    reorderLoading: false,
   }),
 
   methods: {
@@ -140,6 +144,30 @@ export default {
      */
     requestOrderByChange(field) {
       this.$emit('order', field);
+    },
+
+    async updateOrdering(event) {
+      this.reorderLoading = true;
+
+      console.info(this);
+      console.info('Old position now has: ', event.oldIndex, this.resources[event.oldIndex].id.value);
+      console.info('New position now has: ', event.newIndex, this.resources[event.newIndex].id.value);
+
+      try {
+        Nova.success('Ordering has been updated!');
+        this.reorderLoading = false;
+      } catch (e) {
+        Nova.error('An error occurred while trying to reorder the resource.');
+        this.reorderLoading = false;
+      }
+    },
+
+    async moveToFirst(resource) {
+      console.info('Move resource to FIRST:', resource.id.value);
+    },
+
+    async moveToLast(resource) {
+      console.info('Move resource to LAST:', resource.id.value);
     },
   },
 
@@ -167,13 +195,10 @@ export default {
       return this.relationshipType == 'hasOne' || this.relationshipType == 'morphOne';
     },
 
-    dragOptions() {
-      return {
-        animation: 0,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost',
-      };
+    reorderDisabled() {
+      // Check if is sorted by some column
+      const isSortedBycolumn = Object.keys(this.$route.query).length > 0;
+      return isSortedBycolumn || this.reorderLoading;
     },
   },
 };

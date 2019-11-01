@@ -7,34 +7,19 @@
         'w-8': !shouldShowCheckboxes,
       }"
     >
-      <div class="flex items-center">
-        <checkbox
-          :data-testid="`${testId}-checkbox`"
-          :dusk="`${resource['id'].value}-checkbox`"
-          v-if="shouldShowCheckboxes"
-          :checked="checked"
-          @input="toggleSelection"
-        />
-
-        <!-- Reorder button slot -->
-        <svg
-          v-if="resource.sortable"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-          class="ml-4"
-          :class="{
-            'handle cursor-move': !reorderDisabled,
-            'text-60 cursor-default': reorderDisabled
-          }"
-          aria-labelledby="arrows"
-          role="presentation"
-        >
-          <path class="fill-current text-70" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z" />
-        </svg>
-        <!-- End reorder button slot -->
-      </div>
+      <!-- Reorder buttons -->
+      <reorder-buttons :reorder-disabled="reorderDisabled" :resource="resource" @moveToLast="$emit('moveToLast')" @moveToFirst="$emit('moveToFirst')">
+        <template slot="checkbox">
+          <checkbox
+            :data-testid="`${testId}-checkbox`"
+            :dusk="`${resource['id'].value}-checkbox`"
+            v-if="shouldShowCheckboxes"
+            :checked="checked"
+            @input="toggleSelection"
+          />
+        </template>
+      </reorder-buttons>
+      <!-- End reorder buttons -->
     </td>
 
     <!-- Fields -->
