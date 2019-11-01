@@ -8,7 +8,7 @@
       }"
     >
       <!-- Reorder buttons -->
-      <reorder-buttons :reorder-disabled="reorderDisabled" :resource="resource" @moveToLast="$emit('moveToLast')" @moveToFirst="$emit('moveToFirst')">
+      <reorder-buttons :reorder-disabled="reorderDisabled" :resource="resource" @moveToEnd="$emit('moveToEnd')" @moveToStart="$emit('moveToStart')">
         <template slot="checkbox">
           <checkbox
             :data-testid="`${testId}-checkbox`"

@@ -5,33 +5,33 @@
   <div class="flex items-center ml-4" v-tooltip="reorderDisabledTooltip" v-if="resource.sortable">
     <div class="flex flex-col">
       <svg
-        class="fill-current"
+        class="fill-current outline-none"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         width="12"
         height="12"
-        @click="$emit('moveToFirst')"
+        @click="$emit('moveToStart')"
         :class="{
           'cursor-pointer text-70 hover:text-80': !reorderDisabled,
           'cursor-default text-50': reorderDisabled
         }"
-        v-tooltip="moveToFirstTooltip"
+        v-tooltip="moveToStartTooltip"
       >
         <path d="M13 5.41V21a1 1 0 0 1-2 0V5.41l-5.3 5.3a1 1 0 1 1-1.4-1.42l7-7a1 1 0 0 1 1.4 0l7 7a1 1 0 1 1-1.4 1.42L13 5.4z" />
       </svg>
 
       <svg
-        class="fill-current"
+        class="fill-current outline-none"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         width="12"
         height="12"
-        @click="$emit('moveToLast')"
+        @click="$emit('moveToEnd')"
         :class="{
           'cursor-pointer text-70 hover:text-80': !reorderDisabled,
           'cursor-default text-50': reorderDisabled
         }"
-        v-tooltip="moveToLastTooltip"
+        v-tooltip="moveToEndTooltip"
       >
         <path d="M11 18.59V3a1 1 0 0 1 2 0v15.59l5.3-5.3a1 1 0 0 1 1.4 1.42l-7 7a1 1 0 0 1-1.4 0l-7-7a1 1 0 0 1 1.4-1.42l5.3 5.3z" />
       </svg>
@@ -74,19 +74,19 @@ export default {
           }
         : void 0;
     },
-    moveToFirstTooltip() {
+    moveToStartTooltip() {
       return !this.reorderDisabled
         ? {
-            content: 'Move to first',
+            content: 'Move to start',
             classes: this.tooltipClasses,
             offset: 5,
           }
         : void 0;
     },
-    moveToLastTooltip() {
+    moveToEndTooltip() {
       return !this.reorderDisabled
         ? {
-            content: 'Move to last',
+            content: 'Move to end',
             classes: this.tooltipClasses,
             offset: 5,
           }
