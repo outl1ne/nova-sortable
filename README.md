@@ -1,14 +1,22 @@
-# Nova Page Manager
+# Nova Sortable
 
 This [Laravel Nova](https://nova.laravel.com) package allows you to reorder models in a Nova resource's index view using drag & drop.
+
+Uses Spatie's [eloquent-sortable](https://github.com/spatie/eloquent-sortable) under the hood.
 
 ## Requirements
 
 - Laravel Nova >= 2.6.0
 
+## Features
+
+- Drag & drop reorder within one page of resources
+- Move to start and end arrows (makes item first/last)
+- Everything from [eloquent-sortable](https://github.com/spatie/eloquent-sortable)
+
 ## Screenshots
 
-TODO
+![Sortable](./docs/sortable.gif)
 
 ## Installation
 
@@ -19,11 +27,16 @@ Install the package in a Laravel Nova project via Composer:
 composer require optimistdigital/nova-sortable
 ```
 
+## Usage
+
 Add an order field to the model using Laravel migrations:
 
 ```bash
-# Add order field
-$table->integer('sort_order')->nullable();
+# Add order field with default value
+Schema::table('some_model', function (Blueprint $table) {
+  $table->integer('sort_order');
+});
+DB::statement('UPDATE some_model SET sort_order = id');
 ```
 
 Implement the Spatie's `eloquent-sortable` interface and apply the trait:
@@ -64,4 +77,4 @@ class MyResource extends Resource
 
 ## License
 
-Nova page manager is open-sourced software licensed under the [MIT license](LICENSE.md).
+Nova Sortable is open-sourced software licensed under the [MIT license](LICENSE.md).
