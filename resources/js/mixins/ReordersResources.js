@@ -15,14 +15,12 @@ export default {
       this.reorderLoading = true;
 
       const newResourceOrder = this.resources.map(r => r.id.value);
-      console.info('New resources order', newResourceOrder);
-
       try {
         await Nova.request().post('/nova-vendor/nova-sortable/sort/update-order', {
           resourceName: this.resourceName,
           resourceIds: newResourceOrder,
         });
-        Nova.success('Ordering has been updated!');
+        Nova.success('Resources successfully reordered!');
       } catch (e) {
         Nova.error('An error occurred while trying to reorder the resources.');
       }
@@ -33,8 +31,12 @@ export default {
     async moveToStart(resource) {
       this.reorderLoading = true;
       try {
-        console.info('Move resource to START:', resource.id.value);
-        Nova.success('Resource moved to first position.');
+        await Nova.request().post('/nova-vendor/nova-sortable/sort/move-to-start', {
+          resourceName: this.resourceName,
+          resourceId: resource.id.value,
+        });
+        await this.$parent.$parent.$parent.$parent.getResources();
+        Nova.success('Resource successfully moved to first position!');
       } catch (e) {
         Nova.error('An error occurred while trying to reorder the resource.');
         this.reorderLoading = false;
@@ -45,8 +47,12 @@ export default {
     async moveToEnd(resource) {
       this.reorderLoading = true;
       try {
-        console.info('Move resource to END:', resource.id.value);
-        Nova.success('Resource moved to last position.');
+        await Nova.request().post('/nova-vendor/nova-sortable/sort/move-to-end', {
+          resourceName: this.resourceName,
+          resourceId: resource.id.value,
+        });
+        await this.$parent.$parent.$parent.$parent.getResources();
+        Nova.success('Resource successfully moved to last position!');
       } catch (e) {
         Nova.error('An error occurred while trying to reorder the resource.');
         this.reorderLoading = false;
