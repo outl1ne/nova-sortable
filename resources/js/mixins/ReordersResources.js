@@ -35,7 +35,7 @@ export default {
           resourceName: this.resourceName,
           resourceId: resource.id.value,
         });
-        await this.$parent.$parent.$parent.$parent.getResources();
+        await this.refreshResourcesList();
         Nova.success('Resource successfully moved to first position!');
       } catch (e) {
         Nova.error('An error occurred while trying to reorder the resource.');
@@ -51,13 +51,22 @@ export default {
           resourceName: this.resourceName,
           resourceId: resource.id.value,
         });
-        await this.$parent.$parent.$parent.$parent.getResources();
+        await this.refreshResourcesList();
         Nova.success('Resource successfully moved to last position!');
       } catch (e) {
         Nova.error('An error occurred while trying to reorder the resource.');
         this.reorderLoading = false;
       }
       this.reorderLoading = false;
+    },
+
+    async refreshResourcesList() {
+      // ! Might break with new Laravel Nova versions
+      let parent = this.$parent;
+      while (parent && !parent.getResources) {
+        parent = parent.$parent;
+      }
+      if (parent && parent.getResources) await parent.getResources();
     },
   },
 };
