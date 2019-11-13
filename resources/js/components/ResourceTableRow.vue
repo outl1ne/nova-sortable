@@ -8,7 +8,12 @@
       }"
     >
       <!-- Reorder buttons -->
-      <reorder-buttons :reorder-disabled="reorderDisabled" :resource="resource" @moveToEnd="$emit('moveToEnd')" @moveToStart="$emit('moveToStart')">
+      <reorder-buttons
+        :reorder-disabled="reorderDisabled"
+        :resource="resource"
+        @moveToEnd="$emit('moveToEnd')"
+        @moveToStart="$emit('moveToStart')"
+      >
         <template slot="checkbox">
           <checkbox
             :data-testid="`${testId}-checkbox`"
@@ -67,10 +72,7 @@
       <span v-if="resource.authorizedToUpdate">
         <!-- Edit Pivot Button -->
         <router-link
-          v-if="
-            relationshipType == 'belongsToMany' ||
-              relationshipType == 'morphToMany'
-          "
+          v-if="relationshipType == 'belongsToMany' || relationshipType == 'morphToMany'"
           class="cursor-pointer text-70 hover:text-primary mr-3"
           :dusk="`${resource['id'].value}-edit-attached-button`"
           :to="{
@@ -118,10 +120,7 @@
         :data-testid="`${testId}-delete-button`"
         :dusk="`${resource['id'].value}-delete-button`"
         class="appearance-none cursor-pointer text-70 hover:text-primary mr-3"
-        v-if="
-          resource.authorizedToDelete &&
-            (!resource.softDeleted || viaManyToMany)
-        "
+        v-if="resource.authorizedToDelete && (!resource.softDeleted || viaManyToMany)"
         @click.prevent="openDeleteModal"
         :title="__(viaManyToMany ? 'Detach' : 'Delete')"
       >
@@ -132,20 +131,14 @@
       <button
         :dusk="`${resource['id'].value}-restore-button`"
         class="appearance-none cursor-pointer text-70 hover:text-primary mr-3"
-        v-if="
-          resource.authorizedToRestore && resource.softDeleted && !viaManyToMany
-        "
+        v-if="resource.authorizedToRestore && resource.softDeleted && !viaManyToMany"
         @click.prevent="openRestoreModal"
         :title="__('Restore')"
       >
         <icon type="restore" with="20" height="21" />
       </button>
 
-      <portal
-        to="modals"
-        transition="fade-transition"
-        v-if="deleteModalOpen || restoreModalOpen"
-      >
+      <portal to="modals" transition="fade-transition" v-if="deleteModalOpen || restoreModalOpen">
         <delete-resource-modal
           v-if="deleteModalOpen"
           @confirm="confirmDelete"
@@ -153,24 +146,16 @@
           :mode="viaManyToMany ? 'detach' : 'delete'"
         >
           <div slot-scope="{ uppercaseMode, mode }" class="p-8">
-            <heading :level="2" class="mb-6">{{
-              __(uppercaseMode + ' Resource')
-            }}</heading>
+            <heading :level="2" class="mb-6">{{ __(uppercaseMode + ' Resource') }}</heading>
             <p class="text-80 leading-normal">
               {{ __('Are you sure you want to ' + mode + ' this resource?') }}
             </p>
           </div>
         </delete-resource-modal>
 
-        <restore-resource-modal
-          v-if="restoreModalOpen"
-          @confirm="confirmRestore"
-          @close="closeRestoreModal"
-        >
+        <restore-resource-modal v-if="restoreModalOpen" @confirm="confirmRestore" @close="closeRestoreModal">
           <div class="p-8">
-            <heading :level="2" class="mb-6">{{
-              __('Restore Resource')
-            }}</heading>
+            <heading :level="2" class="mb-6">{{ __('Restore Resource') }}</heading>
             <p class="text-80 leading-normal">
               {{ __('Are you sure you want to restore this resource?') }}
             </p>
