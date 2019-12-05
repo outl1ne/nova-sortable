@@ -24,7 +24,6 @@
       </div>
 
       <burger-icon
-        v-if="resource.sortable"
         :class="{
           'handle cursor-move text-70 hover:text-80': !reorderDisabled,
           'text-50 cursor-default': reorderDisabled,
