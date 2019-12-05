@@ -15,6 +15,7 @@ Uses Spatie's [eloquent-sortable](https://github.com/spatie/eloquent-sortable) u
 
 - Drag & drop reorder within one page of resources
 - Move to start and end arrows (makes item first/last)
+- Localization
 - Everything from [eloquent-sortable](https://github.com/spatie/eloquent-sortable)
 
 ## Screenshots
@@ -73,6 +74,16 @@ class MyResource extends Resource
   ...
 }
 ```
+
+## Localization
+
+The translation file(s) can be published by using the following publish command:
+
+```bash
+php artisan vendor:publish --provider="OptimistDigital\NovaSortable\ToolServiceProvider" --tag="translations"
+```
+
+You can add your translations to `resources/lang/vendor/nova-sortable/` by creating a new translations file with the locale name (ie `et.json`) and copying the JSON from the existing `en.json`.
 
 ## Credits
 
