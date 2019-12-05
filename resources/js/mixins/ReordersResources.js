@@ -20,9 +20,9 @@ export default {
           resourceName: this.resourceName,
           resourceIds: newResourceOrder,
         });
-        Nova.success('Resources successfully reordered!');
+        Nova.success(this.__('novaSortable.reorderSuccessful'));
       } catch (e) {
-        Nova.error('An error occurred while trying to reorder the resources.');
+        Nova.error(this.__('novaSortable.reorderError'));
       }
 
       this.reorderLoading = false;
@@ -36,10 +36,9 @@ export default {
           resourceId: resource.id.value,
         });
         await this.refreshResourcesList();
-        Nova.success('Resource successfully moved to first position!');
+        Nova.success(this.__('novaSortable.moveToStartSuccessful'));
       } catch (e) {
-        Nova.error('An error occurred while trying to reorder the resource.');
-        this.reorderLoading = false;
+        Nova.error(this.__('novaSortable.reorderError'));
       }
       this.reorderLoading = false;
     },
@@ -52,10 +51,9 @@ export default {
           resourceId: resource.id.value,
         });
         await this.refreshResourcesList();
-        Nova.success('Resource successfully moved to last position!');
+        Nova.success(this.__('novaSortable.moveToEndSuccessful'));
       } catch (e) {
-        Nova.error('An error occurred while trying to reorder the resource.');
-        this.reorderLoading = false;
+        Nova.error(this.__('novaSortable.reorderError'));
       }
       this.reorderLoading = false;
     },

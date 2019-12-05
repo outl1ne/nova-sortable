@@ -49,7 +49,7 @@ export default {
     reorderDisabledTooltip() {
       return this.reorderDisabled
         ? {
-            content: 'Reordering is disabled with active sort options.',
+            content: this.__('novaSortable.reorderingDisabledTooltip'),
             classes: this.tooltipClasses,
             offset: 5,
             boundariesElement: document,
@@ -59,7 +59,7 @@ export default {
     moveToStartTooltip() {
       return !this.reorderDisabled
         ? {
-            content: 'Move to start',
+            content: this.__('novaSortable.moveToStart'),
             classes: this.tooltipClasses,
             offset: 5,
           }
@@ -68,7 +68,7 @@ export default {
     moveToEndTooltip() {
       return !this.reorderDisabled
         ? {
-            content: 'Move to end',
+            content: this.__('novaSortable.moveToEnd'),
             classes: this.tooltipClasses,
             offset: 5,
           }
