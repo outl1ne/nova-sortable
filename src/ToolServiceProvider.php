@@ -44,25 +44,33 @@ class ToolServiceProvider extends ServiceProvider
             ->group(__DIR__ . '/../routes/api.php');
     }
 
+    protected function attemptToLoadTranslations($locale, $from)
+    {
+        $filePath = $from === 'local'
+            ? __DIR__ . '/../resources/lang/' . $locale . '.json'
+            : resource_path('lang/vendor/nova-sortable') . '/' . $locale . '.json';
+
+        $localeFileExists = File::exists($filePath);
+        if ($localeFileExists) {
+            Nova::translations($filePath);
+            return true;
+        }
+        return false;
+    }
+
     protected function translations()
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/nova-sortable')], 'translations');
         } else if (method_exists('Nova', 'translations')) {
-            // Load local translation files
-            $localTranslationFiles = File::files(__DIR__ . '/../resources/lang');
-            foreach ($localTranslationFiles as $file) {
-                Nova::translations($file->getPathName());
-            }
+            $locale = app()->getLocale();
+            $fallbackLocale = config('app.fallback_locale');
 
-            // Load project translation files
-            $projectTransFilesPath = resource_path('lang/vendor/nova-sortable');
-            if (File::exists($projectTransFilesPath)) {
-                $projectTranslationFiles = File::files($projectTransFilesPath);
-                foreach ($projectTranslationFiles as $file) {
-                    Nova::translations($file->getPathName());
-                }
-            }
+            if ($this->attemptToLoadTranslations($locale, 'project')) return;
+            if ($this->attemptToLoadTranslations($locale, 'local')) return;
+            if ($this->attemptToLoadTranslations($fallbackLocale, 'project')) return;
+            if ($this->attemptToLoadTranslations($fallbackLocale, 'local')) return;
+            $this->attemptToLoadTranslations('en', 'local');
         }
     }
 
