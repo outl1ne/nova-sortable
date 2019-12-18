@@ -5,7 +5,7 @@
     width="12"
     height="12"
     class="fill-current outline-none"
-    :class="getClasses"
+    :class="customClass"
     @click="$emit('click')"
   >
     <path
@@ -16,11 +16,6 @@
 
 <script>
 export default {
-  props: ['class'],
-  computed: {
-    getClasses() {
-      return this.class;
-    },
-  },
+  props: ['customClass'],
 };
 </script>

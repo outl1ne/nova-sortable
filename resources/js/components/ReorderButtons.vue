@@ -6,7 +6,7 @@
       <div class="flex flex-col">
         <chevron-up-icon
           @click="!reorderDisabled && $emit('moveToStart')"
-          :class="{
+          :custom-class="{
             'cursor-pointer text-70 hover:text-80': !reorderDisabled,
             'cursor-default text-50': reorderDisabled,
           }"
@@ -15,7 +15,7 @@
 
         <chevron-down-icon
           @click="!reorderDisabled && $emit('moveToEnd')"
-          :class="{
+          :custom-class="{
             'cursor-pointer text-70 hover:text-80': !reorderDisabled,
             'cursor-default text-50': reorderDisabled,
           }"
@@ -24,7 +24,7 @@
       </div>
 
       <burger-icon
-        :class="{
+        :custom-class="{
           'handle cursor-move text-70 hover:text-80': !reorderDisabled,
           'text-50 cursor-default': reorderDisabled,
         }"

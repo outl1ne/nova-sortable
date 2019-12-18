@@ -6,7 +6,7 @@
     height="22"
     style="flex-shrink: 0;"
     class="ml-2 fill-current"
-    :class="getClasses"
+    :class="customClass"
     @click="$emit('click')"
   >
     <path
@@ -17,11 +17,6 @@
 
 <script>
 export default {
-  props: ['class'],
-  computed: {
-    getClasses() {
-      return this.class;
-    },
-  },
+  props: ['customClass'],
 };
 </script>
