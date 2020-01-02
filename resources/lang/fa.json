@@ -1,0 +1,9 @@
+{
+  "novaSortable.reorderingDisabledTooltip": "تغییر ترتیب با توجه به تنظیمات جاری غیرفعال است.",
+  "novaSortable.moveToStart": "انتقال به ابتدا",
+  "novaSortable.moveToEnd": "انتقال به انتها",
+  "novaSortable.reorderSuccessful": "مورد با موفقیت منتقل شد.",
+  "novaSortable.moveToStartSuccessful": "مورد با موفقیت به ابتدا منتقل شد.",
+  "novaSortable.moveToEndSuccessful": "مورد با موفقیت به انتها منتقل شد.",
+  "novaSortable.reorderError": "تلاش برای انتقال با خطا مواجه شد."
+}
