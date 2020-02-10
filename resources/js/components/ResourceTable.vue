@@ -1,11 +1,5 @@
 <template>
-  <table
-    v-if="resources.length > 0"
-    class="table w-full"
-    cellpadding="0"
-    cellspacing="0"
-    data-testid="resource-table"
-  >
+  <table v-if="resources.length > 0" class="table w-full" cellpadding="0" cellspacing="0" data-testid="resource-table">
     <thead>
       <tr>
         <!-- Select Checkbox -->
@@ -22,6 +16,7 @@
         <th v-for="field in fields" :class="`text-${field.textAlign}`">
           <sortable-icon
             @sort="requestOrderByChange(field)"
+            @reset="resetOrderBy(field)"
             :resource-name="resourceName"
             :uri-key="field.sortableUriKey"
             v-if="field.sortable"
@@ -36,7 +31,8 @@
         <th>&nbsp;</th>
       </tr>
     </thead>
-    <draggable v-model="resources" tag="tbody" handle=".handle" @update="updateOrder">
+    <tbody>
+      <draggable v-model="resources" tag="tbody" handle=".handle" @update="updateOrder">
         <tr
           v-for="(resource, index) in resources"
           @actionExecuted="$emit('actionExecuted')"
@@ -60,7 +56,8 @@
           @moveToStart="moveToStart(resource)"
           @moveToEnd="moveToEnd(resource)"
         />
-    </draggable>
+      </draggable>
+    </tbody>
   </table>
 </template>
 
@@ -130,6 +127,7 @@ export default {
      */
     deleteResource(resource) {
       this.$emit('delete', [resource]);
+      Nova.$emit('metric-refresh');
     },
 
     /**
@@ -137,6 +135,7 @@ export default {
      */
     restoreResource(resource) {
       this.$emit('restore', [resource]);
+      Nova.$emit('metric-refresh');
     },
 
     /**
@@ -144,6 +143,13 @@ export default {
      */
     requestOrderByChange(field) {
       this.$emit('order', field);
+    },
+
+    /**
+     * Broadcast that the ordering should be reset.
+     */
+    resetOrderBy(field) {
+      this.$emit('reset-order-by', field);
     },
   },
 
