@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.2.0] - 2020-02-10
 
+### Added
+
+- Added Farsi (Persian) translations (by [@FaridAghili](https://github.com/FaridAghili))
+
 ### Changed
 
 - Hide sortable buttons on pivot table
