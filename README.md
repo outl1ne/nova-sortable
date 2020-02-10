@@ -9,7 +9,8 @@ Uses Spatie's [eloquent-sortable](https://github.com/spatie/eloquent-sortable) u
 
 ## Requirements
 
-- Laravel Nova >= 2.6.0
+- Laravel Nova >= 2.10.0
+- For Laravel Nova < 2.10.0 use `nova-sortable` version `1.1.3`
 
 ## Features
 
