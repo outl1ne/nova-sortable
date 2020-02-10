@@ -11,6 +11,7 @@
       <reorder-buttons
         :reorder-disabled="reorderDisabled"
         :resource="resource"
+        :via-resource-id="viaResourceId"
         @moveToEnd="$emit('moveToEnd')"
         @moveToStart="$emit('moveToStart')"
       >

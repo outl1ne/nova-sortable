@@ -2,7 +2,7 @@
   <div class="flex items-center">
     <slot name="checkbox" />
 
-    <div class="flex items-center ml-4" v-tooltip="reorderDisabledTooltip" v-if="resource.sortable">
+    <div class="flex items-center ml-4" v-tooltip="reorderDisabledTooltip" v-if="isSortable">
       <div class="flex flex-col">
         <chevron-up-icon
           @click="!reorderDisabled && $emit('moveToStart')"
@@ -40,11 +40,16 @@ import BurgerIcon from '../icons/BurgerIcon';
 
 export default {
   components: { ChevronUpIcon, ChevronDownIcon, BurgerIcon },
-  props: ['resource', 'reorderDisabled'],
+  props: ['resource', 'reorderDisabled', 'viaResourceId'],
   computed: {
     tooltipClasses() {
       return ['bg-white', 'px-3', 'py-2', 'rounded', 'border', 'border-50', 'shadow', 'text-sm', 'leading-normal'];
     },
+
+    isSortable() {
+      return this.resource.sortable && !this.viaResourceId;
+    },
+
     reorderDisabledTooltip() {
       return this.reorderDisabled
         ? {
@@ -55,6 +60,7 @@ export default {
           }
         : void 0;
     },
+
     moveToStartTooltip() {
       return !this.reorderDisabled
         ? {
@@ -64,6 +70,7 @@ export default {
           }
         : void 0;
     },
+
     moveToEndTooltip() {
       return !this.reorderDisabled
         ? {
