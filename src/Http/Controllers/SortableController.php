@@ -14,30 +14,32 @@ class SortableController
         $viaResource = $request->get('viaResource');
         $viaResourceId = $request->get('viaResourceId');
         $viaRelationship = $request->get('viaRelationship');
+        $relationshipType = $request->get('relationshipType');
 
         if (empty($resourceIds)) return response()->json(['resourceIds' => 'required'], 400);
         if (empty($resourceName)) return response()->json(['resourceName' => 'required'], 400);
 
         // Pivot
         if (isset($viaResource)) {
-            $resourceClass = Nova::resourceForKey($viaResource);
-            if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
+            if ($relationshipType === 'belongsToMany') {
+                $resourceClass = Nova::resourceForKey($viaResource);
+                if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
 
-            $modelClass = $resourceClass::$model;
-            $model = $modelClass::find($viaResourceId);
+                $modelClass = $resourceClass::$model;
+                $model = $modelClass::find($viaResourceId);
 
-            $pivotModels = $model->{$viaRelationship};
-            if ($pivotModels->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
+                $pivotModels = $model->{$viaRelationship};
+                if ($pivotModels->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
 
-            $pivotModel = $pivotModels->first()->pivot;
-            $orderColumnName = !empty($pivotModel->sortable['order_column_name']) ? $pivotModel->sortable['order_column_name'] : 'sort_order';
+                $pivotModel = $pivotModels->first()->pivot;
+                $orderColumnName = !empty($pivotModel->sortable['order_column_name']) ? $pivotModel->sortable['order_column_name'] : 'sort_order';
 
-            // Sort orderColumn values
-            foreach ($pivotModels as $i => $model) {
-                $model->pivot->{$orderColumnName} = array_search($model->id, $resourceIds);
-                $model->pivot->save();
+                // Sort orderColumn values
+                foreach ($pivotModels as $i => $model) {
+                    $model->pivot->{$orderColumnName} = array_search($model->id, $resourceIds);
+                    $model->pivot->save();
+                }
             }
-
             return response('', 204);
         }
 

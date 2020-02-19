@@ -22,6 +22,7 @@ export default {
           viaResource: this.viaResource,
           viaResourceId: this.viaResourceId,
           viaRelationship: this.viaRelationship,
+          relationshipType: this.relationshipType,
         });
         Nova.success(this.__('novaSortable.reorderSuccessful'));
       } catch (e) {
