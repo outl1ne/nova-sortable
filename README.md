@@ -88,6 +88,8 @@ You can add your translations to `resources/lang/vendor/nova-sortable/` by creat
 
 ## Using on pivot table(s)
 
+NB! Sorting is impossible when your pivot table has multiple items with the same ID pairs.
+
 First, add a new column for the sort order data to the pivot table. Default name is `sort_order`, but it's configurable if you create a new `Pivot` class and add the `$sortable` property to it.
 
 Next, set `sort_on_pivot` to `true` on the main model's (not the pivot class') `$sortable = []` array.
