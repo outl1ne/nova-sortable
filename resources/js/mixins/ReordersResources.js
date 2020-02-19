@@ -19,6 +19,9 @@ export default {
         await Nova.request().post('/nova-vendor/nova-sortable/sort/update-order', {
           resourceName: this.resourceName,
           resourceIds: newResourceOrder,
+          viaResource: this.viaResource,
+          viaResourceId: this.viaResourceId,
+          viaRelationship: this.viaRelationship,
         });
         Nova.success(this.__('novaSortable.reorderSuccessful'));
       } catch (e) {

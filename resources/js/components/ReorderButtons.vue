@@ -2,9 +2,10 @@
   <div class="flex items-center">
     <slot name="checkbox" />
 
-    <div class="flex items-center ml-4" v-tooltip="reorderDisabledTooltip" v-if="isSortable">
+    <div class="flex items-center ml-4" v-tooltip="reorderDisabledTooltip" v-if="resource.sortable">
       <div class="flex flex-col">
         <chevron-up-icon
+          v-if="!viaResourceId"
           @click="!reorderDisabled && $emit('moveToStart')"
           :custom-class="{
             'cursor-pointer text-70 hover:text-80': !reorderDisabled,
@@ -14,6 +15,7 @@
         />
 
         <chevron-down-icon
+          v-if="!viaResourceId"
           @click="!reorderDisabled && $emit('moveToEnd')"
           :custom-class="{
             'cursor-pointer text-70 hover:text-80': !reorderDisabled,
@@ -24,6 +26,7 @@
       </div>
 
       <burger-icon
+        style="min-width: 22px; width: 32px;"
         :custom-class="{
           'handle cursor-move text-70 hover:text-80': !reorderDisabled,
           'text-50 cursor-default': reorderDisabled,
@@ -44,10 +47,6 @@ export default {
   computed: {
     tooltipClasses() {
       return ['bg-white', 'px-3', 'py-2', 'rounded', 'border', 'border-50', 'shadow', 'text-sm', 'leading-normal'];
-    },
-
-    isSortable() {
-      return this.resource.sortable && !this.viaResourceId;
     },
 
     reorderDisabledTooltip() {

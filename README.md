@@ -86,6 +86,34 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSortable\ToolServiceP
 
 You can add your translations to `resources/lang/vendor/nova-sortable/` by creating a new translations file with the locale name (ie `et.json`) and copying the JSON from the existing `en.json`.
 
+## Using on pivot table(s)
+
+First, add a new column for the sort order data to the pivot table. Default name is `sort_order`, but it's configurable if you create a new `Pivot` class and add the `$sortable` property to it.
+
+Next, set `sort_on_pivot` to `true` on the main model's (not the pivot class') `$sortable = []` array.
+
+```
+public $sortable = [
+  'order_column_name' => 'sort_order',
+  'sort_when_creating' => true,
+  'sort_on_pivot' => true,
+];
+```
+
+Then, add sorting to the pivot query manually. On the parent model (on which the pivot's are displayed), add `orderBy()` to the pivot query definition like so:
+
+```
+public function products()
+{
+  return $this->belongsToMany(Product::class, 'order_product')
+    ->withPivot(OrderProduct::getPivotFields())
+    ->using(OrderProduct::class)
+    ->orderBy('order_product.sort_order'); // The `order_product` pivot table name prefix is required!
+}
+```
+
+Now you should be able to sort the pivot models.
+
 ## Credits
 
 - [Tarvo Reinpalu](https://github.com/Tarpsvo)

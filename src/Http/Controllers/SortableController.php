@@ -11,10 +11,37 @@ class SortableController
     {
         $resourceIds = $request->get('resourceIds');
         $resourceName = $request->get('resourceName');
+        $viaResource = $request->get('viaResource');
+        $viaResourceId = $request->get('viaResourceId');
+        $viaRelationship = $request->get('viaRelationship');
 
         if (empty($resourceIds)) return response()->json(['resourceIds' => 'required'], 400);
         if (empty($resourceName)) return response()->json(['resourceName' => 'required'], 400);
 
+        // Pivot
+        if (isset($viaResource)) {
+            $resourceClass = Nova::resourceForKey($viaResource);
+            if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
+
+            $modelClass = $resourceClass::$model;
+            $model = $modelClass::find($viaResourceId);
+
+            $pivotModels = $model->{$viaRelationship};
+            if ($pivotModels->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
+
+            $pivotModel = $pivotModels->first()->pivot;
+            $orderColumnName = !empty($pivotModel->sortable['order_column_name']) ? $pivotModel->sortable['order_column_name'] : 'sort_order';
+
+            // Sort orderColumn values
+            foreach ($pivotModels as $i => $model) {
+                $model->pivot->{$orderColumnName} = array_search($model->id, $resourceIds);
+                $model->pivot->save();
+            }
+
+            return response('', 204);
+        }
+
+        // Regular
         $resourceClass = Nova::resourceForKey($resourceName);
         if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
 
@@ -23,7 +50,7 @@ class SortableController
         if ($models->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
 
         $model = $models->first();
-        $orderColumnName = !empty($model->sortable['order_column_name']) ? $model->sortable['order_column_name'] : 'order_column';
+        $orderColumnName = !empty($model->sortable['order_column_name']) ? $model->sortable['order_column_name'] : 'sort_order';
 
         // Sort orderColumn values
         $sortedOrder = $models->pluck($orderColumnName)->sort()->values();
