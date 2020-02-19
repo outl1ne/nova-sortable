@@ -86,7 +86,7 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSortable\ToolServiceP
 
 You can add your translations to `resources/lang/vendor/nova-sortable/` by creating a new translations file with the locale name (ie `et.json`) and copying the JSON from the existing `en.json`.
 
-## Using on pivot table(s)
+## Sorting BelongsToMany relatioship (w/ pivot table)
 
 NB! Sorting is impossible when your pivot table has multiple items with the same ID pairs.
 
@@ -102,7 +102,7 @@ public $sortable = [
 ];
 ```
 
-Then, add sorting to the pivot query manually. On the parent model (on which the pivot's are displayed), add `orderBy()` to the pivot query definition like so:
+Finally, add sorting to the pivot query manually. On the parent model (on which the pivots are displayed), add `orderBy()` to the pivot query definition like so:
 
 ```
 public function products()
@@ -113,8 +113,6 @@ public function products()
     ->orderBy('order_product.sort_order'); // The `order_product` pivot table name prefix is required!
 }
 ```
-
-Now you should be able to sort the pivot models.
 
 ## Credits
 
