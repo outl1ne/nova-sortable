@@ -114,6 +114,62 @@ public function products()
 }
 ```
 
+## Displaying items according to their BelongsTo parent's order
+
+Let's imagine we have `User` and `UserGroup` resources, where `UserGroup` is sorted by nova-sortable.
+You may want to have your users listed in the same order as the order of groups they belong to. So,
+users from the first group, then users from the second group, etc. You can change the default ordering for
+a Nova resource by adding `applyOrderings` function to your resource class like so:
+
+```php
+protected static function applyOrderings($query, array $orderings)
+{
+  if (empty($orderings)) {
+    $query->join('user_groups', 'users.user_group_id', '=', 'user_groups.id');
+    $query->select('users.*');
+    $orderings = [
+      'user_groups.priority' => 'asc',
+      // 'users.name' => 'asc', // to make users in each user group get sorted by their name
+      // 'users.email' => 'asc', // to make users in the same group and with the same name get
+                                 // sorted by their email
+      // etc.
+    ];
+  }
+  return parent::applyOrderings($query, $orderings);
+}
+```
+
+This will apply ordering to the index page and index fragments (e.g. `HasMany`). Please note that
+`BelongsTo` field always sorts all items alphabetically (due to `sortBy('display')` in
+`AssociatableController`).
+
+You may alternatively define ordering in your Eloquent model:
+
+```php
+protected static function boot()
+{
+  parent::boot();
+  static::addGlobalScope('ordered', function (Builder $query) {
+    $query->join('user_groups', 'users.user_group_id', '=', 'user_groups.id');
+    $query->select('users.*');
+    $query->orderBy('user_groups.priority', 'asc');
+    // $query->orderBy('users.name', 'asc');
+    // $query->orderBy('users.login', 'asc');
+    // etc.
+  });
+}
+```
+
+and then disable the default Nova order-by-recent behavior in your resource with:
+
+```php
+protected static function applyOrderings($query, array $orderings)
+{
+  if (empty($orderings)) return $query;
+  return parent::applyOrderings($query, $orderings);
+}
+```
+
 ## Credits
 
 - [Tarvo Reinpalu](https://github.com/Tarpsvo)
