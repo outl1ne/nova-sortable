@@ -149,10 +149,17 @@ You may alternatively define ordering in your Eloquent model:
 protected static function boot()
 {
   parent::boot();
-  static::addGlobalScope('ordered', function (Builder $query) {
-    $query->join('user_groups', 'users.user_group_id', '=', 'user_groups.id');
-    $query->select('users.*');
-    $query->orderBy('user_groups.priority', 'asc');
+  static::addGlobalScope('ordered', function ($query) {
+    // We only fetch group priority, in order not to have ambiguous
+    // `id` field which would break e.g. `->where(`id`, `=`, $id)` clause
+    // in Laravel `EloquentUserProvider`.
+    $withOrder = \DB::table('users')
+      ->join('user_groups', 'users.user_group_id', '=', 'user_groups.id')
+      ->select('users.*', 'user_groups.priority');
+    // We use our subselect in place of the `users` table.
+    $query->from($withOrder, 'users');
+    // Now we add our orderings.
+    $query->orderBy('users.priority', 'asc');
     // $query->orderBy('users.name', 'asc');
     // $query->orderBy('users.login', 'asc');
     // etc.
