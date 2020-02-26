@@ -86,7 +86,7 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSortable\ToolServiceP
 
 You can add your translations to `resources/lang/vendor/nova-sortable/` by creating a new translations file with the locale name (ie `et.json`) and copying the JSON from the existing `en.json`.
 
-## Sorting BelongsToMany relatioship (w/ pivot table)
+## Sorting BelongsToMany relationship (w/ pivot table)
 
 NB! Sorting is impossible when your pivot table has multiple items with the same ID pairs.
 
@@ -94,7 +94,7 @@ First, add a new column for the sort order data to the pivot table. Default name
 
 Next, set `sort_on_pivot` to `true` on the main model's (not the pivot class') `$sortable = []` array.
 
-```
+```php
 public $sortable = [
   'order_column_name' => 'sort_order',
   'sort_when_creating' => true,
@@ -104,13 +104,69 @@ public $sortable = [
 
 Finally, add sorting to the pivot query manually. On the parent model (on which the pivots are displayed), add `orderBy()` to the pivot query definition like so:
 
-```
+```php
 public function products()
 {
   return $this->belongsToMany(Product::class, 'order_product')
     ->withPivot(OrderProduct::getPivotFields())
     ->using(OrderProduct::class)
     ->orderBy('order_product.sort_order'); // The `order_product` pivot table name prefix is required!
+}
+```
+
+## Displaying items according to their BelongsTo parent's order
+
+Let's imagine we have `User` and `UserGroup` resources, where `UserGroup` is sorted by nova-sortable.
+You may want to have your users listed in the same order as the order of groups they belong to. So,
+users from the first group, then users from the second group, etc. You can change the default ordering for
+a Nova resource by adding `applyOrderings` function to your resource class like so:
+
+```php
+protected static function applyOrderings($query, array $orderings)
+{
+  if (empty($orderings)) {
+    $query->join('user_groups', 'users.user_group_id', '=', 'user_groups.id');
+    $query->select('users.*');
+    $orderings = [
+      'user_groups.priority' => 'asc',
+      // 'users.name' => 'asc', // to make users in each user group get sorted by their name
+      // 'users.email' => 'asc', // to make users in the same group and with the same name get
+                                 // sorted by their email
+      // etc.
+    ];
+  }
+  return parent::applyOrderings($query, $orderings);
+}
+```
+
+This will apply ordering to the index page and index fragments (e.g. `HasMany`). Please note that
+`BelongsTo` field always sorts all items alphabetically (due to `sortBy('display')` in
+`AssociatableController`).
+
+You may alternatively define ordering in your Eloquent model:
+
+```php
+protected static function boot()
+{
+  parent::boot();
+  static::addGlobalScope('ordered', function (Builder $query) {
+    $query->join('user_groups', 'users.user_group_id', '=', 'user_groups.id');
+    $query->select('users.*');
+    $query->orderBy('user_groups.priority', 'asc');
+    // $query->orderBy('users.name', 'asc');
+    // $query->orderBy('users.login', 'asc');
+    // etc.
+  });
+}
+```
+
+and then disable the default Nova order-by-recent behavior in your resource with:
+
+```php
+protected static function applyOrderings($query, array $orderings)
+{
+  if (empty($orderings)) return $query;
+  return parent::applyOrderings($query, $orderings);
 }
 ```
 
