@@ -118,50 +118,20 @@ public function products()
 
 Let's imagine we have `User` and `UserGroup` resources, where `UserGroup` is sorted by nova-sortable.
 You may want to have your users listed in the same order as the order of groups they belong to. So,
-users from the first group, then users from the second group, etc. You can change the default ordering for
-a Nova resource by adding `applyOrderings` function to your resource class like so:
-
-```php
-protected static function applyOrderings($query, array $orderings)
-{
-  if (empty($orderings)) {
-    $query->join('user_groups', 'users.user_group_id', '=', 'user_groups.id');
-    $query->select('users.*');
-    $orderings = [
-      'user_groups.priority' => 'asc',
-      // 'users.name' => 'asc', // to make users in each user group get sorted by their name
-      // 'users.email' => 'asc', // to make users in the same group and with the same name get
-                                 // sorted by their email
-      // etc.
-    ];
-  }
-  return parent::applyOrderings($query, $orderings);
-}
-```
-
-This will apply ordering to the index page and index fragments (e.g. `HasMany`). Please note that
-`BelongsTo` field always sorts all items alphabetically (due to `sortBy('display')` in
-`AssociatableController`).
-
-You may alternatively define ordering in your Eloquent model:
+users from the first group, then users from the second group, etc. You can sort your models by
+defining the order in your model class like so:
 
 ```php
 protected static function boot()
 {
   parent::boot();
   static::addGlobalScope('ordered', function ($query) {
-    // We only fetch group priority, in order not to have ambiguous
-    // `id` field which would break e.g. `->where(`id`, `=`, $id)` clause
-    // in Laravel `EloquentUserProvider`.
-    $withOrder = \DB::table('users')
-      ->join('user_groups', 'users.user_group_id', '=', 'user_groups.id')
-      ->select('users.*', 'user_groups.priority');
-    // We use our subselect in place of the `users` table.
-    $query->from($withOrder, 'users');
-    // Now we add our orderings.
-    $query->orderBy('users.priority', 'asc');
-    // $query->orderBy('users.name', 'asc');
-    // $query->orderBy('users.login', 'asc');
+    $priority = \App\Models\UserGroup::select('priority')
+      ->whereColumn('user_groups.id', 'users.user_group_id');
+    // orderBy takes a column name or a sub-query.
+    $query->orderBy($priority, 'asc');
+    // $query->orderBy('name', 'asc');
+    // $query->orderBy('login', 'asc');
     // etc.
   });
 }
@@ -176,6 +146,30 @@ protected static function applyOrderings($query, array $orderings)
   return parent::applyOrderings($query, $orderings);
 }
 ```
+
+Please note that `BelongsTo` field always sorts all items alphabetically by `$title`/`$display`
+anyway (due to `sortBy('display')` in `AssociatableController`).
+
+Of course you can alternatively apply orderings only to your Nova resource, like so:
+
+```php
+protected static function applyOrderings($query, array $orderings)
+{
+  if (empty($orderings)) {
+    $priority = \App\Models\UserGroup::select('priority')
+      ->whereColumn('user_groups.id', 'users.user_group_id');
+    $query->orderBy($priority, 'asc');
+    // $query->orderBy('name', 'asc');
+    // $query->orderBy('login', 'asc');
+    // etc.
+    return $query;
+  }
+  return parent::applyOrderings($query, $orderings);
+}
+```
+
+Please note that in such case the sorting may not be applied to some parts of your Nova panel,
+e.g. some custom third-party relationship fields.
 
 ## Credits
 
