@@ -40,6 +40,27 @@ class SortableController
                     $model->pivot->save();
                 }
             }
+            elseif ($relationshipType === 'hasMany') {
+                $resourceClass = Nova::resourceForKey($viaResource);
+                if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
+
+                $modelClass = $resourceClass::$model;
+                $model = $modelClass::find($viaResourceId);
+
+                $pivotModels = $model->{$viaRelationship};
+                if ($pivotModels->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
+
+                $pivotModel = $pivotModels->first();
+                $orderColumnName = !empty($pivotModel->sortable['order_column_name']) ? $pivotModel->sortable['order_column_name'] : 'sort_order';
+
+                // Sort orderColumn values
+                $sortedOrder = $pivotModels->pluck($orderColumnName)->sort()->values();
+                foreach ($resourceIds as $i => $id) {
+                    $_model = $pivotModels->firstWhere('id', $id);
+                    $_model->{$orderColumnName} = $sortedOrder[$i];
+                    $_model->save();
+                }
+            }
             return response('', 204);
         }
 
