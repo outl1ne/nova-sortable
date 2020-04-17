@@ -87,11 +87,23 @@ class MyResource extends Resource
 }
 ```
 
-## Sorting on relationships
+## Sorting on HasMany relationship
 
-### [Has Many docs](docs/sorting/has-many.md)
+**NB!** The model only be sorted on either the Index view **or** the HasMany list view, but not both!
 
-### [Belongs To sorting docs](docs/sorting/belongs-to.md)
+Sorting on HasMany is simple. Add `'sort_on_has_many' => true` to the `$sortable` array on the model. Like so:
+
+```php
+public $sortable = [
+  'order_column_name' => 'sort_order',
+  'sort_when_creating' => true,
+  'sort_on_has_many' => true,
+];
+```
+
+## Sorting on BelongsTo relationship
+
+See docs here: [Sorting BelongsToMany relationship (w/ pivot table)](docs/sorting/belongs-to.md).
 
 ## Localization
 
