@@ -86,7 +86,7 @@ class MyResource extends Resource
 
 ## Sorting on HasMany relationship
 
-**NB!** The model only be sorted on either the Index view **or** the HasMany list view, but not both!
+**NB!** The resource can only be sorted on **either** the Index view **or** the HasMany list view, but not both!
 
 Sorting on HasMany is simple. Add `'sort_on_has_many' => true` to the `$sortable` array on the model. Like so:
 
