@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - NB! The setting `sort_on_pivot` has been renamed to `sort_on_belongs_to`
+- Stop serving empty CSS file
 - Refactored code
 - Updated packages
 
