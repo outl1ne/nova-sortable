@@ -14,8 +14,13 @@ export default {
       if (!resource) return false;
 
       if (this.viaResource) {
+        // HasMany
         if (this.relationshipType === 'hasMany' && resource.sort_on_has_many) return true;
-        if (this.relationshipType === 'belongsTo' && resource.sort_on_belongs_to) return true;
+
+        // BelongsToMany
+        if (['belongsToMany', 'morphToMany'].includes(this.relationshipType) && resource.sort_on_belongs_to) {
+          return true;
+        }
       }
 
       return resource.sort_on_index;
