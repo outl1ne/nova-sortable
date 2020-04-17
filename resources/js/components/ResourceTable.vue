@@ -3,12 +3,7 @@
     <thead>
       <tr>
         <!-- Select Checkbox -->
-        <th
-          :class="{
-            'w-16': shouldShowCheckboxes,
-            'w-8': !shouldShowCheckboxes,
-          }"
-        >
+        <th class="w-16" v-if="shouldShowCheckboxes">
           &nbsp;
         </th>
 
@@ -52,6 +47,7 @@
         :actions-are-available="actionsAreAvailable"
         :should-show-checkboxes="shouldShowCheckboxes"
         :update-selection-status="updateSelectionStatus"
+        :resource-is-sortable="sortable"
         :reorder-disabled="reorderDisabled"
         @moveToStart="moveToStart(resource)"
         @moveToEnd="moveToEnd(resource)"

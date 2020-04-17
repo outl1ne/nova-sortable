@@ -1,14 +1,10 @@
 <template>
   <tr :dusk="resource['id'].value + '-row'">
     <!-- Resource Selection Checkbox -->
-    <td
-      :class="{
-        'w-16': shouldShowCheckboxes,
-        'w-8': !shouldShowCheckboxes,
-      }"
-    >
+    <td class="w-16" v-if="shouldShowCheckboxes">
       <!-- Reorder buttons -->
       <reorder-buttons
+        :resource-is-sortable="resourceIsSortable"
         :reorder-disabled="reorderDisabled"
         :resource="resource"
         :via-resource-id="viaResourceId"
@@ -189,6 +185,7 @@ export default {
     'updateSelectionStatus',
     'queryString',
     'reorderDisabled',
+    'resourceIsSortable',
   ],
 
   data: () => ({

@@ -19,27 +19,41 @@ class SortableController
         if (empty($resourceIds)) return response()->json(['resourceIds' => 'required'], 400);
         if (empty($resourceName)) return response()->json(['resourceName' => 'required'], 400);
 
-        // Pivot
+
+        // Relationship sorting
         if (isset($viaResource)) {
+
+            $resourceClass = Nova::resourceForKey($viaResource);
+            if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
+
+            $modelClass = $resourceClass::$model;
+            $model = $modelClass::find($viaResourceId);
+            $relatedModels = $model->{$viaRelationship}()->findMany($resourceIds);
+            if ($relatedModels->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
+
             if ($relationshipType === 'belongsToMany') {
-                $resourceClass = Nova::resourceForKey($viaResource);
-                if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
+                $relatedModel = $relatedModels->first()->pivot;
+                $orderColumnName = !empty($relatedModel->sortable['order_column_name']) ? $relatedModel->sortable['order_column_name'] : 'sort_order';
 
-                $modelClass = $resourceClass::$model;
-                $model = $modelClass::find($viaResourceId);
-
-                $pivotModels = $model->{$viaRelationship};
-                if ($pivotModels->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
-
-                $pivotModel = $pivotModels->first()->pivot;
-                $orderColumnName = !empty($pivotModel->sortable['order_column_name']) ? $pivotModel->sortable['order_column_name'] : 'sort_order';
 
                 // Sort orderColumn values
-                foreach ($pivotModels as $i => $model) {
+                foreach ($relatedModels as $i => $model) {
                     $model->pivot->{$orderColumnName} = array_search($model->id, $resourceIds);
                     $model->pivot->save();
                 }
+            } else if ($relationshipType === 'hasMany') {
+                $relatedModel = $relatedModels->first();
+                $orderColumnName = !empty($relatedModel->sortable['order_column_name']) ? $relatedModel->sortable['order_column_name'] : 'sort_order';
+
+                // Sort orderColumn values
+                $sortedOrder = $relatedModels->pluck($orderColumnName)->sort()->values();
+                foreach ($resourceIds as $i => $id) {
+                    $_model = $relatedModels->firstWhere('id', $id);
+                    $_model->{$orderColumnName} = $sortedOrder[$i];
+                    $_model->save();
+                }
             }
+
             return response('', 204);
         }
 

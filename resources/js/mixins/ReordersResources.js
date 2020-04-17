@@ -9,6 +9,17 @@ export default {
     orderByParameter() {
       return this.viaRelationship ? this.viaRelationship + '_order' : this.resourceName + '_order';
     },
+    sortable() {
+      const resource = this.resources[0];
+      if (!resource) return false;
+
+      if (this.viaResource) {
+        if (this.relationshipType === 'hasMany' && resource.sort_on_has_many) return true;
+        if (this.relationshipType === 'belongsTo' && resource.sort_on_belongs_to) return true;
+      }
+
+      return resource.sort_on_index;
+    },
   },
   methods: {
     async updateOrder(event) {

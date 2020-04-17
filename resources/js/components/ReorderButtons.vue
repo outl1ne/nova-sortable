@@ -2,10 +2,9 @@
   <div class="flex items-center">
     <slot name="checkbox" />
 
-    <div class="flex items-center ml-4" v-tooltip="reorderDisabledTooltip" v-if="resource.sortable">
+    <div class="flex items-center ml-4" v-tooltip="reorderDisabledTooltip" v-if="resourceIsSortable">
       <div class="flex flex-col">
         <chevron-up-icon
-          v-if="!viaResourceId"
           @click="!reorderDisabled && $emit('moveToStart')"
           :custom-class="{
             'cursor-pointer text-70 hover:text-80': !reorderDisabled,
@@ -15,7 +14,6 @@
         />
 
         <chevron-down-icon
-          v-if="!viaResourceId"
           @click="!reorderDisabled && $emit('moveToEnd')"
           :custom-class="{
             'cursor-pointer text-70 hover:text-80': !reorderDisabled,
@@ -43,7 +41,7 @@ import BurgerIcon from '../icons/BurgerIcon';
 
 export default {
   components: { ChevronUpIcon, ChevronDownIcon, BurgerIcon },
-  props: ['resource', 'reorderDisabled', 'viaResourceId'],
+  props: ['resource', 'reorderDisabled', 'viaResourceId', 'resourceIsSortable'],
   computed: {
     tooltipClasses() {
       return ['bg-white', 'px-3', 'py-2', 'rounded', 'border', 'border-50', 'shadow', 'text-sm', 'leading-normal'];

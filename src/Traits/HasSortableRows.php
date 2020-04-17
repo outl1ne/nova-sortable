@@ -8,18 +8,21 @@ trait HasSortableRows
 {
     public function serializeForIndex(NovaRequest $request, $fields = null)
     {
-        $sortable  = $request->viaRelationship()
-            ? $request->newResource()->resource->sortable['sort_on_pivot'] ?? false
-            : true;
+        $sortable = $request->newResource()->resource->sortable ?? false;
+        $sortOnBelongsTo = $sortable['sort_on_belongs_to'] ?? false;
+        $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
 
         return array_merge(parent::serializeForIndex($request, $fields), [
             'sortable' => $sortable,
+            'sort_on_index' => !$sortOnHasMany && !$sortOnBelongsTo,
+            'sort_on_has_many' => $sortOnHasMany,
+            'sort_on_belongs_to' => $sortOnBelongsTo,
         ]);
     }
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        if (empty($request->get('orderBy')) && !$request->viaRelationship()) {
+        if (empty($request->get('orderBy'))) {
             $query->getQuery()->orders = [];
             $model = (new static::$model);
             $orderColumn = !empty($model->sortable['order_column_name']) ? $model->sortable['order_column_name'] : 'sort_order';
