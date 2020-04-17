@@ -22,7 +22,6 @@ class SortableController
 
         // Relationship sorting
         if (isset($viaResource)) {
-
             $resourceClass = Nova::resourceForKey($viaResource);
             if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
 
@@ -31,18 +30,15 @@ class SortableController
             $relatedModels = $model->{$viaRelationship}()->findMany($resourceIds);
             if ($relatedModels->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
 
-            if ($relationshipType === 'belongsToMany') {
+
+            // BelongsToMany
+            if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
                 $relatedModel = $relatedModels->first()->pivot;
-                $orderColumnName = !empty($relatedModel->sortable['order_column_name']) ? $relatedModel->sortable['order_column_name'] : 'sort_order';
-
-
-                // Sort orderColumn values
-                foreach ($relatedModels as $i => $model) {
-                    $model->pivot->{$orderColumnName} = array_search($model->id, $resourceIds);
-                    $model->pivot->save();
-                }
             } else if ($relationshipType === 'hasMany') {
                 $relatedModel = $relatedModels->first();
+            }
+
+            if (!empty($relatedModel)) {
                 $orderColumnName = !empty($relatedModel->sortable['order_column_name']) ? $relatedModel->sortable['order_column_name'] : 'sort_order';
 
                 // Sort orderColumn values
@@ -57,12 +53,12 @@ class SortableController
             return response('', 204);
         }
 
-        // Regular
+        // Regular ordering
         $resourceClass = Nova::resourceForKey($resourceName);
         if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
 
         $modelClass = $resourceClass::$model;
-        $models = $modelClass::whereIn('id', $resourceIds)->get();
+        $models = $modelClass::findMany($resourceIds);
         if ($models->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
 
         $model = $models->first();

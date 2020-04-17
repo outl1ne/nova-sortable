@@ -13,14 +13,11 @@ Uses Spatie's [eloquent-sortable](https://github.com/spatie/eloquent-sortable) u
 
 ## Features
 
-- Drag & drop reorder
-  - On the resource Index view
-  - **OR**
-  - On a HasMany relationship view
-  - Also on BelongsTo relationships
+- Drag & drop reorder (on either Index view or HasMany view)
+- BelongsTo/MorphsTo reorder support w/ pivot tables
 - Move to start and end arrows (makes item first/last)
-- Localization
 - Everything from [eloquent-sortable](https://github.com/spatie/eloquent-sortable)
+- Localization
 
 ## Screenshots
 
