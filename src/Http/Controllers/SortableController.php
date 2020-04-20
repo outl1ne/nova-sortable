@@ -42,11 +42,22 @@ class SortableController
                 $orderColumnName = !empty($relatedModel->sortable['order_column_name']) ? $relatedModel->sortable['order_column_name'] : 'sort_order';
 
                 // Sort orderColumn values
-                $sortedOrder = $relatedModels->pluck($orderColumnName)->sort()->values();
+                if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
+                    $sortedOrder = $relatedModels->pluck('pivot')->pluck($orderColumnName)->sort()->values();
+                } else {
+                    $sortedOrder = $relatedModels->pluck($orderColumnName)->sort()->values();
+                }
+
                 foreach ($resourceIds as $i => $id) {
                     $_model = $relatedModels->firstWhere('id', $id);
-                    $_model->{$orderColumnName} = $sortedOrder[$i];
-                    $_model->save();
+
+                    if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
+                        $_model->pivot->{$orderColumnName} = $sortedOrder[$i] ?? $i;
+                        $_model->pivot->save();
+                    } else {
+                        $_model->{$orderColumnName} = $sortedOrder[$i] ?? $i;
+                        $_model->save();
+                    }
                 }
             }
 

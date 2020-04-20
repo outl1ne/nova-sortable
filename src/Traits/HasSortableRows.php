@@ -22,7 +22,11 @@ trait HasSortableRows
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        if (empty($request->get('orderBy'))) {
+        $sortable = $request->newResource()->resource->sortable ?? false;
+        $sortOnBelongsTo = $sortable['sort_on_belongs_to'] ?? false;
+        $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
+
+        if (empty($request->get('orderBy')) && $sortable && (!$sortOnBelongsTo && !$sortOnHasMany)) {
             $query->getQuery()->orders = [];
             $model = (new static::$model);
             $orderColumn = !empty($model->sortable['order_column_name']) ? $model->sortable['order_column_name'] : 'sort_order';
