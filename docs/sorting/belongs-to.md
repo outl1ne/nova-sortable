@@ -11,7 +11,7 @@ Next, set `sort_on_belongs_to` to `true` on the main model's (not the pivot clas
 ```php
 public $sortable = [
   'order_column_name' => 'sort_order',
-  'sort_when_creating' => true,
+  'sort_when_creating' => false,
   'sort_on_belongs_to' => true,
 ];
 ```
@@ -22,8 +22,6 @@ Finally, add sorting to the pivot query manually. On the parent model (on which 
 public function products()
 {
   return $this->belongsToMany(Product::class, 'order_product')
-    ->withPivot(OrderProduct::getPivotFields())
-    ->using(OrderProduct::class)
     ->orderBy('order_product.sort_order'); // The `order_product` pivot table name prefix is required!
 }
 ```
