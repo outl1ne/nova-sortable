@@ -13,6 +13,8 @@ php artisan make:model -p ArtistTrack
 
 ### Apply eloquent-sortable to the pivot model
 
+Apply the interface, trait and also overwrite the `buildSortQuery()` method to narrow the sorting scope.
+
 ```php
 <?php
 
@@ -30,6 +32,12 @@ class ArtistTrack extends Pivot implements Sortable
         'order_column_name' => 'sort_order',
         'sort_when_creating' => true,
     ];
+
+    public function buildSortQuery()
+    {
+        return static::query()
+          ->where('track_id', $this->track_id); // As we're sorting Artists belonging to a Track, we're setting this to filter using track_id
+    }
 }
 ```
 
