@@ -30,7 +30,6 @@ class SortableController
             $relatedModels = $model->{$viaRelationship}()->findMany($resourceIds);
             if ($relatedModels->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
 
-
             // BelongsToMany
             if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
                 $relatedModel = $relatedModels->first()->pivot;

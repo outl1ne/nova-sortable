@@ -6,30 +6,47 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 trait HasSortableRows
 {
-    public function serializeForIndex(NovaRequest $request, $fields = null)
+    private static function getSortability(NovaRequest $request)
     {
-        $sortable = $request->newResource()->resource->sortable ?? false;
-        $sortOnBelongsTo = $sortable['sort_on_belongs_to'] ?? false;
+        $resource = $request->newResource();
+        $sortable = $resource->resource->sortable ?? false;
+        $sortOnBelongsTo = $resource->disableSortOnIndex ?? false;
+
+        if ($request->viaManyToMany()) {
+            $models = $request->newQueryWithoutScopes()->get();
+            $model = $models->first();
+            $sortable = $model->pivot->sortable ?? false;
+            $sortOnBelongsTo = !empty($sortable);
+        }
+
         $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
 
-        return array_merge(parent::serializeForIndex($request, $fields), [
+        return (object) [
             'sortable' => $sortable,
-            'sort_on_index' => !$sortOnHasMany && !$sortOnBelongsTo,
-            'sort_on_has_many' => $sortOnHasMany,
-            'sort_on_belongs_to' => $sortOnBelongsTo,
+            'sortOnBelongsTo' => $sortOnBelongsTo,
+            'sortOnHasMany' => $sortOnHasMany,
+        ];
+    }
+
+    public function serializeForIndex(NovaRequest $request, $fields = null)
+    {
+        $sortability = static::getSortability($request);
+
+        return array_merge(parent::serializeForIndex($request, $fields), [
+            'sortable' => $sortability->sortable,
+            'sort_on_index' => !$sortability->sortOnHasMany && !$sortability->sortOnBelongsTo,
+            'sort_on_has_many' => $sortability->sortOnHasMany,
+            'sort_on_belongs_to' => $sortability->sortOnBelongsTo,
         ]);
     }
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $sortable = $request->newResource()->resource->sortable ?? false;
-        $sortOnBelongsTo = $sortable['sort_on_belongs_to'] ?? false;
-        $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
+        $sortability = static::getSortability($request);
 
-        if (empty($request->get('orderBy')) && $sortable && (!$sortOnBelongsTo && !$sortOnHasMany)) {
+        if (empty($request->get('orderBy')) && !empty($sortability->sortable)) {
             $query->getQuery()->orders = [];
-            $model = (new static::$model);
-            $orderColumn = !empty($model->sortable['order_column_name']) ? $model->sortable['order_column_name'] : 'sort_order';
+            $orderColumn = !empty($sortability->sortable['order_column_name']) ? $sortability->sortable['order_column_name'] : 'sort_order';
             return $query->orderBy($orderColumn);
         }
 
