@@ -98,9 +98,11 @@ public $sortable = [
 ];
 ```
 
-## Sorting on BelongsTo relationship
+## Sorting on ManyToMany relationships
 
-See docs here: [Sorting BelongsToMany relationship (w/ pivot table)](docs/sorting/belongs-to.md).
+Sorting on BelongsToMany and MorphsMany relationships is available, but requires special steps.
+
+See the documentation here: [Sorting ManyToMany relationships (w/ pivot table)](docs/sorting/many-to-many.md).
 
 ## Localization
 
