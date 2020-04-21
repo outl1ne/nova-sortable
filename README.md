@@ -100,7 +100,7 @@ public $sortable = [
 
 ## Sorting on ManyToMany relationships
 
-Sorting on BelongsToMany and MorphsMany relationships is available, but requires special steps.
+Sorting on BelongsToMany and MorphToMany relationships is available, but requires special steps.
 
 See the documentation here: [Sorting ManyToMany relationships (w/ pivot table)](docs/sorting/many-to-many.md).
 
