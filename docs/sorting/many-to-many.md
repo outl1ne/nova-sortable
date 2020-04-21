@@ -33,6 +33,34 @@ class ArtistTrack extends Pivot implements Sortable
 }
 ```
 
+#### Add the Pivot model to the relationship queries
+
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Artist extends Model
+{
+    public function tracks()
+    {
+        return $this->belongsToMany(Track::class)
+            ->using(ArtistTrack::class);
+    }
+}
+```
+
+```php
+// Same applies to Track model
+public function artists()
+{
+    return $this->belongsToMany(Artist::class)
+        ->using(ArtistTrack::class);
+}
+```
+
 #### Add the HasSortableManyToManyRows trait
 
 Add the `HasSortableManyToManyRows` trait to the Resource you want to sort on BelongsTo (in this example, can be either `Artist` or `Track`), but let's go for `Artist`.
