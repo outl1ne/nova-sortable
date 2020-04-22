@@ -6,22 +6,33 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 trait HasSortableRows
 {
-    private static function getSortability(NovaRequest $request)
+    public static function getSortability(NovaRequest $request)
     {
+        $model = null;
+
         $resource = $request->newResource();
-        $sortable = $resource->resource->sortable ?? false;
+        $model = $resource->resource ?? null;
+
+        $sortable = $model->sortable ?? false;
         $sortOnBelongsTo = $resource->disableSortOnIndex ?? false;
 
         if ($request->viaManyToMany()) {
-            $models = $request->newQueryWithoutScopes()->get();
-            $model = $models->first();
-            $sortable = $model->pivot->sortable ?? false;
+            $relationshipQuery = $request->findParentModel()->{$request->viaRelationship}();
+
+            if (isset($request->resourceId)) {
+                $model = $relationshipQuery->withPivot('id', 'sort_order')->find($request->resourceId)->pivot;
+            } else {
+                $model = $relationshipQuery->first()->pivot;
+            }
+
+            $sortable = $model->sortable ?? false;
             $sortOnBelongsTo = !empty($sortable);
         }
 
         $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
 
         return (object) [
+            'model' => $model,
             'sortable' => $sortable,
             'sortOnBelongsTo' => $sortOnBelongsTo,
             'sortOnHasMany' => $sortOnHasMany,

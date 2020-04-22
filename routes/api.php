@@ -2,6 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::post('sort/update-order', 'SortableController@updateOrder');
-Route::post('sort/move-to-start', 'SortableController@moveToStart');
-Route::post('sort/move-to-end', 'SortableController@moveToEnd');
+Route::post('sort/{resource}/update-order', 'SortableController@updateOrder');
+Route::post('sort/{resource}/move-to-start', 'SortableController@moveToStart');
+Route::post('sort/{resource}/move-to-end', 'SortableController@moveToEnd');

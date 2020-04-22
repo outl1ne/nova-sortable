@@ -32,15 +32,15 @@ export default {
     async updateOrder(event) {
       this.reorderLoading = true;
 
-      const newResourceOrder = this.resources.map(r => r.id.value);
       try {
-        await Nova.request().post('/nova-vendor/nova-sortable/sort/update-order', {
-          resourceName: this.resourceName,
-          resourceIds: newResourceOrder,
+        await Nova.request().post(`/nova-vendor/nova-sortable/sort/${this.resourceName}/update-order`, {
+          resourceId: null,
+          resourceIds: this.resources.map(r => r.id.value),
           viaResource: this.viaResource,
           viaResourceId: this.viaResourceId,
           viaRelationship: this.viaRelationship,
           relationshipType: this.relationshipType,
+          relatedResource: this.viaResource,
         });
         Nova.success(this.__('novaSortable.reorderSuccessful'));
       } catch (e) {
@@ -52,10 +52,15 @@ export default {
 
     async moveToStart(resource) {
       this.reorderLoading = true;
+      console.info(this, resource);
       try {
-        await Nova.request().post('/nova-vendor/nova-sortable/sort/move-to-start', {
-          resourceName: this.resourceName,
+        await Nova.request().post(`/nova-vendor/nova-sortable/sort/${this.resourceName}/move-to-start`, {
           resourceId: resource.id.value,
+          viaResource: this.viaResource,
+          viaResourceId: this.viaResourceId,
+          viaRelationship: this.viaRelationship,
+          relationshipType: this.relationshipType,
+          relatedResource: this.viaResource,
         });
         await this.refreshResourcesList();
         Nova.success(this.__('novaSortable.moveToStartSuccessful'));
@@ -68,9 +73,13 @@ export default {
     async moveToEnd(resource) {
       this.reorderLoading = true;
       try {
-        await Nova.request().post('/nova-vendor/nova-sortable/sort/move-to-end', {
-          resourceName: this.resourceName,
+        await Nova.request().post(`/nova-vendor/nova-sortable/sort/${this.resourceName}/move-to-end`, {
           resourceId: resource.id.value,
+          viaResource: this.viaResource,
+          viaResourceId: this.viaResourceId,
+          viaRelationship: this.viaRelationship,
+          relationshipType: this.relationshipType,
+          relatedResource: this.viaResource,
         });
         await this.refreshResourcesList();
         Nova.success(this.__('novaSortable.moveToEndSuccessful'));
