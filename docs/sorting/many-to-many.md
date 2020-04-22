@@ -4,6 +4,10 @@
 
 NB! Sorting is impossible when your pivot table has multiple items with the same ID pairs.
 
+#### Add new columns to Pivot table
+
+Add two new columns to the pivot table: `id` (primary key with auto increment) and `sort_order` (integer).
+
 #### Create Pivot model
 
 ```cmd
@@ -27,6 +31,10 @@ use Spatie\EloquentSortable\SortableTrait;
 class ArtistTrack extends Pivot implements Sortable
 {
     use SortableTrait;
+
+    public $primaryKey = 'id';
+    public $incrementing = true;
+    public $timestamps = false;
 
     public $sortable = [
         'order_column_name' => 'sort_order',
