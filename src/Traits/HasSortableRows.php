@@ -20,9 +20,12 @@ trait HasSortableRows
             $relationshipQuery = $request->findParentModel()->{$request->viaRelationship}();
 
             if (isset($request->resourceId)) {
-                $model = $relationshipQuery->withPivot('id', 'sort_order')->find($request->resourceId)->pivot;
+                $tempModel = $relationshipQuery->first()->pivot ?? null;
+                $model = !empty($tempModel) ?
+                    $relationshipQuery->withPivot($tempModel->getKeyName(), $tempModel->sortable['order_column_name'])->find($request->resourceId)->pivot
+                    : null;
             } else {
-                $model = $relationshipQuery->first()->pivot;
+                $model = $relationshipQuery->first()->pivot ?? null;
             }
 
             $sortable = $model->sortable ?? false;
