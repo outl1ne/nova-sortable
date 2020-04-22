@@ -10,7 +10,7 @@ trait HasSortableRows
     {
         $model = null;
 
-        $resource = $request->newResource();
+        $resource = isset($request->resourceId) ? $request->findResourceOrFail() : $request->newResource();
         $model = $resource->resource ?? null;
 
         $sortable = $model->sortable ?? false;
