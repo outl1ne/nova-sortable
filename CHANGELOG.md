@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Fixed global search not working
+
+## [1.4.4] - 2020-04-22
+
+### Changed
+
 - Fixed crash when opening an empty `ManyToMany` field
 - Fixed hard-coded primary key and sort order name columns
 
