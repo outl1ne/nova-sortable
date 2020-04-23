@@ -10,7 +10,12 @@ trait HasSortableRows
     {
         $model = null;
 
-        $resource = isset($request->resourceId) ? $request->findResourceOrFail() : $request->newResource();
+        try {
+            $resource = isset($request->resourceId) ? $request->findResourceOrFail() : $request->newResource();
+        } catch (\Exception $e) {
+            return null;
+        }
+
         $model = $resource->resource ?? null;
 
         $sortable = $model->sortable ?? false;
@@ -58,15 +63,17 @@ trait HasSortableRows
     {
         $sortability = static::getSortability($request);
 
-        $shouldSort = true;
-        if (empty($sortability->sortable)) $shouldSort = false;
-        if ($sortability->sortOnBelongsTo && empty($request->viaResource())) $shouldSort = false;
-        if ($sortability->sortOnHasMany && empty($request->viaResource())) $shouldSort = false;
+        if (!empty($sortability)) {
+            $shouldSort = true;
+            if (empty($sortability->sortable)) $shouldSort = false;
+            if ($sortability->sortOnBelongsTo && empty($request->viaResource())) $shouldSort = false;
+            if ($sortability->sortOnHasMany && empty($request->viaResource())) $shouldSort = false;
 
-        if (empty($request->get('orderBy')) && $shouldSort) {
-            $query->getQuery()->orders = [];
-            $orderColumn = !empty($sortability->sortable['order_column_name']) ? $sortability->sortable['order_column_name'] : 'sort_order';
-            return $query->orderBy($orderColumn);
+            if (empty($request->get('orderBy')) && $shouldSort) {
+                $query->getQuery()->orders = [];
+                $orderColumn = !empty($sortability->sortable['order_column_name']) ? $sortability->sortable['order_column_name'] : 'sort_order';
+                return $query->orderBy($orderColumn);
+            }
         }
 
         return $query;
