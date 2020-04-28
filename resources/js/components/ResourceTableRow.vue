@@ -1,7 +1,7 @@
 <template>
   <tr :dusk="resource['id'].value + '-row'">
     <!-- Resource Selection Checkbox -->
-    <td class="w-16" v-if="shouldShowCheckboxes">
+    <td class="w-16">
       <!-- Reorder buttons -->
       <reorder-buttons
         :resource-is-sortable="resourceIsSortable"

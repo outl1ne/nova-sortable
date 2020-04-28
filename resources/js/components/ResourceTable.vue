@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <!-- Select Checkbox -->
-        <th class="w-16" v-if="shouldShowCheckboxes">
+        <th class="w-16">
           &nbsp;
         </th>
 
