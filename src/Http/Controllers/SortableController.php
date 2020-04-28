@@ -40,6 +40,7 @@ class SortableController
             if (!empty($relatedModel)) {
                 $orderColumnName = !empty($relatedModel->sortable['order_column_name']) ? $relatedModel->sortable['order_column_name'] : 'sort_order';
                 $relatedKeyName = $relatedModel->getKeyName();
+
                 // Sort orderColumn values
                 if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
                     $sortedOrder = $relatedModels->pluck('pivot')->pluck($orderColumnName)->sort()->values();
@@ -119,4 +120,3 @@ class SortableController
         return HasSortableRows::getSortability($request);
     }
 }
-
