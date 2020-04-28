@@ -1,0 +1,9 @@
+{
+  "novaSortable.reorderingDisabledTooltip": "No se puede reordenar con las opciones de orden activas.",
+  "novaSortable.moveToStart": "Mover al principio",
+  "novaSortable.moveToEnd": "Mover al final",
+  "novaSortable.reorderSuccessful": "Recursos reordenados correctamente.",
+  "novaSortable.moveToStartSuccessful": "Recurso movido correctamente a la primera posición.",
+  "novaSortable.moveToEndSuccessful": "Recurso movido correctamente a la última posición.",
+  "novaSortable.reorderError": "Un error ha ocurrido mientras se intentaba reordenar el recurso."
+}
