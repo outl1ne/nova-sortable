@@ -84,6 +84,8 @@ class MyResource extends Resource
 }
 ```
 
+NB! This overrides the `indexQuery()` method.
+
 ## Sorting on HasMany relationship
 
 **NB!** The resource can only be sorted on **either** the Index view **or** the HasMany list view, but not both!
