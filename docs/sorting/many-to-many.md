@@ -91,3 +91,21 @@ class Artist extends Resource
     // ...
 }
 ```
+
+#### Allow or deny sorting on specific models
+
+Allow sorting only on a specific model
+```php
+public $sortable = [
+    'only_sort_on' => \App\Nova\Models\Chapter::class,
+];
+```
+
+Deny sorting on a list of models
+```php
+public $sortable = [
+    'dont_sort_on' => [
+        \App\Nova\Models\Comic::class,
+    ]
+];
+```
