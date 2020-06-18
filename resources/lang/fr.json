@@ -1,0 +1,9 @@
+{
+  "novaSortable.reorderingDisabledTooltip": "La modification de l'ordre a été désactivée dans les options de la ressource.",
+  "novaSortable.moveToStart": "Mettre en première position",
+  "novaSortable.moveToEnd": "Mettre en dernière position",
+  "novaSortable.reorderSuccessful": "Les ressources ont été réordonnées avec succès.",
+  "novaSortable.moveToStartSuccessful": "La ressource a été déplacée en première position.",
+  "novaSortable.moveToEndSuccessful": "La ressource a été déplacée en dernière position.",
+  "novaSortable.reorderError": "Une erreur a eu lieu lors de la modification de l'ordre des ressources."
+}
