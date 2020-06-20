@@ -19,7 +19,9 @@ trait HasSortableRows
         $model = $resource->resource ?? null;
 
         $sortable = $model->sortable ?? false;
-         if (!key_exists('only_sort_on', $sortable) || $request->viaResource() == $sortable['only_sort_on']) {
+        if (!is_array($sortable) ||
+            !key_exists('only_sort_on', $sortable) ||
+            $request->viaResource() == $sortable['only_sort_on']) {
 
             $sortOnBelongsTo = $resource->disableSortOnIndex ?? false;
 
@@ -41,7 +43,7 @@ trait HasSortableRows
 
             $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
 
-            if (key_exists('dont_sort_on', $sortable)) {
+            if (is_array($sortable) && key_exists('dont_sort_on', $sortable)) {
                 foreach ($sortable['dont_sort_on'] as $item) {
                     if ($item == $request->viaResource()) {
                         $sortOnBelongsTo = $sortOnHasMany = false;
