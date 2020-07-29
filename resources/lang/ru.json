@@ -1,0 +1,9 @@
+{
+  "novaSortable.reorderingDisabledTooltip": "Сортировка отключена при других опциях сортировки.",
+  "novaSortable.moveToStart": "Переместить в начало",
+  "novaSortable.moveToEnd": "Переместить в конец",
+  "novaSortable.reorderSuccessful": "Ресурсы успешно отсортированы.",
+  "novaSortable.moveToStartSuccessful": "Ресурс перемещен на первую позицию.",
+  "novaSortable.moveToEndSuccessful": "Ресурс перемещен на последнюю позицию.",
+  "novaSortable.reorderError": "Произошла ошибка при попытке изменить сортировку ресурсов."
+}
