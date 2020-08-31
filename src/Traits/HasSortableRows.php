@@ -19,7 +19,7 @@ trait HasSortableRows
         $model = $resource->resource ?? null;
         $sortable = $model->sortable ?? false;
 
-        $canSort = !key_exists('only_sort_on', $sortable) || $request->viaResource() === $sortable['only_sort_on'];
+        $canSort = !is_array($sortable) || !key_exists('only_sort_on', $sortable) || $request->viaResource() === $sortable['only_sort_on'];
 
         if ($canSort) {
             $sortOnBelongsTo = $resource->disableSortOnIndex ?? false;

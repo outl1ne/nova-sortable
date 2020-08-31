@@ -27,7 +27,7 @@ class SortableController
 
             $modelClass = $resourceClass::$model;
             $model = $modelClass::find($viaResourceId);
-            $relatedModels = $model->{$viaRelationship}()->buildSortQuery()->findMany($resourceIds);
+            $relatedModels = $model->{$viaRelationship}()->findMany($resourceIds);
             if ($relatedModels->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
 
             // BelongsToMany
