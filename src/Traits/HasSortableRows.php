@@ -18,34 +18,35 @@ trait HasSortableRows
 
         $model = $resource->resource ?? null;
         $sortable = $model->sortable ?? false;
+        $sortOnBelongsTo = $resource->disableSortOnIndex ?? false;
 
-        $canSort = !is_array($sortable) || !key_exists('only_sort_on', $sortable) || $request->viaResource() === $sortable['only_sort_on'];
+        if ($request->viaManyToMany()) {
+            $relationshipQuery = $request->findParentModel()->{$request->viaRelationship}();
 
-        if ($canSort) {
-            $sortOnBelongsTo = $resource->disableSortOnIndex ?? false;
-
-            if ($request->viaManyToMany()) {
-                $relationshipQuery = $request->findParentModel()->{$request->viaRelationship}();
-
-                if (isset($request->resourceId)) {
-                    $tempModel = $relationshipQuery->first()->pivot ?? null;
-                    $model = !empty($tempModel) ?
-                        $relationshipQuery->withPivot($tempModel->getKeyName(), $tempModel->sortable['order_column_name'])->find($request->resourceId)->pivot
-                        : null;
-                } else {
-                    $model = $relationshipQuery->first()->pivot ?? null;
-                }
-
-                $sortable = $model->sortable ?? false;
-                $sortOnBelongsTo = !empty($sortable);
+            if (isset($request->resourceId)) {
+                $tempModel = $relationshipQuery->first()->pivot ?? null;
+                $model = !empty($tempModel) ?
+                    $relationshipQuery->withPivot($tempModel->getKeyName(), $tempModel->sortable['order_column_name'])->find($request->resourceId)->pivot
+                    : null;
+            } else {
+                $model = $relationshipQuery->first()->pivot ?? null;
             }
 
+            $sortable = $model->sortable ?? false;
+            $sortOnBelongsTo = !empty($sortable);
             $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
+
+            // Check for `only_sort_on` and `dont_sort_on`
+            $hasOnlySortOn = is_array($sortable) && key_exists('only_sort_on', $sortable);
+            $onlySortOnMatches = $hasOnlySortOn && $request->viaResource() === $sortable['only_sort_on'];
+
+            // Disable when `only_sort_on` does not match
+            if ($hasOnlySortOn && !$onlySortOnMatches) $sortOnHasMany = $sortOnBelongsTo = false;
 
             // Disable sorting on `dont_sort_on` models
             if (is_array($sortable) && key_exists('dont_sort_on', $sortable)) {
                 foreach ($sortable['dont_sort_on'] as $item) {
-                    if ($item == $request->viaResource()) {
+                    if ($item === $request->viaResource()) {
                         $sortOnBelongsTo = $sortOnHasMany = false;
                         break;
                     }
