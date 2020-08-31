@@ -21,7 +21,7 @@ class SortableController
         $relationshipType = $request->input('relationshipType');
 
         // Relationship sorting
-        if (isset($viaResource)) {
+        if (!empty($viaResource)) {
             $resourceClass = Nova::resourceForKey($viaResource);
             if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
 
