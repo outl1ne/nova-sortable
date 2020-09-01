@@ -81,15 +81,19 @@ trait HasSortableRows
         $sortability = static::getSortability($request);
 
         if (!empty($sortability)) {
-            $shouldSort = true;
-            if (empty($sortability->sortable)) $shouldSort = false;
-            if ($sortability->sortOnBelongsTo && empty($request->viaResource())) $shouldSort = false;
-            if ($sortability->sortOnHasMany && empty($request->viaResource())) $shouldSort = false;
 
-            if (empty($request->get('orderBy')) && $shouldSort) {
-                $query->getQuery()->orders = [];
-                $orderColumn = !empty($sortability->sortable['order_column_name']) ? $sortability->sortable['order_column_name'] : 'sort_order';
-                return $query->orderBy($orderColumn);
+            //  make sure we are querying the same table
+            if ($query->getQuery()->from == $sortability->model->getTable()) {
+                $shouldSort = true;
+                if (empty($sortability->sortable)) $shouldSort = false;
+                if ($sortability->sortOnBelongsTo && empty($request->viaResource())) $shouldSort = false;
+                if ($sortability->sortOnHasMany && empty($request->viaResource())) $shouldSort = false;
+
+                if (empty($request->get('orderBy')) && $shouldSort) {
+                    $query->getQuery()->orders = [];
+                    $orderColumn = !empty($sortability->sortable['order_column_name']) ? $sortability->sortable['order_column_name'] : 'sort_order';
+                    return $query->orderBy($orderColumn);
+                }
             }
         }
 
