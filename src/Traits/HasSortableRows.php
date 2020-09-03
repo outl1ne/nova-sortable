@@ -83,7 +83,14 @@ trait HasSortableRows
         if (!empty($sortability)) {
             // Make sure we are querying the same table, which might not be the case
             // in some complicated relationship views
-            if ($query->getQuery()->from === $sortability->model->getTable()) {
+            if ($request->viaManyToMany()) {
+                $tempModel = $request->findParentModel()->{$request->viaRelationship}()->first();
+                $sortabilityTable = !empty($tempModel) ? $tempModel->getTable() : null;
+            } else {
+                $sortabilityTable = $sortability->model->getTable();
+            }
+
+            if ($query->getQuery()->from === $sortabilityTable) {
                 $shouldSort = true;
                 if (empty($sortability->sortable)) $shouldSort = false;
                 if ($sortability->sortOnBelongsTo && empty($request->viaResource())) $shouldSort = false;
