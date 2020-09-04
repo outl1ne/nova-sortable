@@ -19,6 +19,7 @@ trait HasSortableRows
         $model = $resource->resource ?? null;
         $sortable = $model->sortable ?? false;
         $sortOnBelongsTo = $resource->disableSortOnIndex ?? false;
+        $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
 
         if ($request->viaManyToMany()) {
             $relationshipQuery = $request->findParentModel()->{$request->viaRelationship}();
@@ -34,7 +35,6 @@ trait HasSortableRows
 
             $sortable = $model->sortable ?? false;
             $sortOnBelongsTo = !empty($sortable);
-            $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
 
             // Check for `only_sort_on` and `dont_sort_on`
             $hasOnlySortOn = is_array($sortable) && key_exists('only_sort_on', $sortable);
@@ -52,8 +52,6 @@ trait HasSortableRows
                     }
                 }
             }
-        } else {
-            $sortOnBelongsTo = $sortOnHasMany = false;
         }
 
         return (object) [
@@ -70,9 +68,9 @@ trait HasSortableRows
 
         return array_merge(parent::serializeForIndex($request, $fields), [
             'sortable' => $sortability->sortable,
-            'sort_on_index' => !$sortability->sortOnHasMany && !$sortability->sortOnBelongsTo,
-            'sort_on_has_many' => $sortability->sortOnHasMany,
-            'sort_on_belongs_to' => $sortability->sortOnBelongsTo,
+            'sort_on_index' => $sortability->sortable && !$sortability->sortOnHasMany && !$sortability->sortOnBelongsTo,
+            'sort_on_has_many' => $sortability->sortable && $sortability->sortOnHasMany,
+            'sort_on_belongs_to' => $sortability->sortable && $sortability->sortOnBelongsTo,
         ]);
     }
 
