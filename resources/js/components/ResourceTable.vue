@@ -1,11 +1,16 @@
 <template>
-  <table v-if="resources.length > 0" class="table w-full" cellpadding="0" cellspacing="0" data-testid="resource-table">
+  <table
+    v-if="resources.length > 0"
+    class="table w-full"
+    :class="[`table-${resourceInformation.tableStyle}`, resourceInformation.showColumnBorders ? 'table-grid' : '']"
+    cellpadding="0"
+    cellspacing="0"
+    data-testid="resource-table"
+  >
     <thead>
       <tr>
         <!-- Select Checkbox -->
-        <th class="w-16">
-          &nbsp;
-        </th>
+        <th class="w-16">&nbsp;</th>
 
         <!-- Field Names -->
         <th v-for="field in fields" :class="`text-${field.textAlign}`">
@@ -63,9 +68,7 @@ import ReordersResources from '../mixins/ReordersResources';
 
 export default {
   mixins: [InteractsWithResourceInformation, ReordersResources],
-
   components: { Draggable },
-
   props: {
     authorizedToRelate: {
       type: Boolean,
@@ -109,13 +112,11 @@ export default {
       type: Function,
     },
   },
-
   data: () => ({
     selectAllResources: false,
     selectAllMatching: false,
     resourceCount: null,
   }),
-
   methods: {
     /**
      * Delete the given resource.
@@ -124,7 +125,6 @@ export default {
       this.$emit('delete', [resource]);
       Nova.$emit('metric-refresh');
     },
-
     /**
      * Restore the given resource.
      */
@@ -132,14 +132,12 @@ export default {
       this.$emit('restore', [resource]);
       Nova.$emit('metric-refresh');
     },
-
     /**
      * Broadcast that the ordering should be updated.
      */
     requestOrderByChange(field) {
       this.$emit('order', field);
     },
-
     /**
      * Broadcast that the ordering should be reset.
      */
@@ -147,7 +145,6 @@ export default {
       this.$emit('reset-order-by', field);
     },
   },
-
   computed: {
     /**
      * Get all of the available fields for the resources.
@@ -157,14 +154,12 @@ export default {
         return this.resources[0].fields;
       }
     },
-
     /**
      * Determine if the current resource listing is via a many-to-many relationship.
      */
     viaManyToMany() {
       return this.relationshipType == 'belongsToMany' || this.relationshipType == 'morphToMany';
     },
-
     /**
      * Determine if the current resource listing is via a has-one relationship.
      */
