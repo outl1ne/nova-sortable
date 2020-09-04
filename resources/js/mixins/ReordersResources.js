@@ -11,7 +11,7 @@ export default {
     },
     sortable() {
       const resource = this.resources[0];
-      if (!resource) return false;
+      if (!resource || !resource.sortable) return false;
 
       if (this.viaResource) {
         // HasMany
