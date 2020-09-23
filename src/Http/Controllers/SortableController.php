@@ -73,7 +73,11 @@ class SortableController
         if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
 
         $modelClass = $resourceClass::$model;
-        $models = $modelClass::withTrashed()->findMany($resourceIds);
+        if (is_callable($modelClass, 'withTrashed')) {
+            $models = $modelClass::withTrashed()->findMany($resourceIds);
+        } else {
+            $models = $modelClass::findMany($resourceIds);
+        }
         if ($models->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
 
         $model = $models->first();
