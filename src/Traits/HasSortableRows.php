@@ -6,8 +6,17 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 trait HasSortableRows
 {
+    public static function canSort(NovaRequest $request)
+    {
+        return true;
+    }
+
     public static function getSortability(NovaRequest $request)
     {
+        if (!static::canSort($request)) {
+            return null;
+        }
+
         $model = null;
 
         try {
@@ -65,6 +74,10 @@ trait HasSortableRows
     public function serializeForIndex(NovaRequest $request, $fields = null)
     {
         $sortability = static::getSortability($request);
+
+        if (is_null($sortability)) {
+            return parent::serializeForIndex($request, $fields);
+        }
 
         return array_merge(parent::serializeForIndex($request, $fields), [
             'sortable' => $sortability->sortable,
