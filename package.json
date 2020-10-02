@@ -20,7 +20,7 @@
     "vue-template-compiler": "^2.6.12"
   },
   "dependencies": {
-    "laravel-nova": "^1.4.1",
+    "laravel-nova": "^1.5.1",
     "vue": "^2.6.12",
     "vuedraggable": "^2.24.1"
   }
