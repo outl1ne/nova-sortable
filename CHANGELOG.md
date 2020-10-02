@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added ability to allow/enable sorting on a per-request basis (thanks to [@Naoray](https://github.com/Naoray))
+- Added ability to enable/disable sorting on a per-request basis (thanks to [@Naoray](https://github.com/Naoray))
 
 ### Changed
 
