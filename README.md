@@ -86,6 +86,19 @@ class MyResource extends Resource
 
 NB! This overrides the `indexQuery()` method.
 
+### Disallowing sorting on a per-request basis
+
+You can disable sorting on a per-request basis by overriding the `canSort()` on the Resource method like so:
+
+```php
+public static function canSort(NovaRequest $request)
+{
+  // Do whatever here, ie:
+  // return user()->isAdmin();
+  return true;
+}
+```
+
 ## Sorting on HasMany relationship
 
 **NB!** The resource can only be sorted on **either** the Index view **or** the HasMany list view, but not both!

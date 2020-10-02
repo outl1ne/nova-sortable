@@ -13,9 +13,7 @@ trait HasSortableRows
 
     public static function getSortability(NovaRequest $request)
     {
-        if (!static::canSort($request)) {
-            return null;
-        }
+        if (!static::canSort($request)) return null;
 
         $model = null;
 
