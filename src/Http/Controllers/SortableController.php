@@ -28,7 +28,7 @@ class SortableController
             $modelClass = $resourceClass::$model;
             $model = $modelClass::find($viaResourceId);
             $relatedModels = $model->{$viaRelationship}()->findMany($resourceIds);
-            if ($relatedModels->count() !== sizeof($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
+            if ($relatedModels->count() !== count($resourceIds)) return response()->json(['resourceIds' => 'invalid'], 400);
 
             // BelongsToMany
             if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
@@ -41,25 +41,16 @@ class SortableController
                 $orderColumnName = $relatedModel->determineOrderColumnName();
                 $relatedKeyName = $relatedModel->getKeyName();
 
-                // Sort orderColumn values
-                if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
-                    $sortedOrder = $relatedModels->pluck('pivot')->pluck($orderColumnName)->sort()->values();
-                } else {
-                    $sortedOrder = $relatedModels->pluck($orderColumnName)->sort()->values();
-                }
+                // Order column is not always loaded in ManyToMany relationships
+                $startOrder = $model->{$viaRelationship}()->whereKey($resourceIds)->min($orderColumnName) ?: 1;
 
-                $previousSortOrderNr = null;
-                foreach ($resourceIds as $i => $id) {
+                foreach ($resourceIds as $id) {
                     $_model = $relatedModels->firstWhere($relatedKeyName, $id);
-                    $sortOrderNr = $sortedOrder[$i] ?? ((int) $previousSortOrderNr) + 1;
-                    if ($sortOrderNr === $previousSortOrderNr) $sortOrderNr += 1;
-                    $previousSortOrderNr = $sortOrderNr;
-
                     if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
-                        $_model->pivot->{$orderColumnName} = $sortOrderNr;
+                        $_model->pivot->{$orderColumnName} = $startOrder++;
                         $_model->pivot->save();
                     } else {
-                        $_model->{$orderColumnName} = $sortOrderNr;
+                        $_model->{$orderColumnName} = $startOrder++;
                         $_model->save();
                     }
                 }
@@ -84,11 +75,11 @@ class SortableController
         $modelKeyName = $model->getKeyName();
         $orderColumnName = $model->determineOrderColumnName();
 
-        // Sort orderColumn values
-        $sortedOrder = $models->pluck($orderColumnName)->sort()->values();
-        foreach ($resourceIds as $i => $id) {
+        // Get starting order value
+        $startOrder = $models->min($orderColumnName) ?: 1;
+        foreach ($resourceIds as $id) {
             $_model = $models->firstWhere($modelKeyName, $id);
-            $_model->{$orderColumnName} = $sortedOrder[$i];
+            $_model->{$orderColumnName} = $startOrder++;
             $_model->save();
         }
 
