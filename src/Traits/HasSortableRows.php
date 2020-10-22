@@ -3,6 +3,7 @@
 namespace OptimistDigital\NovaSortable\Traits;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Spatie\EloquentSortable\SortableTrait;
 
 trait HasSortableRows
 {
@@ -24,7 +25,7 @@ trait HasSortableRows
         }
 
         $model = $resource->resource ?? null;
-        $sortable = $model->sortable ?? false;
+        $sortable = self::getSortabilityConfiguration($model);
         $sortOnBelongsTo = $resource->disableSortOnIndex ?? false;
         $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
 
@@ -34,13 +35,13 @@ trait HasSortableRows
             if (isset($request->resourceId)) {
                 $tempModel = $relationshipQuery->first()->pivot ?? null;
                 $model = !empty($tempModel) ?
-                    $relationshipQuery->withPivot($tempModel->getKeyName(), $tempModel->sortable['order_column_name'])->find($request->resourceId)->pivot
+                    $relationshipQuery->withPivot($tempModel->getKeyName(), $tempModel->determineOrderColumnName())->find($request->resourceId)->pivot
                     : null;
             } else {
                 $model = $relationshipQuery->first()->pivot ?? null;
             }
 
-            $sortable = $model->sortable ?? false;
+            $sortable = self::getSortabilityConfiguration($model);
             $sortOnBelongsTo = !empty($sortable);
 
             // Check for `only_sort_on` and `dont_sort_on`
@@ -107,12 +108,35 @@ trait HasSortableRows
 
                 if (empty($request->get('orderBy')) && $shouldSort) {
                     $query->getQuery()->orders = [];
-                    $orderColumn = !empty($sortability->sortable['order_column_name']) ? $sortability->sortable['order_column_name'] : 'sort_order';
-                    return $query->orderBy($orderColumn);
+                    return $query->orderBy($sortability->model->determineOrderColumnName());
                 }
             }
         }
 
         return $query;
+    }
+
+    /**
+     * Get model sortability configuration
+     */
+    public static function getSortabilityConfiguration($model): ?array
+    {
+        // Check if spatie trait is in the model.
+        if (!in_array(
+            SortableTrait::class,
+            array_keys((new \ReflectionClass($model))->getTraits())
+        )) {
+            return null;
+        }
+
+        // Get spatie defaut configuration.
+        $defaultConfiguration = config('eloquent-sortable', []);
+
+        // If model does not have sortable configuration return the default.
+        if (!isset($model->sortable)) {
+            return $defaultConfiguration;
+        }
+
+        return array_merge($defaultConfiguration, $model->sortable);
     }
 }

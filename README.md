@@ -69,6 +69,8 @@ class SomeModel extends Eloquent implements Sortable
 }
 ```
 
+When the model does not have a sortable configuration, the default eloquent-sortable configuration will be used.
+
 ### Apply HasSortableRows to Nova resource
 
 Apply `HasSortableRows` trait from this package on the Resource:
@@ -110,6 +112,20 @@ public $sortable = [
   'order_column_name' => 'sort_order',
   'sort_when_creating' => true,
   'sort_on_has_many' => true,
+];
+```
+
+The sort on has many configuration can be apply in a per model basis or it can be added in the eloquent-sortable configuration for all the models.
+
+```php
+return [
+
+    // Spatie sortable configuration
+
+    /**
+     * Add sort on has many in all the models.
+     **/
+    'sort_on_has_many' => true,
 ];
 ```
 

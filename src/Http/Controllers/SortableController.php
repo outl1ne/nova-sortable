@@ -2,8 +2,8 @@
 
 namespace OptimistDigital\NovaSortable\Http\Controllers;
 
-use Laravel\Nova\Nova;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
 use OptimistDigital\NovaSortable\Traits\HasSortableRows;
 
 class SortableController
@@ -82,7 +82,7 @@ class SortableController
 
         $model = $models->first();
         $modelKeyName = $model->getKeyName();
-        $orderColumnName = !empty($model->sortable['order_column_name']) ? $model->sortable['order_column_name'] : 'sort_order';
+        $orderColumnName = $model->determineOrderColumnName();
 
         // Sort orderColumn values
         $sortedOrder = $models->pluck($orderColumnName)->sort()->values();
