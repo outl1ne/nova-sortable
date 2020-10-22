@@ -38,7 +38,7 @@ class SortableController
             }
 
             if (!empty($relatedModel)) {
-                $orderColumnName = !empty($relatedModel->sortable['order_column_name']) ? $relatedModel->sortable['order_column_name'] : 'sort_order';
+                $orderColumnName = $relatedModel->determineOrderColumnName();
                 $relatedKeyName = $relatedModel->getKeyName();
 
                 // Sort orderColumn values

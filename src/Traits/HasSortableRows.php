@@ -121,6 +121,10 @@ trait HasSortableRows
      */
     public static function getSortabilityConfiguration($model): ?array
     {
+        if (is_null($model)) {
+            return null;
+        }
+        
         // Check if spatie trait is in the model.
         if (!in_array(
             SortableTrait::class,
