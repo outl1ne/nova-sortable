@@ -121,15 +121,10 @@ trait HasSortableRows
      */
     public static function getSortabilityConfiguration($model): ?array
     {
-        if (is_null($model)) {
-            return null;
-        }
-        
+        if (is_null($model)) return null;
+
         // Check if spatie trait is in the model.
-        if (!in_array(
-            SortableTrait::class,
-            array_keys((new \ReflectionClass($model))->getTraits())
-        )) {
+        if (!in_array(SortableTrait::class, array_keys((new \ReflectionClass($model))->getTraits()))) {
             return null;
         }
 
@@ -137,9 +132,7 @@ trait HasSortableRows
         $defaultConfiguration = config('eloquent-sortable', []);
 
         // If model does not have sortable configuration return the default.
-        if (!isset($model->sortable)) {
-            return $defaultConfiguration;
-        }
+        if (!isset($model->sortable)) return $defaultConfiguration;
 
         return array_merge($defaultConfiguration, $model->sortable);
     }
