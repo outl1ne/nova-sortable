@@ -98,7 +98,7 @@ Allow sorting only on a specific resource
 
 ```php
 public $sortable = [
-    'only_sort_on' => \App\Nova\Resources\Chapter::class,
+    'only_sort_on' => \App\Nova\Chapter::class,
 ];
 ```
 
@@ -107,7 +107,7 @@ Deny sorting on a list of resources
 ```php
 public $sortable = [
     'dont_sort_on' => [
-        \App\Nova\Resources\Comic::class,
+        \App\Nova\Comic::class,
     ]
 ];
 ```
