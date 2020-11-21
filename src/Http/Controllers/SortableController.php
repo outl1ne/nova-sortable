@@ -86,10 +86,12 @@ class SortableController
 
         // Sort orderColumn values
         $sortedOrder = $models->pluck($orderColumnName)->sort()->values();
+        $increment = 0;
         foreach ($resourceIds as $i => $id) {
             $_model = $models->firstWhere($modelKeyName, $id);
-            $_model->{$orderColumnName} = $sortedOrder[$i];
+            $_model->{$orderColumnName} = $sortedOrder[$i] ?? $increment;
             $_model->save();
+            ++$increment;
         }
 
         return response('', 204);
