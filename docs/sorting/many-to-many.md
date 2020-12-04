@@ -94,20 +94,20 @@ class Artist extends Resource
 
 #### Allow or deny sorting on specific resources
 
-Allow sorting only on a specific resource
+Allow sorting only on a specific resource:
 
 ```php
 public $sortable = [
-    'only_sort_on' => \App\Nova\Resources\Chapter::class,
+  // Allow:
+  'only_sort_on' => \App\Nova\Resources\Chapter::class,
+
+  // Deny:
+  'dont_sort_on' => [
+    \App\Nova\Resources\Comic::class,
+  ]
 ];
 ```
 
-Deny sorting on a list of resources
+#### Sorting on both Index and ManyToMany
 
-```php
-public $sortable = [
-    'dont_sort_on' => [
-        \App\Nova\Resources\Comic::class,
-    ]
-];
-```
+See this issue for guidance: [nova-sortable/issues#60](https://github.com/optimistdigital/nova-sortable/issues/60).
