@@ -39,7 +39,7 @@ class SortableController
 
             if (!empty($relatedModel)) {
                 $orderColumnName = $relatedModel->determineOrderColumnName();
-                $relatedKeyName = $relatedModel->getKeyName();
+                $relatedKeyName = $relatedModels->first()->getKeyName();
 
                 // Sort orderColumn values
                 if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
