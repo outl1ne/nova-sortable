@@ -50,6 +50,7 @@
         :via-many-to-many="viaManyToMany"
         :checked="selectedResources.indexOf(resource) > -1"
         :actions-are-available="actionsAreAvailable"
+        :actions-endpoint="actionsEndpoint"
         :should-show-checkboxes="shouldShowCheckboxes"
         :update-selection-status="updateSelectionStatus"
         :resource-is-sortable="sortable"
@@ -110,6 +111,9 @@ export default {
     },
     updateSelectionStatus: {
       type: Function,
+    },
+    actionsEndpoint: {
+      default: null,
     },
   },
   data: () => ({
