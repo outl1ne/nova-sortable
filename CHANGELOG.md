@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Don't allow reordering when user is not `authorizedToUpdate` resource
 - Allow `canSort` to be used on a per-resource basis
 - Fix UI issues when delete policy is enabled
+- Add Estonian translations
 - Updated packages
 
 ## [2.0.0] - 2020-12-04
