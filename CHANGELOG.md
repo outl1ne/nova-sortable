@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Fixed inline actions in Lenses returning 404
+- Fixed inline actions in Lenses returning 404 (thanks to [@TheSETJ](https://github.com/TheSETJ))
 - Use `nova-translations-loader` for loading translations
+- Add fallback values to sort order when the column is empty
 - Don't allow reordering when user is not `authorizedToUpdate` resource
 - Allow `canSort` to be used on a per-resource basis
 - Fix UI issues when delete policy is enabled
