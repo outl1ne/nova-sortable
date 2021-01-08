@@ -1,10 +1,11 @@
 {
   "novaSortable.reorderingDisabledTooltip.activeSort": "No se puede reordenar con las opciones de orden activas.",
-  "novaSortable.reorderingDisabledTooltip.notAllowed": "",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "Reordering is not allowed for this resource.",
   "novaSortable.moveToStart": "Mover al principio",
   "novaSortable.moveToEnd": "Mover al final",
   "novaSortable.reorderSuccessful": "Recursos reordenados correctamente.",
   "novaSortable.moveToStartSuccessful": "Recurso movido correctamente a la primera posición.",
   "novaSortable.moveToEndSuccessful": "Recurso movido correctamente a la última posición.",
-  "novaSortable.reorderError": "Un error ha ocurrido mientras se intentaba reordenar el recurso."
+  "novaSortable.reorderError": "Un error ha ocurrido mientras se intentaba reordenar el recurso.",
+  "novaSortable.reorderNotAllowedFor": "Reordering resource with ID :id not allowed."
 }

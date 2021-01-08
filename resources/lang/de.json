@@ -1,10 +1,11 @@
 {
   "novaSortable.reorderingDisabledTooltip.activeSort": "Bei aktiver Sortierung nach Spalten kann die Reihenfolge der Einträge nicht geändert werden.",
-  "novaSortable.reorderingDisabledTooltip.notAllowed": "",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "Reordering is not allowed for this resource.",
   "novaSortable.moveToStart": "An den Anfang",
   "novaSortable.moveToEnd": "Ans Ende",
   "novaSortable.reorderSuccessful": "Reihenfolge erfolgreich geändert.",
   "novaSortable.moveToStartSuccessful": "Eintrag wurde erfolgreich an den Anfang verschoben.",
   "novaSortable.moveToEndSuccessful": "Eintrag wurde erfolgreich ans Ende verschoben.",
-  "novaSortable.reorderError": "Beim Ändern der Reihenfolge ist ein Fehler aufgetreten."
+  "novaSortable.reorderError": "Beim Ändern der Reihenfolge ist ein Fehler aufgetreten.",
+  "novaSortable.reorderNotAllowedFor": "Reordering resource with ID :id not allowed."
 }
