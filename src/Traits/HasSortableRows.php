@@ -96,7 +96,7 @@ trait HasSortableRows
     {
         $sortability = static::getSortability($request);
 
-        if (!empty($sortability)) {
+        if (!empty($sortability->model)) {
             // Make sure we are querying the same table, which might not be the case
             // in some complicated relationship views
             if ($request->viaManyToMany()) {
