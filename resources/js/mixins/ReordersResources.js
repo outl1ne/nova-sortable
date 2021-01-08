@@ -3,23 +3,9 @@ export default {
     reorderLoading: false,
   }),
   computed: {
-    sortable() {
+    hasSortabilityTrait() {
       const resource = this.resources[0];
-      if (!resource || !resource.sortable) return false;
-
-      if (this.viaResource) {
-        // HasMany
-        if (this.relationshipType === 'hasMany' && resource.sort_on_has_many) return true;
-
-        // BelongsToMany
-        if (['belongsToMany', 'morphToMany'].includes(this.relationshipType) && resource.sort_on_belongs_to) {
-          return true;
-        }
-
-        return false;
-      }
-
-      return resource.sort_on_index;
+      return resource && resource.has_sortable_trait;
     },
   },
   methods: {

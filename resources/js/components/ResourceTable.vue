@@ -10,7 +10,7 @@
     <thead>
       <tr>
         <!-- Select Checkbox -->
-        <th class="w-16" v-if="shouldShowCheckboxes">&nbsp;</th>
+        <th class="w-16" v-if="shouldShowCheckboxes || hasSortabilityTrait">&nbsp;</th>
 
         <!-- Field Names -->
         <th v-for="field in fields" :class="`text-${field.textAlign}`">
