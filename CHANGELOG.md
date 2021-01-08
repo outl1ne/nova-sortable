@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.1] - 2020-12-04
+## [2.1.0] - 2020-12-08
 
 ### Changed
 
@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use `nova-translations-loader` for loading translations
 - Don't allow reordering when user is not `authorizedToUpdate` resource
 - Allow `canSort` to be used on a per-resource basis
+- Fix UI issues when delete policy is enabled
 - Updated packages
 
 ## [2.0.0] - 2020-12-04
