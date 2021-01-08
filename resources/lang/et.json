@@ -1,0 +1,11 @@
+{
+  "novaSortable.reorderingDisabledTooltip.activeSort": "Järjestamine pole lubatud kui mõni veerg on sorteeritud.",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "Selle rea järjestamine pole lubatud.",
+  "novaSortable.moveToStart": "Liiguta algusesse",
+  "novaSortable.moveToEnd": "Liiguta lõppu",
+  "novaSortable.reorderSuccessful": "Read edukalt järjestatud.",
+  "novaSortable.moveToStartSuccessful": "Rida edukalt algusesse liigutatud.",
+  "novaSortable.moveToEndSuccessful": "Rida edukalt lõppu liigutatud.",
+  "novaSortable.reorderError": "Rea järjestamisel tekkis viga.",
+  "novaSortable.reorderNotAllowedFor": "Rida ID-ga :id ei ole lubatud järjestada."
+}
