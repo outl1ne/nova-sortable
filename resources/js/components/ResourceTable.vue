@@ -10,7 +10,7 @@
     <thead>
       <tr>
         <!-- Select Checkbox -->
-        <th class="w-16">&nbsp;</th>
+        <th class="w-16" v-if="shouldShowCheckboxes">&nbsp;</th>
 
         <!-- Field Names -->
         <th v-for="field in fields" :class="`text-${field.textAlign}`">
@@ -31,7 +31,6 @@
         <th>&nbsp;</th>
       </tr>
     </thead>
-
     <draggable v-model="resources" tag="tbody" handle=".handle" @update="updateOrder">
       <tr
         v-for="(resource, index) in resources"
@@ -116,11 +115,13 @@ export default {
       default: null,
     },
   },
+
   data: () => ({
     selectAllResources: false,
     selectAllMatching: false,
     resourceCount: null,
   }),
+
   methods: {
     /**
      * Delete the given resource.
@@ -129,6 +130,7 @@ export default {
       this.$emit('delete', [resource]);
       Nova.$emit('metric-refresh');
     },
+
     /**
      * Restore the given resource.
      */
@@ -136,12 +138,14 @@ export default {
       this.$emit('restore', [resource]);
       Nova.$emit('metric-refresh');
     },
+
     /**
      * Broadcast that the ordering should be updated.
      */
     requestOrderByChange(field) {
       this.$emit('order', field);
     },
+
     /**
      * Broadcast that the ordering should be reset.
      */
@@ -149,6 +153,7 @@ export default {
       this.$emit('reset-order-by', field);
     },
   },
+
   computed: {
     /**
      * Get all of the available fields for the resources.
@@ -158,12 +163,14 @@ export default {
         return this.resources[0].fields;
       }
     },
+
     /**
      * Determine if the current resource listing is via a many-to-many relationship.
      */
     viaManyToMany() {
       return this.relationshipType == 'belongsToMany' || this.relationshipType == 'morphToMany';
     },
+
     /**
      * Determine if the current resource listing is via a has-one relationship.
      */
