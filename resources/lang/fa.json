@@ -1,5 +1,6 @@
 {
-  "novaSortable.reorderingDisabledTooltip": "تغییر ترتیب با توجه به تنظیمات جاری غیرفعال است.",
+  "novaSortable.reorderingDisabledTooltip.activeSort": "تغییر ترتیب با توجه به تنظیمات جاری غیرفعال است.",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "",
   "novaSortable.moveToStart": "انتقال به ابتدا",
   "novaSortable.moveToEnd": "انتقال به انتها",
   "novaSortable.reorderSuccessful": "مورد با موفقیت منتقل شد.",

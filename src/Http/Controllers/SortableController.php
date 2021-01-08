@@ -48,12 +48,39 @@ class SortableController
                     $sortedOrder = $relatedModels->pluck($orderColumnName)->sort()->values();
                 }
 
+                $improvedSortedOrder = [];
                 $previousSortOrderNr = null;
-                foreach ($resourceIds as $i => $id) {
-                    $_model = $relatedModels->firstWhere($relatedKeyName, $id);
-                    $sortOrderNr = $sortedOrder[$i] ?? ((int) $previousSortOrderNr) + 1;
+                foreach ($sortedOrder as $i => $orderNr) {
+                    $sortOrderNr = $orderNr ?? ((int) $previousSortOrderNr) + 1;
                     if ($sortOrderNr === $previousSortOrderNr) $sortOrderNr += 1;
                     $previousSortOrderNr = $sortOrderNr;
+                    $improvedSortedOrder[$i] = $sortOrderNr;
+                }
+
+                // Validate if can be sorted
+                if (method_exists($resourceClass, 'canSort')) {
+                    foreach ($resourceIds as $i => $id) {
+                        $_model = $relatedModels->firstWhere($relatedKeyName, $id);
+                        $sortOrderNr = $improvedSortedOrder[$i];
+
+                        $canSort = $resourceClass::canSort($request, $_model);
+                        if (!$canSort) {
+                            $currentOrderNr = ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany')
+                                ? $_model->pivot->{$orderColumnName}
+                                : $_model->{$orderColumnName};
+
+                            // canSort was false - check if the position changed
+                            if ($currentOrderNr !== $improvedSortedOrder[$i]) {
+                                // Order changed - show error
+                                return response()->json(['canNotReorder' => $id], 400);
+                            }
+                        }
+                    }
+                }
+
+                foreach ($resourceIds as $i => $id) {
+                    $_model = $relatedModels->firstWhere($relatedKeyName, $id);
+                    $sortOrderNr = $improvedSortedOrder[$i];
 
                     if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
                         $_model->pivot->{$orderColumnName} = $sortOrderNr;
@@ -86,6 +113,23 @@ class SortableController
 
         // Sort orderColumn values
         $sortedOrder = $models->pluck($orderColumnName)->sort()->values();
+
+        // Validate if can be sorted
+        if (method_exists($resourceClass, 'canSort')) {
+            foreach ($resourceIds as $i => $id) {
+                $_model = $models->firstWhere($modelKeyName, $id);
+                $canSort = $resourceClass::canSort($request, $_model);
+                if (!$canSort) {
+                    // canSort was false - check if the position changed
+                    if ($_model->{$orderColumnName} !== $sortedOrder[$i]) {
+                        // Order changed - show error
+                        return response()->json(['canNotReorder' => $id], 400);
+                    }
+                }
+            }
+        }
+
+        // Continue with reorder
         foreach ($resourceIds as $i => $id) {
             $_model = $models->firstWhere($modelKeyName, $id);
             $_model->{$orderColumnName} = $sortedOrder[$i];

@@ -7,24 +7,28 @@ use Spatie\EloquentSortable\SortableTrait;
 
 trait HasSortableRows
 {
-    public static function canSort(NovaRequest $request)
+    public static function canSort(NovaRequest $request, $resource)
     {
         return true;
     }
 
-    public static function getSortability(NovaRequest $request)
+    public static function getSortability(NovaRequest $request, $resource = null)
     {
-        if (!static::canSort($request)) return null;
-
         $model = null;
 
         try {
-            $resource = isset($request->resourceId) ? $request->findResourceOrFail() : $request->newResource();
+            if ($resource === null) {
+                $resource = isset($request->resourceId) ? $request->findResourceOrFail() : $request->newResource();
+            }
         } catch (\Exception $e) {
             return null;
         }
 
-        $model = $resource->resource ?? null;
+        $model = $resource->resource ?? $resource ?? null;
+        if (!$model || !self::canSort($request, $model)) {
+            return (object)['canSort' => false];
+        }
+
         $sortable = self::getSortabilityConfiguration($model);
         $sortOnBelongsTo = $resource->disableSortOnIndex ?? false;
         $sortOnHasMany = $sortable['sort_on_has_many'] ?? false;
@@ -72,18 +76,20 @@ trait HasSortableRows
 
     public function serializeForIndex(NovaRequest $request, $fields = null)
     {
-        $sortability = static::getSortability($request);
+        $sortability = static::getSortability($request, $this->resource);
 
         if (is_null($sortability)) {
             return parent::serializeForIndex($request, $fields);
         }
 
-        return array_merge(parent::serializeForIndex($request, $fields), [
+        $sortabilityData = $sortability->sortable ?? false ? [
             'sortable' => $sortability->sortable,
             'sort_on_index' => $sortability->sortable && !$sortability->sortOnHasMany && !$sortability->sortOnBelongsTo,
             'sort_on_has_many' => $sortability->sortable && $sortability->sortOnHasMany,
             'sort_on_belongs_to' => $sortability->sortable && $sortability->sortOnBelongsTo,
-        ]);
+        ] : ['sort_not_allowed' => !($sortability->canSort ?? false)];
+
+        return array_merge(parent::serializeForIndex($request, $fields), $sortabilityData);
     }
 
     public static function indexQuery(NovaRequest $request, $query)

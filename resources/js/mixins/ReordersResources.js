@@ -3,12 +3,6 @@ export default {
     reorderLoading: false,
   }),
   computed: {
-    reorderDisabled() {
-      return !!this.$route.query[this.orderByParameter];
-    },
-    orderByParameter() {
-      return this.viaRelationship ? this.viaRelationship + '_order' : this.resourceName + '_order';
-    },
     sortable() {
       const resource = this.resources[0];
       if (!resource || !resource.sortable) return false;
@@ -44,6 +38,12 @@ export default {
         });
         Nova.success(this.__('novaSortable.reorderSuccessful'));
       } catch (e) {
+        if (e && e.response && e.response.data && e.response.data.canNotReorder) {
+          const id = e.response.data.canNotReorder;
+          Nova.error(this.__('novaSortable.reorderNotAllowedFor', { id }));
+          this.refreshResourcesList();
+          return;
+        }
         Nova.error(this.__('novaSortable.reorderError'));
       }
 
@@ -52,7 +52,6 @@ export default {
 
     async moveToStart(resource) {
       this.reorderLoading = true;
-      console.info(this, resource);
       try {
         await Nova.request().post(`/nova-vendor/nova-sortable/sort/${this.resourceName}/move-to-start`, {
           resourceId: resource.id.value,

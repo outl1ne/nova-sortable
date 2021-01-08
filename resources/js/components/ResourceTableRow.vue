@@ -4,10 +4,10 @@
     <td class="w-16">
       <!-- Reorder buttons -->
       <reorder-buttons
-        :resource-is-sortable="resourceIsSortable"
-        :reorder-disabled="reorderDisabled"
         :resource="resource"
         :via-resource-id="viaResourceId"
+        :via-relationship="viaRelationship"
+        :resource-name="resourceName"
         @moveToEnd="$emit('moveToEnd')"
         @moveToStart="$emit('moveToStart')"
       >
@@ -186,8 +186,6 @@ export default {
     'shouldShowCheckboxes',
     'updateSelectionStatus',
     'queryString',
-    'reorderDisabled',
-    'resourceIsSortable',
   ],
 
   data: () => ({

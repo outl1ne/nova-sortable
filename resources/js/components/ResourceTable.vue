@@ -52,8 +52,6 @@
         :actions-endpoint="actionsEndpoint"
         :should-show-checkboxes="shouldShowCheckboxes"
         :update-selection-status="updateSelectionStatus"
-        :resource-is-sortable="sortable"
-        :reorder-disabled="reorderDisabled"
         @moveToStart="moveToStart(resource)"
         @moveToEnd="moveToEnd(resource)"
       />

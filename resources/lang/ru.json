@@ -1,5 +1,6 @@
 {
-  "novaSortable.reorderingDisabledTooltip": "Сортировка отключена при других опциях сортировки.",
+  "novaSortable.reorderingDisabledTooltip.activeSort": "Сортировка отключена при других опциях сортировки.",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "",
   "novaSortable.moveToStart": "Переместить в начало",
   "novaSortable.moveToEnd": "Переместить в конец",
   "novaSortable.reorderSuccessful": "Ресурсы успешно отсортированы.",

@@ -1,5 +1,6 @@
 {
-  "novaSortable.reorderingDisabledTooltip": "No se puede reordenar con las opciones de orden activas.",
+  "novaSortable.reorderingDisabledTooltip.activeSort": "No se puede reordenar con las opciones de orden activas.",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "",
   "novaSortable.moveToStart": "Mover al principio",
   "novaSortable.moveToEnd": "Mover al final",
   "novaSortable.reorderSuccessful": "Recursos reordenados correctamente.",

@@ -1,5 +1,6 @@
 {
-  "novaSortable.reorderingDisabledTooltip": "Bei aktiver Sortierung nach Spalten kann die Reihenfolge der Einträge nicht geändert werden.",
+  "novaSortable.reorderingDisabledTooltip.activeSort": "Bei aktiver Sortierung nach Spalten kann die Reihenfolge der Einträge nicht geändert werden.",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "",
   "novaSortable.moveToStart": "An den Anfang",
   "novaSortable.moveToEnd": "Ans Ende",
   "novaSortable.reorderSuccessful": "Reihenfolge erfolgreich geändert.",

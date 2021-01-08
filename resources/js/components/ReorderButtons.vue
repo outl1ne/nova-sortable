@@ -41,20 +41,37 @@ import BurgerIcon from '../icons/BurgerIcon';
 
 export default {
   components: { ChevronUpIcon, ChevronDownIcon, BurgerIcon },
-  props: ['resource', 'reorderDisabled', 'viaResourceId', 'resourceIsSortable'],
+  props: ['resource', 'reorderDisabled', 'viaResourceId', 'viaRelationship', 'resourceName'],
   computed: {
     tooltipClasses() {
       return ['bg-white', 'px-3', 'py-2', 'rounded', 'border', 'border-50', 'shadow', 'text-sm', 'leading-normal'];
     },
 
     canSeeReorderButtons() {
-      return this.resource.authorizedToUpdate && this.resourceIsSortable;
+      return this.resource.authorizedToUpdate;
+    },
+
+    // Returns reason string why reordering is disabled
+    reorderDisabled() {
+      if (this.resource.sort_not_allowed) {
+        return 'notAllowed';
+      }
+
+      if (!!this.$route.query[this.orderByParameter]) {
+        return 'activeSort';
+      }
+
+      return false;
+    },
+
+    orderByParameter() {
+      return this.viaRelationship ? this.viaRelationship + '_order' : this.resourceName + '_order';
     },
 
     reorderDisabledTooltip() {
       return this.reorderDisabled
         ? {
-            content: this.__('novaSortable.reorderingDisabledTooltip'),
+            content: this.__(`novaSortable.reorderingDisabledTooltip.${this.reorderDisabled}`),
             classes: this.tooltipClasses,
             offset: 5,
             boundariesElement: document,
