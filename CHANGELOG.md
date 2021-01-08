@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed inline actions in Lenses returning 404
 - Use `nova-translations-loader` for loading translations
 - Don't allow reordering when user is not `authorizedToUpdate` resource
+- Allow `canSort` to be used on a per-resource basis
 - Updated packages
 
 ## [2.0.0] - 2020-12-04
