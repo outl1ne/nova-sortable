@@ -48,7 +48,7 @@ export default {
     },
 
     canSeeReorderButtons() {
-      return this.resource.authorizedToUpdate;
+      return this.resource.authorizedToUpdate && this.resource.has_sortable_trait;
     },
 
     // Returns reason string why reordering is disabled
