@@ -49,8 +49,11 @@ class SortableController
 
                 // Validate if can be sorted
                 if (method_exists($resourceClass, 'canSort')) {
+                    $relatedModelsCopy = $relatedModels->values();
+
                     foreach ($resourceIds as $i => $id) {
-                        $_model = $relatedModels->firstWhere($relatedKeyName, $id);
+                        $_model = $relatedModelsCopy->firstWhere($relatedKeyName, $id);
+                        $relatedModelsCopy = $relatedModelsCopy->forget($relatedModelsCopy->search($_model));
                         $sortOrderNr = $sortedOrder[$i];
 
                         $canSort = $resourceClass::canSort($request, $_model);
@@ -66,8 +69,10 @@ class SortableController
                     }
                 }
 
+                $relatedModelsCopy = $relatedModels->values();
                 foreach ($resourceIds as $i => $id) {
-                    $_model = $relatedModels->firstWhere($relatedKeyName, $id);
+                    $_model = $relatedModelsCopy->firstWhere($relatedKeyName, $id);
+                    $relatedModelsCopy = $relatedModelsCopy->forget($relatedModelsCopy->search($_model));
                     $sortOrderNr = $sortedOrder[$i];
 
                     $_model->{$orderColumnName} = $sortOrderNr;
