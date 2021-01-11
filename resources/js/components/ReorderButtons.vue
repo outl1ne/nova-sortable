@@ -48,6 +48,8 @@ export default {
     },
 
     canSeeReorderButtons() {
+      if (this.resource.sort_not_allowed) return true; // Can see, but it's disabled
+
       let canSee = !!this.resource.has_sortable_trait;
       if (!this.viaRelationship) {
         canSee = this.resource.sort_on_index;
@@ -58,8 +60,6 @@ export default {
           canSee = this.resource.sort_on_has_many;
         }
       }
-
-      console.info(canSee, this.viaRelationship, this.relationshipType);
 
       return canSee && this.resource.authorizedToUpdate;
     },
