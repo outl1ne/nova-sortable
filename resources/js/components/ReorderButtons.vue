@@ -41,14 +41,27 @@ import BurgerIcon from '../icons/BurgerIcon';
 
 export default {
   components: { ChevronUpIcon, ChevronDownIcon, BurgerIcon },
-  props: ['resource', 'reorderDisabled', 'viaResourceId', 'viaRelationship', 'resourceName'],
+  props: ['resource', 'reorderDisabled', 'viaResourceId', 'relationshipType', 'viaRelationship', 'resourceName'],
   computed: {
     tooltipClasses() {
       return ['bg-white', 'px-3', 'py-2', 'rounded', 'border', 'border-50', 'shadow', 'text-sm', 'leading-normal'];
     },
 
     canSeeReorderButtons() {
-      return this.resource.authorizedToUpdate && this.resource.has_sortable_trait;
+      let canSee = !!this.resource.has_sortable_trait;
+      if (!this.viaRelationship) {
+        canSee = this.resource.sort_on_index;
+      } else {
+        if (this.relationshipType === 'belongsToMany' || this.relationshipType === 'morphToMany') {
+          canSee = this.resource.sort_on_belongs_to;
+        } else {
+          canSee = this.resource.sort_on_has_many;
+        }
+      }
+
+      console.info(canSee, this.viaRelationship, this.relationshipType);
+
+      return canSee && this.resource.authorizedToUpdate;
     },
 
     // Returns reason string why reordering is disabled

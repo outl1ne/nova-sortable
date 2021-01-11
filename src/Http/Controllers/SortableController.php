@@ -32,21 +32,19 @@ class SortableController
 
             // BelongsToMany
             if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
-                $relatedModel = $relatedModels->first()->pivot;
-            } else if ($relationshipType === 'hasMany') {
-                $relatedModel = $relatedModels->first();
+                $relatedModels = $relatedModels->pluck('pivot');
             }
+
+            $relatedModel = $relatedModels->first();
 
             if (!empty($relatedModel)) {
                 $orderColumnName = $relatedModel->determineOrderColumnName();
-                $relatedKeyName = $relatedModel->getKeyName();
+                $relatedKeyName = ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany')
+                    ? $model->{$viaRelationship}()->getRelatedPivotKeyName()
+                    : $relatedModel->getKeyName();
 
                 // Sort orderColumn values
-                if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
-                    $sortedOrder = $relatedModels->pluck('pivot')->pluck($orderColumnName)->sort()->values();
-                } else {
-                    $sortedOrder = $relatedModels->pluck($orderColumnName)->sort()->values();
-                }
+                $sortedOrder = $relatedModels->pluck($orderColumnName)->sort()->values();
                 $sortedOrder = $this->fixSortOrder($sortedOrder);
 
                 // Validate if can be sorted
@@ -57,9 +55,7 @@ class SortableController
 
                         $canSort = $resourceClass::canSort($request, $_model);
                         if (!$canSort) {
-                            $currentOrderNr = ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany')
-                                ? $_model->pivot->{$orderColumnName}
-                                : $_model->{$orderColumnName};
+                            $currentOrderNr = $_model->{$orderColumnName};
 
                             // canSort was false - check if the position changed
                             if ($currentOrderNr !== $sortedOrder[$i]) {
@@ -74,13 +70,8 @@ class SortableController
                     $_model = $relatedModels->firstWhere($relatedKeyName, $id);
                     $sortOrderNr = $sortedOrder[$i];
 
-                    if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
-                        $_model->pivot->{$orderColumnName} = $sortOrderNr;
-                        $_model->pivot->save();
-                    } else {
-                        $_model->{$orderColumnName} = $sortOrderNr;
-                        $_model->save();
-                    }
+                    $_model->{$orderColumnName} = $sortOrderNr;
+                    $_model->save();
                 }
             }
 

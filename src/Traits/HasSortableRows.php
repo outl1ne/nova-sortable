@@ -45,6 +45,10 @@ trait HasSortableRows
                 $model = $relationshipQuery->first()->pivot ?? null;
             }
 
+            if (!$model || !self::canSort($request, $model)) {
+                return (object)['canSort' => false];
+            }
+
             $sortable = self::getSortabilityConfiguration($model);
             $sortOnBelongsTo = !empty($sortable);
 

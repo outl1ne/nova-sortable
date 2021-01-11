@@ -5,6 +5,7 @@
       <!-- Reorder buttons -->
       <reorder-buttons
         :resource="resource"
+        :relationship-type="relationshipType"
         :via-resource-id="viaResourceId"
         :via-relationship="viaRelationship"
         :resource-name="resourceName"
