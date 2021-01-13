@@ -135,7 +135,7 @@ trait HasSortableRows
         if (is_null($model)) return null;
 
         // Check if spatie trait is in the model.
-        if (!in_array(SortableTrait::class, array_keys((new \ReflectionClass($model))->getTraits()))) {
+        if (! in_array(SortableTrait::class, class_uses_recursive($model))) {
             return null;
         }
 
