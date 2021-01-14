@@ -167,6 +167,6 @@ class SortableController
             $previousSortOrderNr = $sortOrderNr;
             $improvedSortedOrder[$i] = $sortOrderNr;
         }
-        return $sortOrder;
+        return $improvedSortedOrder;
     }
 }
