@@ -1,7 +1,7 @@
 <template>
   <tr :dusk="resource['id'].value + '-row'">
     <!-- Resource Selection Checkbox -->
-    <td class="w-16">
+    <td class="w-16" v-if="shouldShowCheckboxes || canSeeReorderButtons">
       <!-- Reorder buttons -->
       <reorder-buttons
         :resource="resource"
@@ -168,7 +168,10 @@
 </template>
 
 <script>
+import ReordersResources from '../mixins/ReordersResources';
+
 export default {
+  mixins: [ReordersResources],
   props: [
     'testId',
     'deleteResource',

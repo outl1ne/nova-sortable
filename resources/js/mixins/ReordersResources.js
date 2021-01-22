@@ -1,11 +1,13 @@
+import { canSortResource } from '../tool';
+
 export default {
   data: () => ({
     reorderLoading: false,
   }),
   computed: {
-    hasSortabilityTrait() {
-      const resource = this.resources[0];
-      return resource && resource.has_sortable_trait;
+    canSeeReorderButtons() {
+      const resource = this.resources && this.resources[0];
+      return resource ? canSortResource(resource, this.relationshipType) : false;
     },
   },
   methods: {
