@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.6] - 2021-02-09
+
+### Changed
+
+- Fixed `only_show_on` and `dont_show_on` not working for one-to-many relationships
+- Fixed a case where unauthorizing delete would also hide sortable buttons
+- Fixed a case where `getSortability` would receive a model instead of a resource causing invalid configuration to be returned
+- Fixed `canSort` fallback (was opposite of what it is supposed to be)
+- Updated packages
+
 ## [2.1.5] - 2021-01-22
 
 ### Changed
