@@ -6,7 +6,7 @@ export default {
   }),
   computed: {
     canSeeReorderButtons() {
-      const resource = this.resources && this.resources[0];
+      const resource = this.resource || (this.resources && this.resources[0]);
       return resource ? canSortResource(resource, this.relationshipType) : false;
     },
   },
