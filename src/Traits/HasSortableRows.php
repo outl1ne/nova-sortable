@@ -48,24 +48,25 @@ trait HasSortableRows
             if (!$model || !self::canSort($request, $model)) {
                 return (object)['canSort' => false];
             }
+        }
 
-            $sortable = self::getSortabilityConfiguration($model);
-            $sortOnBelongsTo = !empty($sortable);
+        $sortable = self::getSortabilityConfiguration($model);
 
-            // Check for `only_sort_on` and `dont_sort_on`
-            $hasOnlySortOn = is_array($sortable) && key_exists('only_sort_on', $sortable);
-            $onlySortOnMatches = $hasOnlySortOn && $request->viaResource() === $sortable['only_sort_on'];
+        // Check for `only_sort_on` and `dont_sort_on`
+        $hasOnlySortOn = is_array($sortable) && key_exists('only_sort_on', $sortable);
+        $onlySortOnMatches = $hasOnlySortOn && $request->viaResource() === $sortable['only_sort_on'];
 
-            // Disable when `only_sort_on` does not match
-            if ($hasOnlySortOn && !$onlySortOnMatches) $sortOnHasMany = $sortOnBelongsTo = false;
+        // Disable when `only_sort_on` does not match
+        if ($hasOnlySortOn && !$onlySortOnMatches) $sortOnHasMany = $sortOnBelongsTo = false;
 
-            // Disable sorting on `dont_sort_on` models
-            if (is_array($sortable) && key_exists('dont_sort_on', $sortable)) {
-                foreach ($sortable['dont_sort_on'] as $item) {
-                    if ($item === $request->viaResource()) {
-                        $sortOnBelongsTo = $sortOnHasMany = false;
-                        break;
-                    }
+        // Disable sorting on `dont_sort_on` models
+        if (is_array($sortable) && key_exists('dont_sort_on', $sortable)) {
+            $dontSortOn = $sortable['dont_sort_on'];
+            if (!is_array($dontSortOn)) $dontSortOn = [$dontSortOn];
+            foreach ($dontSortOn as $item) {
+                if ($item === $request->viaResource()) {
+                    $sortOnBelongsTo = $sortOnHasMany = false;
+                    break;
                 }
             }
         }
@@ -80,7 +81,7 @@ trait HasSortableRows
 
     public function serializeForIndex(NovaRequest $request, $fields = null)
     {
-        $sortability = static::getSortability($request, $this->resource);
+        $sortability = static::getSortability($request, $this);
 
         if (is_null($sortability)) {
             return parent::serializeForIndex($request, $fields);
@@ -92,7 +93,7 @@ trait HasSortableRows
             'sort_on_index' => $sortability->sortable && !$sortability->sortOnHasMany && !$sortability->sortOnBelongsTo,
             'sort_on_has_many' => $sortability->sortable && $sortability->sortOnHasMany,
             'sort_on_belongs_to' => $sortability->sortable && $sortability->sortOnBelongsTo,
-        ] : ['sort_not_allowed' => !($sortability->canSort ?? false)]);
+        ] : ['sort_not_allowed' => !($sortability->canSort ?? true)]);
 
         return array_merge(parent::serializeForIndex($request, $fields), $sortabilityData);
     }
@@ -135,7 +136,7 @@ trait HasSortableRows
         if (is_null($model)) return null;
 
         // Check if spatie trait is in the model.
-        if (! in_array(SortableTrait::class, class_uses_recursive($model))) {
+        if (!in_array(SortableTrait::class, class_uses_recursive($model))) {
             return null;
         }
 
