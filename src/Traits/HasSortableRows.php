@@ -35,14 +35,15 @@ trait HasSortableRows
 
         if ($request->viaManyToMany()) {
             $relationshipQuery = $request->findParentModel()->{$request->viaRelationship}();
+            $pivot = $relationshipQuery->getPivotAccessor();
 
             if (isset($request->resourceId)) {
-                $tempModel = $relationshipQuery->first()->pivot ?? null;
+                $tempModel = $relationshipQuery->first()->{$pivot} ?? null;
                 $model = !empty($tempModel) ?
-                    $relationshipQuery->withPivot($tempModel->getKeyName(), $tempModel->determineOrderColumnName())->find($request->resourceId)->pivot
+                    $relationshipQuery->withPivot($tempModel->getKeyName(), $tempModel->determineOrderColumnName())->find($request->resourceId)->{$pivot}
                     : null;
             } else {
-                $model = $relationshipQuery->first()->pivot ?? null;
+                $model = $relationshipQuery->first()->{$pivot} ?? null;
             }
 
             if (!$model || !self::canSort($request, $model)) {

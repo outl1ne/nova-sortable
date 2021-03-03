@@ -32,7 +32,9 @@ class SortableController
 
             // BelongsToMany
             if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
-                $relatedModels = $relatedModels->pluck('pivot');
+                $relatedModels = $relatedModels->pluck(
+                    $model->{$viaRelationship}()->getPivotAccessor()
+                );
             }
 
             $relatedModel = $relatedModels->first();
