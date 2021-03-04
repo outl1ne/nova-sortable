@@ -2,6 +2,7 @@
 
 namespace OptimistDigital\NovaSortable\Traits;
 
+use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -23,6 +24,8 @@ trait HasSortableRows
         } catch (\Exception $e) {
             return null;
         }
+
+        if ($request instanceof LensRequest) return null;
 
         $model = $resource->resource ?? $resource ?? null;
         if (!$model || !self::canSort($request, $model)) {
