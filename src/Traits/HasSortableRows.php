@@ -94,7 +94,7 @@ trait HasSortableRows
         $sortabilityData = ['has_sortable_trait' => true];
         $sortabilityData = array_merge($sortabilityData, $sortability->sortable ?? false ? [
             'sortable' => $sortability->sortable,
-            'sort_on_index' => $sortability->sortable && !$sortability->sortOnHasMany && !$sortability->sortOnBelongsTo,
+            'sort_on_index' => $sortability->sortable && !$sortability->sortOnHasMany,
             'sort_on_has_many' => $sortability->sortable && $sortability->sortOnHasMany,
             'sort_on_belongs_to' => $sortability->sortable && $sortability->sortOnBelongsTo,
         ] : ['sort_not_allowed' => !($sortability->canSort ?? true)]);
@@ -119,7 +119,8 @@ trait HasSortableRows
             if ($query->getQuery()->from === $sortabilityTable) {
                 $shouldSort = true;
                 if (empty($sortability->sortable)) $shouldSort = false;
-                if ($sortability->sortOnBelongsTo && empty($request->viaResource())) $shouldSort = false;
+                // Allow sorting on both index and pivot
+                // if ($sortability->sortOnBelongsTo && empty($request->viaResource())) $shouldSort = false;
                 if ($sortability->sortOnHasMany && empty($request->viaResource())) $shouldSort = false;
 
                 if (empty($request->get('orderBy')) && $shouldSort) {
