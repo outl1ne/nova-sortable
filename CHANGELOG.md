@@ -14,10 +14,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Restored support for BelongsTo + Index sorting
-- Updated packages
-
-### Changed
-
 - Hide sorting buttons on Lenses
 - Updated packages
 
