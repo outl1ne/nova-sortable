@@ -90,7 +90,7 @@ class SortableController
         if (empty($resourceClass)) return response()->json(['resourceName' => 'invalid'], 400);
 
         $modelClass = $resourceClass::$model;
-        if (method_exists($modelClass, 'withTrashed')) {
+        if (method_exists($modelClass, 'trashed')) {
             $models = $modelClass::withTrashed()->findMany($resourceIds);
         } else {
             $models = $modelClass::findMany($resourceIds);
