@@ -1,0 +1,10 @@
+{
+  "novaSortable.reorderingDisabledTooltip": "Zmiana kolejności jest wyłączona przy włączonym sortowaniu.",
+  "novaSortable.moveToStart": "Przenieś na początek",
+  "novaSortable.moveToEnd": "Przenieś na koniec",
+  "novaSortable.reorderSuccessful": "Kolejność zaktualizowana pomyślnie.",
+  "novaSortable.moveToStartSuccessful": "Pomyślnie przeniesiono na początek.",
+  "novaSortable.moveToEndSuccessful": "Pomyślnie przeniesiono na koniec.",
+  "novaSortable.reorderError": "Wystąpił błąd podczas zmiany pozycji.",
+  "novaSortable.reorderNotAllowedFor": "Zmiana pozycji zasobu o ID :id jest niedozwolona."
+}
