@@ -103,6 +103,27 @@ public static function canSort(NovaRequest $request, $resource)
 }
 ```
 
+## Custom sortable options
+
+### Ignoring policies
+
+If you have a resource that has `authorizedToUpdate` false, but you want the user to still be able to sort it, you can use the `ignore_policies` flag like so:
+
+```php
+class SomeModel extends Eloquent implements Sortable
+{
+  use SortableTrait;
+
+  public $sortable = [
+    'order_column_name' => 'sort_order',
+    'sort_when_creating' => true,
+    'ignore_policies' => true,
+  ];
+
+  ...
+}
+```
+
 ## Sorting on HasMany relationship
 
 **NB!** The resource can only be sorted on **either** the Index view **or** the HasMany list view, but not both!

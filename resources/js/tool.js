@@ -22,6 +22,10 @@ const canSortResource = (resource, relationshipType = void 0) => {
     }
   }
 
+  if (resource.sortable && resource.sortable.ignore_policies) {
+    return canSee;
+  }
+
   return canSee && resource.authorizedToUpdate;
 };
 
