@@ -1,11 +1,11 @@
 {
-  "novaSortable.reorderingDisabledTooltip.activeSort": "تغییر ترتیب با توجه به تنظیمات جاری غیرفعال است.",
-  "novaSortable.reorderingDisabledTooltip.notAllowed": "Reordering is not allowed for this resource.",
+  "novaSortable.reorderingDisabledTooltip.activeSort": "مرتب‌سازی با توجه به تنظیمات جاری غیرفعال است.",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "مرتب‌سازی این منبع مجاز نیست.",
   "novaSortable.moveToStart": "انتقال به ابتدا",
   "novaSortable.moveToEnd": "انتقال به انتها",
-  "novaSortable.reorderSuccessful": "مورد با موفقیت منتقل شد.",
-  "novaSortable.moveToStartSuccessful": "مورد با موفقیت به ابتدا منتقل شد.",
-  "novaSortable.moveToEndSuccessful": "مورد با موفقیت به انتها منتقل شد.",
-  "novaSortable.reorderError": "تلاش برای انتقال با خطا مواجه شد.",
-  "novaSortable.reorderNotAllowedFor": "Reordering resource with ID :id not allowed."
+  "novaSortable.reorderSuccessful": "منبع با موفقیت مرتب شد.",
+  "novaSortable.moveToStartSuccessful": "منبع با موفقیت به ابتدا منتقل شد.",
+  "novaSortable.moveToEndSuccessful": "منبع با موفقیت به انتها منتقل شد.",
+  "novaSortable.reorderError": "هنگام مرتب‌سازی منبع خطایی رخ داد.",
+  "novaSortable.reorderNotAllowedFor": "مرتب‌سازی منبع با شناسه :id مجاز نیست."
 }
