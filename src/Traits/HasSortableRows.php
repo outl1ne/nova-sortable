@@ -19,7 +19,7 @@ trait HasSortableRows
 
         try {
             if ($resource === null) {
-                $resource = isset($request->resourceId) ? $request->findResourceOrFail() : $request->newResource();
+                $resource = !empty($request->resourceId) ? $request->findResourceOrFail() : $request->newResource();
             }
         } catch (\Exception $e) {
             return null;
