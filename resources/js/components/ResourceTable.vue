@@ -126,7 +126,6 @@ export default {
      */
     deleteResource(resource) {
       this.$emit('delete', [resource]);
-      Nova.$emit('metric-refresh');
     },
 
     /**
@@ -134,7 +133,6 @@ export default {
      */
     restoreResource(resource) {
       this.$emit('restore', [resource]);
-      Nova.$emit('metric-refresh');
     },
 
     /**
