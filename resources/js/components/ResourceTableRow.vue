@@ -1,5 +1,5 @@
 <template>
-  <tr :dusk="resource['id'].value + '-row'">
+  <tr :dusk="resource['id'].value + '-row'" :data-pivot-id="resource['id'].pivotValue">
     <!-- Resource Selection Checkbox -->
     <td class="w-16" v-if="shouldShowCheckboxes || canSeeReorderButtons">
       <!-- Reorder buttons -->
@@ -86,6 +86,7 @@
               },
               query: {
                 viaRelationship: viaRelationship,
+                viaPivotId: resource['id'].pivotValue,
               },
             }"
           >
