@@ -31,9 +31,9 @@
         <th>&nbsp;</th>
       </tr>
     </thead>
-    <draggable v-model="resources" tag="tbody" handle=".handle" @update="updateOrder">
+    <draggable v-model="fakeResources" tag="tbody" handle=".handle" @update="updateOrder">
       <tr
-        v-for="(resource, index) in resources"
+        v-for="(resource, index) in fakeResources"
         @actionExecuted="$emit('actionExecuted')"
         :testId="`${resourceName}-items-${index}`"
         :key="resource.id.value"

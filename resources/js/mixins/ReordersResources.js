@@ -3,12 +3,16 @@ import { canSortResource } from '../tool';
 export default {
   data: () => ({
     reorderLoading: false,
+    fakeResources: [],
   }),
   computed: {
     canSeeReorderButtons() {
       const resource = this.resource || (this.resources && this.resources[0]);
       return resource ? canSortResource(resource, this.relationshipType) : false;
     },
+  },
+  beforeMount() {
+    this.fakeResources = this.resources;
   },
   methods: {
     async updateOrder(event) {
