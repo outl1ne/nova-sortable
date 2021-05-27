@@ -21,7 +21,7 @@ export default {
       try {
         await Nova.request().post(`/nova-vendor/nova-sortable/sort/${this.resourceName}/update-order`, {
           resourceId: null,
-          resourceIds: this.resources.map(r => r.id.value),
+          resourceIds: this.fakeResources.map(r => r.id.value),
           viaResource: this.viaResource,
           viaResourceId: this.viaResourceId,
           viaRelationship: this.viaRelationship,
