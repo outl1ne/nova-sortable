@@ -42,7 +42,7 @@ import { canSortResource } from '../tool';
 
 export default {
   components: { ChevronUpIcon, ChevronDownIcon, BurgerIcon },
-  props: ['resource', 'reorderDisabled', 'viaResourceId', 'relationshipType', 'viaRelationship', 'resourceName'],
+  props: ['resource', 'viaResourceId', 'relationshipType', 'viaRelationship', 'resourceName'],
   computed: {
     tooltipClasses() {
       return ['bg-white', 'px-3', 'py-2', 'rounded', 'border', 'border-50', 'shadow', 'text-sm', 'leading-normal'];
