@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.4] - 2021-07-05
+
+### Changed
+
+- Fixed Vue runtime warning - `reorderDisabled is already defined as a prop`
+- Fixed compatibility with Nova 3.27 (thanks to [@mstaack](https://github.com/mstaack))
+- Updated packages
+
 ## [2.3.3] - 2021-05-27
 
 ### Changed
