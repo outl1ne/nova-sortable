@@ -33,6 +33,7 @@
         :resource-name="resourceName"
         :via-resource="viaResource"
         :via-resource-id="viaResourceId"
+        :resource="resource"
         :field="field"
       />
     </td>
