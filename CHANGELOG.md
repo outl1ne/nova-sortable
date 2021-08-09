@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.4.0] - 2021-08-09
 
-### Changed
+### Added
 
 - Added `nova_order_by` property to `$sortable` (thanks to [@lisotton](https://github.com/lisotton))
 - Added `pt-BR` translations (thanks to [@lisotton](https://github.com/lisotton))
+
+### Changed
+
 - Updated packages
 
 ## [2.3.4] - 2021-07-05
