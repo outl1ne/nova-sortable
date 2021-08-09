@@ -105,6 +105,25 @@ public static function canSort(NovaRequest $request, $resource)
 
 ## Custom sortable options
 
+### Nova sorting order
+
+To sort your resource in a different order in Nova, you can set the `nova_order_by` flag to `DESC` (`ASC` by default) in the `$sortable` array.
+
+```php
+class SomeModel extends Eloquent implements Sortable
+{
+  use SortableTrait;
+
+  public $sortable = [
+    'order_column_name' => 'sort_order',
+    'sort_when_creating' => true,
+    'nova_order_by' => 'DESC',
+  ];
+
+  ...
+}
+```
+
 ### Ignoring policies
 
 If you have a resource that has `authorizedToUpdate` false, but you want the user to still be able to sort it, you can use the `ignore_policies` flag like so:
