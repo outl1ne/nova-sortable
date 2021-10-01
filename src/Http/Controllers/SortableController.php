@@ -22,7 +22,7 @@ class SortableController
 
         // Reverse the array if it is configured to order by DESC.
         if (HasSortableRows::getOrderByDirection($validationResult->sortable) === 'DESC') {
-          $resourceIds = array_reverse($resourceIds);
+            $resourceIds = array_reverse($resourceIds);
         }
 
         // Relationship sorting
@@ -178,5 +178,4 @@ class SortableController
         }
         return $improvedSortedOrder;
     }
-
 }

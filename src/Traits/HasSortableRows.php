@@ -8,6 +8,8 @@ use Spatie\EloquentSortable\SortableTrait;
 
 trait HasSortableRows
 {
+    private static $cachedSortability = null;
+
     public static function canSort(NovaRequest $request, $resource)
     {
         return true;
@@ -15,6 +17,8 @@ trait HasSortableRows
 
     public static function getSortability(NovaRequest $request, $resource = null)
     {
+        if (static::$cachedSortability) return static::$cachedSortability;
+
         $model = null;
 
         try {
@@ -29,7 +33,7 @@ trait HasSortableRows
 
         $model = $resource->resource ?? $resource ?? null;
         if (!$model || !self::canSort($request, $model)) {
-            return (object)['canSort' => false];
+            return (static::$cachedSortability = (object)['canSort' => false]);
         }
 
         $sortable = self::getSortabilityConfiguration($model);
@@ -50,7 +54,7 @@ trait HasSortableRows
             }
 
             if (!$model || !self::canSort($request, $model)) {
-                return (object)['canSort' => false];
+                return (static::$cachedSortability = (object)['canSort' => false]);
             }
         }
 
@@ -75,12 +79,12 @@ trait HasSortableRows
             }
         }
 
-        return (object) [
+        return (static::$cachedSortability = (object)[
             'model' => $model,
             'sortable' => $sortable,
             'sortOnBelongsTo' => $sortOnBelongsTo,
             'sortOnHasMany' => $sortOnHasMany,
-        ];
+        ]);
     }
 
     public function serializeForIndex(NovaRequest $request, $fields = null)
@@ -155,9 +159,9 @@ trait HasSortableRows
         return array_merge($defaultConfiguration, $model->sortable);
     }
 
-  /**
-   * Get the orderBy direction.
-   */
+    /**
+     * Get the orderBy direction.
+     */
     public static function getOrderByDirection($config)
     {
         $order = 'ASC';
