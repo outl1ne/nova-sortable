@@ -103,6 +103,23 @@ public static function canSort(NovaRequest $request, $resource)
 }
 ```
 
+NB! This requires you to disable caching (see below).
+
+### Disabling caching
+
+If you want to disable caching due to using `canSort` or running tests, you can set `sortableCacheEnabled` to false on the resource that has the `HasSortableRows` trait. See the example below:
+
+```php
+class Artist extends Resource
+{
+    use HasSortableRows;
+
+    public static $sortableCacheEnabled = false;
+}
+```
+
+Or if you want to temporarily disable sortability cache (for tests), you can call `Resource::disableSortabilityCache()` on the resource.
+
 ## Custom sortable options
 
 ### Nova sorting order

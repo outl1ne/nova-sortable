@@ -2,13 +2,14 @@
 
 namespace OptimistDigital\NovaSortable\Traits;
 
+use Spatie\EloquentSortable\SortableTrait;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Spatie\EloquentSortable\SortableTrait;
 
 trait HasSortableRows
 {
-    private static $cachedSortability = null;
+    protected static $_sortabilityCacheEnabled = true;
+    protected static $sortabilityCache = [];
 
     public static function canSort(NovaRequest $request, $resource)
     {
@@ -17,7 +18,9 @@ trait HasSortableRows
 
     public static function getSortability(NovaRequest $request, $resource = null)
     {
-        if (static::$cachedSortability) return static::$cachedSortability;
+        if (static::sortableCacheEnabled() && !empty(static::$sortabilityCache[static::class])) {
+            return static::$sortabilityCache[static::class];
+        }
 
         $model = null;
 
@@ -33,7 +36,7 @@ trait HasSortableRows
 
         $model = $resource->resource ?? $resource ?? null;
         if (!$model || !self::canSort($request, $model)) {
-            return (static::$cachedSortability = (object)['canSort' => false]);
+            return (static::$sortabilityCache[static::class] = (object)['canSort' => false]);
         }
 
         $sortable = self::getSortabilityConfiguration($model);
@@ -54,7 +57,7 @@ trait HasSortableRows
             }
 
             if (!$model || !self::canSort($request, $model)) {
-                return (static::$cachedSortability = (object)['canSort' => false]);
+                return (static::$sortabilityCache[static::class] = (object)['canSort' => false]);
             }
         }
 
@@ -79,7 +82,7 @@ trait HasSortableRows
             }
         }
 
-        return (static::$cachedSortability = (object)[
+        return (static::$sortabilityCache[static::class] = (object)[
             'model' => $model,
             'sortable' => $sortable,
             'sortOnBelongsTo' => $sortOnBelongsTo,
@@ -169,5 +172,22 @@ trait HasSortableRows
             $order = strtoupper($config['nova_order_by']);
         }
         return $order;
+    }
+
+
+    // ------------------------------
+    // -- Cache helpers
+    // ------------------------------
+
+    public static function sortableCacheEnabled()
+    {
+        if (!static::$_sortabilityCacheEnabled) return false;
+        if (isset(static::$sortableCacheEnabled)) return static::$sortableCacheEnabled;
+        return true;
+    }
+
+    public static function disableSortabilityCache()
+    {
+        static::$_sortabilityCacheEnabled = false;
     }
 }
