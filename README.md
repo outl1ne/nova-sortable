@@ -204,6 +204,21 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSortable\ToolServiceP
 
 You can add your translations to `resources/lang/vendor/nova-sortable/` by creating a new translations file with the locale name (ie `et.json`) and copying the JSON from the existing `en.json`.
 
+## Other usecases
+
+### Using indexQuery
+
+This package overwrites the `indexQuery` of the Resource and if you still want to use it, you can do it as follows:
+
+```php
+public static function indexQuery(NovaRequest $request, $query)
+{
+  // Do whatever with the query
+  // ie $query->withCount(['children', 'descendants', 'modules']);
+  return parent::indexQuery($request, HasSortableRows::indexQuery($request, $query));
+}
+```
+
 ## Credits
 
 - [Tarvo Reinpalu](https://github.com/Tarpsvo)
