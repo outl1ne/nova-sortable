@@ -9,7 +9,7 @@ Uses Spatie's [eloquent-sortable](https://github.com/spatie/eloquent-sortable) u
 
 ## Requirements
 
-- `php: >=7.3`
+- `php: ^7.2.0|^8.0.2`
 - `laravel/nova: ^3.0`
 
 ## Features
