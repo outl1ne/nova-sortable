@@ -11,7 +11,7 @@
   "require": {
     "php": ">=7.3.0",
     "spatie/eloquent-sortable": "^3.10.0|^4.0",
-    "laravel/nova": "^3.0",
+    "laravel/nova": "^3.0|^4.0",
     "optimistdigital/nova-translations-loader": "^3.0.0"
   },
   "autoload": {
