@@ -2,10 +2,10 @@ import ResourceTable from './components/ResourceTable';
 import ResourceTableRow from './components/ResourceTableRow';
 import ReorderButtons from './components/ReorderButtons';
 
-Nova.booting((Vue, router, store) => {
-  Vue.component('resource-table', ResourceTable);
-  Vue.component('resource-table-row', ResourceTableRow);
-  Vue.component('reorder-buttons', ReorderButtons);
+Nova.booting((app, router, store) => {
+  app.component('resource-table', ResourceTable);
+  app.component('resource-table-row', ResourceTableRow);
+  app.component('reorder-buttons', ReorderButtons);
 });
 
 const canSortResource = (resource, relationshipType = void 0) => {
