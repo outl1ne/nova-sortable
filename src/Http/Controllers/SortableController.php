@@ -80,7 +80,7 @@ class SortableController
                 foreach ($resourceIds as $i => $id) {
                     $_model = $relatedModelsCopy->firstWhere($relatedKeyName, $id);
                     $relatedModelsCopy = $relatedModelsCopy->forget($relatedModelsCopy->search($_model));
-                    $sortOrderNr = $sortedOrder[$i];
+                    $sortOrderNr = $i;
 
                     $_model->{$orderColumnName} = $sortOrderNr;
                     $_model->save();
