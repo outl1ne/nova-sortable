@@ -1,72 +1,73 @@
 <template>
-  <table
-    v-if="resources.length > 0"
-    class="table w-full"
-    :class="[`table-${resourceInformation.tableStyle}`, resourceInformation.showColumnBorders ? 'table-grid' : '']"
-    cellpadding="0"
-    cellspacing="0"
-    data-testid="resource-table"
-  >
-    <thead>
-      <tr>
-        <!-- Select Checkbox -->
-        <th class="w-16" v-if="shouldShowCheckboxes || canSeeReorderButtons">&nbsp;</th>
-
-        <!-- Field Names -->
-        <th v-for="field in fields" :class="`text-${field.textAlign}`">
-          <sortable-icon
-            @sort="requestOrderByChange(field)"
-            @reset="resetOrderBy(field)"
-            :resource-name="resourceName"
-            :uri-key="field.sortableUriKey"
-            v-if="field.sortable"
-          >
-            {{ field.indexName }}
-          </sortable-icon>
-
-          <span v-else>{{ field.indexName }}</span>
-        </th>
-
-        <!-- Actions, View, Edit, Delete -->
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-    <draggable v-model="fakeResources" tag="tbody" handle=".handle" @update="updateOrder">
-      <tr
-        v-for="(resource, index) in fakeResources"
-        @actionExecuted="$emit('actionExecuted')"
-        :testId="`${resourceName}-items-${index}`"
-        :key="resource.id.value"
-        :delete-resource="deleteResource"
-        :restore-resource="restoreResource"
-        is="resource-table-row"
-        :resource="resource"
+  <div class="overflow-hidden overflow-x-auto relative">
+    <table
+      v-if="resources.length > 0"
+      class="w-full"
+      :class="[`table-${tableStyle}`]"
+      cellpadding="0"
+      cellspacing="0"
+      data-testid="resource-table"
+    >
+      <ResourceTableHeader
         :resource-name="resourceName"
-        :relationship-type="relationshipType"
-        :via-relationship="viaRelationship"
-        :via-resource="viaResource"
-        :via-resource-id="viaResourceId"
-        :via-many-to-many="viaManyToMany"
-        :checked="selectedResources.indexOf(resource) > -1"
-        :actions-are-available="actionsAreAvailable"
-        :actions-endpoint="actionsEndpoint"
+        :fields="fields"
+        :should-show-column-borders="shouldShowColumnBorders"
         :should-show-checkboxes="shouldShowCheckboxes"
-        :update-selection-status="updateSelectionStatus"
-        @moveToStart="moveToStart(resource)"
-        @moveToEnd="moveToEnd(resource)"
+        :sortable="sortable"
+        @order="requestOrderByChange"
+        @reset-order-by="resetOrderBy"
       />
-    </draggable>
-  </table>
+      <draggable
+        tag="tbody"
+        item-key="id"
+        v-model="fakeResources"
+        handle=".handle"
+        draggable="tr"
+        @update="updateOrder"
+      >
+        <ResourceTableRow
+          v-for="(resource, index) in fakeResources"
+          :key="`${resource.id.value}-items-${index}`"
+          @actionExecuted="$emit('actionExecuted')"
+          :testId="`${resourceName}-items-${index}`"
+          :delete-resource="deleteResource"
+          :restore-resource="restoreResource"
+          :resource="resource"
+          :resource-name="resourceName"
+          :relationship-type="relationshipType"
+          :via-relationship="viaRelationship"
+          :via-resource="viaResource"
+          :via-resource-id="viaResourceId"
+          :via-many-to-many="viaManyToMany"
+          :checked="selectedResources.indexOf(resource) > -1"
+          :actions-are-available="actionsAreAvailable"
+          :actions-endpoint="actionsEndpoint"
+          :should-show-checkboxes="shouldShowCheckboxes"
+          :should-show-column-borders="shouldShowColumnBorders"
+          :table-style="tableStyle"
+          :update-selection-status="updateSelectionStatus"
+          @moveToStart="moveToStart(resource)"
+          @moveToEnd="moveToEnd(resource)"
+        />
+      </draggable>
+    </table>
+  </div>
 </template>
 
 <script>
-import { InteractsWithResourceInformation } from 'laravel-nova';
-import Draggable from 'vuedraggable';
+import { InteractsWithResourceInformation } from 'laravel-nova-mixins';
+import { VueDraggableNext } from 'vue-draggable-next';
 import ReordersResources from '../mixins/ReordersResources';
 
 export default {
+  emits: ['actionExecuted', 'updateOrder', 'delete', 'restore', 'order', 'reset-order-by'],
+
   mixins: [InteractsWithResourceInformation, ReordersResources],
-  components: { Draggable },
+
+  components: {
+    draggable: VueDraggableNext,
+  },
+
   props: {
     authorizedToRelate: {
       type: Boolean,
@@ -111,6 +112,10 @@ export default {
     },
     actionsEndpoint: {
       default: null,
+    },
+    sortable: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -172,6 +177,17 @@ export default {
      */
     viaHasOne() {
       return this.relationshipType == 'hasOne' || this.relationshipType == 'morphOne';
+    },
+
+    /**
+     * Determine if the resource table should show column borders.
+     */
+    shouldShowColumnBorders() {
+      return this.resourceInformation.showColumnBorders;
+    },
+
+    tableStyle() {
+      return this.resourceInformation.tableStyle;
     },
   },
 };

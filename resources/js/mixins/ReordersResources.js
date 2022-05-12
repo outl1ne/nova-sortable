@@ -5,6 +5,7 @@ export default {
     reorderLoading: false,
     fakeResources: [],
   }),
+  emits: ['updateOrder', 'moveToStart', 'moveToEnd'],
   computed: {
     canSeeReorderButtons() {
       const resource = this.resource || (this.resources && this.resources[0]);
