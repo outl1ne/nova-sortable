@@ -38,7 +38,7 @@
 import ChevronUpIcon from '../icons/ChevronUpIcon';
 import ChevronDownIcon from '../icons/ChevronDownIcon';
 import BurgerIcon from '../icons/BurgerIcon';
-import { canSortResource } from '../tool';
+import { canSortResource } from '../mixins/canSortResource';
 
 export default {
   components: { ChevronUpIcon, ChevronDownIcon, BurgerIcon },

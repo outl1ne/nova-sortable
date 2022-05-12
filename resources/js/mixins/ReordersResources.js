@@ -1,4 +1,4 @@
-import { canSortResource } from '../tool';
+import { canSortResource } from './canSortResource';
 
 export default {
   data: () => ({
