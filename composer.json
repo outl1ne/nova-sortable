@@ -14,11 +14,18 @@
     "laravel/nova": "^4.0",
     "optimistdigital/nova-translations-loader": "^4.0"
   },
+   "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "OptimistDigital\\NovaSortable\\": "src/"
     }
   },
+
   "extra": {
     "laravel": {
       "providers": [
