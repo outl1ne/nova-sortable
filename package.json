@@ -10,19 +10,19 @@
     "production": "mix --production"
   },
   "devDependencies": {
-    "@vue/compat": "^3.1.0",
-    "@vue/compiler-sfc": "^3.2.22",
-    "cross-env": "^5.2.1",
+    "@vue/compat": "^3.2.33",
+    "@vue/compiler-sfc": "^3.2.33",
+    "cross-env": "^7.0.3",
     "laravel-mix": "^6.0.43",
-    "postcss": "^8.3.11",
-    "resolve-url-loader": "^2.3.2",
+    "postcss": "^8.4.13",
+    "resolve-url-loader": "^5.0.0",
     "sass": "^1.51.0",
     "sass-loader": "^12.6.0",
-    "vue-loader": "^16.8.3"
+    "vue-loader": "^17.0.0"
   },
   "dependencies": {
     "@inertiajs/inertia": "^0.11.0",
-    "vue": "^3.0",
+    "vue": "^3.2.33",
     "vue-draggable-next": "^2.1.1",
     "vuex": "^4.0.2"
   }
