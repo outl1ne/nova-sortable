@@ -5,7 +5,7 @@ require('./nova.mix');
 
 mix
   .setPublicPath('dist')
-  .js('resources/js/tool.js', 'js')
+  .js('resources/js/entry.js', 'js')
   .vue({ version: 3 })
   .nova('outl1ne/nova-sortable')
   .alias({
