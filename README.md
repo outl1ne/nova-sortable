@@ -1,7 +1,7 @@
 # Nova Sortable
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/optimistdigital/nova-sortable.svg?style=flat-square)](https://packagist.org/packages/optimistdigital/nova-sortable)
-[![Total Downloads](https://img.shields.io/packagist/dt/optimistdigital/nova-sortable.svg?style=flat-square)](https://packagist.org/packages/optimistdigital/nova-sortable)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/outl1ne/nova-sortable.svg?style=flat-square)](https://packagist.org/packages/outl1ne/nova-sortable)
+[![Total Downloads](https://img.shields.io/packagist/dt/outl1ne/nova-sortable.svg?style=flat-square)](https://packagist.org/packages/outl1ne/nova-sortable)
 
 This [Laravel Nova](https://nova.laravel.com) package allows you to reorder models in a Nova resource's index view using drag & drop.
 
@@ -30,7 +30,7 @@ Install the package in a Laravel Nova project via Composer:
 
 ```bash
 # Install package
-composer require optimistdigital/nova-sortable
+composer require outl1ne/nova-sortable
 ```
 
 ## Usage
@@ -77,7 +77,7 @@ When the model does not have a sortable configuration, the default eloquent-sort
 Apply `HasSortableRows` trait from this package on the Resource:
 
 ```php
-use OptimistDigital\NovaSortable\Traits\HasSortableRows;
+use Outl1ne\NovaSortable\Traits\HasSortableRows;
 
 class MyResource extends Resource
 {
@@ -199,7 +199,7 @@ See the documentation here: [Sorting ManyToMany relationships (w/ pivot table)](
 The translation file(s) can be published by using the following publish command:
 
 ```bash
-php artisan vendor:publish --provider="OptimistDigital\NovaSortable\ToolServiceProvider" --tag="translations"
+php artisan vendor:publish --provider="Outl1ne\NovaSortable\ToolServiceProvider" --tag="translations"
 ```
 
 You can add your translations to `resources/lang/vendor/nova-sortable/` by creating a new translations file with the locale name (ie `et.json`) and copying the JSON from the existing `en.json`.

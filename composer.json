@@ -1,20 +1,21 @@
 {
-  "name": "optimistdigital/nova-sortable",
+  "name": "outl1ne/nova-sortable",
   "description": "This Laravel Nova package allows you to reorder models in a Nova resource's index view using drag & drop.",
   "keywords": [
     "laravel",
     "nova",
     "eloquent-sortable",
-    "optimistdigital"
+    "optimistdigital",
+    "outl1ne"
   ],
   "license": "MIT",
   "require": {
     "php": ">=7.3.0",
     "spatie/eloquent-sortable": "^3.10.0|^4.0",
     "laravel/nova": "^4.0",
-    "optimistdigital/nova-translations-loader": "^4.0"
+    "outl1ne/nova-translations-loader": "^5.0"
   },
-   "repositories": [
+  "repositories": [
     {
       "type": "composer",
       "url": "https://nova.laravel.com"
@@ -22,14 +23,13 @@
   ],
   "autoload": {
     "psr-4": {
-      "OptimistDigital\\NovaSortable\\": "src/"
+      "Outl1ne\\NovaSortable\\": "src/"
     }
   },
-
   "extra": {
     "laravel": {
       "providers": [
-        "OptimistDigital\\NovaSortable\\ToolServiceProvider"
+        "Outl1ne\\NovaSortable\\ToolServiceProvider"
       ]
     }
   },

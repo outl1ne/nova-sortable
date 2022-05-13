@@ -1,12 +1,12 @@
 <?php
 
-namespace OptimistDigital\NovaSortable;
+namespace Outl1ne\NovaSortable;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use OptimistDigital\NovaTranslationsLoader\LoadsNovaTranslations;
+use Outl1ne\NovaTranslationsLoader\LoadsNovaTranslations;
 
 class ToolServiceProvider extends ServiceProvider
 {
@@ -37,7 +37,7 @@ class ToolServiceProvider extends ServiceProvider
         Route::middleware(['nova'])
             ->prefix('nova-vendor/nova-sortable')
             ->domain(config('nova.domain', null))
-            ->namespace('\OptimistDigital\NovaSortable\Http\Controllers')
+            ->namespace('\Outl1ne\NovaSortable\Http\Controllers')
             ->group(__DIR__ . '/../routes/api.php');
     }
 }
