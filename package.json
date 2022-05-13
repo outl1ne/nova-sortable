@@ -11,9 +11,11 @@
     "format": "prettier --write 'resources/**/*.{js,scss,vue}'"
   },
   "devDependencies": {
+    "@vue/babel-plugin-jsx": "^1.1.1",
     "@vue/compat": "^3.2.33",
     "@vue/compiler-sfc": "^3.2.33",
-    "cross-env": "^7.0.3",
+    "form-backend-validation": "^2.4.0",
+    "inflector-js": "^1.0.1",
     "laravel-mix": "^6.0.43",
     "postcss": "^8.4.13",
     "prettier": "^2.6.2",
