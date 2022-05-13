@@ -9,6 +9,8 @@ Uses Spatie's [eloquent-sortable](https://github.com/spatie/eloquent-sortable) u
 
 ## Requirements
 
+**NB! Will not working until Nova releases a fix for Vue component overriding. Possibly coming in ^4.5.5.**
+
 - `php: >=8.0`
 - `laravel/nova: ^4.5.4`
 
