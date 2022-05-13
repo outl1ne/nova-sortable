@@ -10,7 +10,7 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=7.3.0",
+    "php": ">=8.0",
     "spatie/eloquent-sortable": "^3.10.0|^4.0",
     "laravel/nova": "^4.0",
     "outl1ne/nova-translations-loader": "^5.0"
