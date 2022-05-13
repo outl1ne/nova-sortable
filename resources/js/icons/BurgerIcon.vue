@@ -4,7 +4,7 @@
     viewBox="0 0 24 24"
     width="22"
     height="22"
-    style="flex-shrink: 0;"
+    style="flex-shrink: 0"
     class="ml-2 fill-current"
     :class="customClass"
     @click="$emit('click')"
