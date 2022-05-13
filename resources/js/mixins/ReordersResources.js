@@ -1,10 +1,11 @@
-import { canSortResource } from '../tool';
+import { canSortResource } from './canSortResource';
 
 export default {
   data: () => ({
     reorderLoading: false,
     fakeResources: [],
   }),
+  emits: ['updateOrder', 'moveToStart', 'moveToEnd'],
   computed: {
     canSeeReorderButtons() {
       const resource = this.resource || (this.resources && this.resources[0]);

@@ -1,9 +1,24 @@
 <template>
-  <tr :dusk="resource['id'].value + '-row'" :data-pivot-id="resource['id'].pivotValue">
+  <tr
+    :data-pivot-id="resource['id'].pivotValue"
+    :dusk="resource['id'].value + '-row'"
+    class="group"
+    @click.stop.prevent="navigateToDetail"
+  >
     <!-- Resource Selection Checkbox -->
-    <td class="w-16" v-if="shouldShowCheckboxes || canSeeReorderButtons">
-      <!-- Reorder buttons -->
-      <reorder-buttons
+
+    <td
+      v-if="shouldShowCheckboxes || canSeeReorderButtons"
+      :class="{
+        'py-2': !shouldShowTight,
+        'border-r': shouldShowColumnBorders,
+        'border-t border-gray-100 dark:border-gray-700 px-2': true,
+        'cursor-pointer': resource.authorizedToView,
+      }"
+      class="td-fit pl-5 pr-5 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
+      @click.stop
+    >
+      <ReorderButtons
         :resource="resource"
         :relationship-type="relationshipType"
         :via-resource-id="viaResourceId"
@@ -12,173 +27,178 @@
         @moveToEnd="$emit('moveToEnd')"
         @moveToStart="$emit('moveToStart')"
       >
-        <template slot="checkbox">
-          <checkbox
-            :data-testid="`${testId}-checkbox`"
-            :dusk="`${resource['id'].value}-checkbox`"
-            v-if="shouldShowCheckboxes"
-            :checked="checked"
-            @input="toggleSelection"
-          />
-        </template>
-      </reorder-buttons>
-      <!-- End reorder buttons -->
+        <Checkbox
+          v-if="shouldShowCheckboxes"
+          :aria-label="__('Select Resource :title', { title: resource.title })"
+          :checked="checked"
+          :data-testid="`${testId}-checkbox`"
+          :dusk="`${resource['id'].value}-checkbox`"
+          @input="toggleSelection"
+        />
+      </ReorderButtons>
     </td>
 
     <!-- Fields -->
-    <td v-for="field in resource.fields">
+    <td
+      v-for="(field, index) in resource.fields"
+      :key="field.uniqueKey"
+      :class="{
+        'px-6': index == 0 && !shouldShowCheckboxes,
+        'px-2': index != 0 || shouldShowCheckboxes,
+        'py-2': !shouldShowTight,
+        'border-r': shouldShowColumnBorders,
+        'border-t border-gray-100 dark:border-gray-700': true,
+        'whitespace-nowrap': !field.wrapping,
+        'cursor-pointer': resource.authorizedToView,
+      }"
+      class="dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
+    >
       <component
         :is="'index-' + field.component"
         :class="`text-${field.textAlign}`"
+        :field="field"
+        :resource="resource"
         :resource-name="resourceName"
         :via-resource="viaResource"
         :via-resource-id="viaResourceId"
-        :resource="resource"
-        :field="field"
       />
     </td>
 
-    <td class="td-fit text-right pr-6 align-middle">
-      <div class="inline-flex items-center">
-        <!-- Actions Menu -->
-        <inline-action-selector
-          v-if="availableActions.length > 0"
-          class="mr-3"
-          :resource="resource"
-          :resource-name="resourceName"
+    <td
+      :class="{
+        'py-2': !shouldShowTight,
+        'border-t border-gray-100 dark:border-gray-700': true,
+        'cursor-pointer': resource.authorizedToView,
+      }"
+      class="px-2 td-fit text-right align-middle dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
+    >
+      <div class="flex items-center space-x-0 text-gray-400">
+        <InlineActionDropdown
           :actions="availableActions"
           :endpoint="actionsEndpoint"
+          :resource="resource"
+          :resource-name="resourceName"
+          :via-many-to-many="viaManyToMany"
+          :via-resource="viaResource"
+          :via-resource-id="viaResourceId"
+          :via-relationship="viaRelationship"
           @actionExecuted="$emit('actionExecuted')"
         />
 
         <!-- View Resource Link -->
-        <span v-if="resource.authorizedToView" class="inline-flex">
-          <router-link
+        <template v-if="resource.authorizedToView">
+          <Link
+            v-tooltip.click="__('View')"
+            :aria-label="__('View')"
             :data-testid="`${testId}-view-button`"
             :dusk="`${resource['id'].value}-view-button`"
-            class="cursor-pointer text-70 hover:text-primary mr-3 inline-flex items-center"
-            v-tooltip.click="__('View')"
-            :to="{
-              name: 'detail',
-              params: {
-                resourceName: resourceName,
-                resourceId: resource['id'].value,
-              },
-            }"
+            :href="$url(`/resources/${resourceName}/${resource['id'].value}`)"
+            class="toolbar-button hover:text-primary-500 px-2"
+            @click.stop
           >
-            <icon type="view" width="22" height="18" view-box="0 0 22 16" />
-          </router-link>
-        </span>
+            <Icon type="eye" />
+          </Link>
+        </template>
 
-        <span v-if="resource.authorizedToUpdate" class="inline-flex">
+        <template v-if="resource.authorizedToUpdate">
           <!-- Edit Pivot Button -->
-          <router-link
+          <Link
             v-if="relationshipType == 'belongsToMany' || relationshipType == 'morphToMany'"
-            class="inline-flex cursor-pointer text-70 hover:text-primary mr-3"
-            :dusk="`${resource['id'].value}-edit-attached-button`"
             v-tooltip.click="__('Edit Attached')"
-            :to="{
-              name: 'edit-attached',
-              params: {
-                resourceName: viaResource,
-                resourceId: viaResourceId,
-                relatedResourceName: resourceName,
-                relatedResourceId: resource['id'].value,
-              },
-              query: {
+            :aria-label="__('Edit Attached')"
+            :dusk="`${resource['id'].value}-edit-attached-button`"
+            :href="
+              $url(`/resources/${viaResource}/${viaResourceId}/edit-attached/${resourceName}/${resource['id'].value}`, {
                 viaRelationship: viaRelationship,
                 viaPivotId: resource['id'].pivotValue,
-              },
-            }"
+              })
+            "
+            class="toolbar-button hover:text-primary-500"
+            @click.stop
           >
-            <icon type="edit" />
-          </router-link>
+            <Icon type="pencil-alt" />
+          </Link>
 
           <!-- Edit Resource Link -->
-          <router-link
+          <Link
             v-else
-            class="inline-flex cursor-pointer text-70 hover:text-primary mr-3"
+            v-tooltip.click="__('Edit')"
+            :aria-label="__('Edit')"
             :dusk="`${resource['id'].value}-edit-button`"
-            :to="{
-              name: 'edit',
-              params: {
-                resourceName: resourceName,
-                resourceId: resource['id'].value,
-              },
-              query: {
+            :href="
+              $url(`/resources/${resourceName}/${resource['id'].value}/edit`, {
                 viaResource: viaResource,
                 viaResourceId: viaResourceId,
                 viaRelationship: viaRelationship,
-              },
-            }"
-            v-tooltip.click="__('Edit')"
+              })
+            "
+            class="toolbar-button hover:text-primary-500 px-2"
+            @click.stop
           >
-            <icon type="edit" />
-          </router-link>
-        </span>
+            <Icon type="pencil-alt" />
+          </Link>
+        </template>
 
         <!-- Delete Resource Link -->
         <button
+          v-if="resource.authorizedToDelete && (!resource.softDeleted || viaManyToMany)"
+          v-tooltip.click="__(viaManyToMany ? 'Detach' : 'Delete')"
+          :aria-label="__(viaManyToMany ? 'Detach' : 'Delete')"
           :data-testid="`${testId}-delete-button`"
           :dusk="`${resource['id'].value}-delete-button`"
-          class="inline-flex appearance-none cursor-pointer text-70 hover:text-primary mr-3"
-          v-tooltip.click="__(viaManyToMany ? 'Detach' : 'Delete')"
-          v-if="resource.authorizedToDelete && (!resource.softDeleted || viaManyToMany)"
-          @click.prevent="openDeleteModal"
+          class="toolbar-button hover:text-primary-500 px-2"
+          @click.stop="openDeleteModal"
         >
-          <icon />
+          <Icon type="trash" />
         </button>
 
         <!-- Restore Resource Link -->
         <button
-          :dusk="`${resource['id'].value}-restore-button`"
-          class="appearance-none cursor-pointer text-70 hover:text-primary mr-3"
           v-if="resource.authorizedToRestore && resource.softDeleted && !viaManyToMany"
           v-tooltip.click="__('Restore')"
-          @click.prevent="openRestoreModal"
+          :aria-label="__('Restore')"
+          :dusk="`${resource['id'].value}-restore-button`"
+          class="toolbar-button hover:text-primary-500 px-2"
+          @click.stop="openRestoreModal"
         >
-          <icon type="restore" with="20" height="21" />
+          <Icon type="refresh" />
         </button>
 
-        <portal to="modals" transition="fade-transition" v-if="deleteModalOpen || restoreModalOpen">
-          <delete-resource-modal
-            v-if="deleteModalOpen"
-            @confirm="confirmDelete"
-            @close="closeDeleteModal"
-            :mode="viaManyToMany ? 'detach' : 'delete'"
-          >
-            <div slot-scope="{ uppercaseMode, mode }" class="p-8">
-              <heading :level="2" class="mb-6">{{ __(uppercaseMode + ' Resource') }}</heading>
-              <p class="text-80 leading-normal">
-                {{ __('Are you sure you want to ' + mode + ' this resource?') }}
-              </p>
-            </div>
-          </delete-resource-modal>
+        <DeleteResourceModal
+          :mode="viaManyToMany ? 'detach' : 'delete'"
+          :show="deleteModalOpen"
+          @close="closeDeleteModal"
+          @confirm="confirmDelete"
+        />
 
-          <restore-resource-modal v-if="restoreModalOpen" @confirm="confirmRestore" @close="closeRestoreModal">
-            <div class="p-8">
-              <heading :level="2" class="mb-6">{{ __('Restore Resource') }}</heading>
-              <p class="text-80 leading-normal">
-                {{ __('Are you sure you want to restore this resource?') }}
-              </p>
-            </div>
-          </restore-resource-modal>
-        </portal>
+        <RestoreResourceModal :show="restoreModalOpen" @close="closeRestoreModal" @confirm="confirmRestore">
+          <ModalHeader v-text="__('Restore Resource')" />
+          <ModalContent>
+            <p class="leading-normal">
+              {{ __('Are you sure you want to restore this resource?') }}
+            </p>
+          </ModalContent>
+        </RestoreResourceModal>
       </div>
     </td>
   </tr>
 </template>
 
 <script>
+import filter from 'lodash/filter';
+import { Inertia } from '@inertiajs/inertia';
 import ReordersResources from '../mixins/ReordersResources';
 
 export default {
+  emits: ['actionExecuted'],
   mixins: [ReordersResources],
+
   props: [
     'testId',
     'deleteResource',
     'restoreResource',
     'resource',
+    'itemKey',
     'resourcesSelected',
     'resourceName',
     'relationshipType',
@@ -190,14 +210,27 @@ export default {
     'actionsAreAvailable',
     'actionsEndpoint',
     'shouldShowCheckboxes',
+    'shouldShowColumnBorders',
+    'tableStyle',
     'updateSelectionStatus',
     'queryString',
   ],
 
   data: () => ({
+    commandPressed: false,
     deleteModalOpen: false,
     restoreModalOpen: false,
   }),
+
+  mounted() {
+    window.addEventListener('keydown', this.handleKeydown);
+    window.addEventListener('keyup', this.handleKeyup);
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.handleKeydown);
+    window.removeEventListener('keyup', this.handleKeyup);
+  },
 
   methods: {
     /**
@@ -205,6 +238,26 @@ export default {
      */
     toggleSelection() {
       this.updateSelectionStatus(this.resource);
+    },
+
+    handleKeydown(e) {
+      if (e.key === 'Meta') {
+        this.commandPressed = true;
+      }
+    },
+
+    handleKeyup(e) {
+      if (e.key === 'Meta') {
+        this.commandPressed = false;
+      }
+    },
+
+    navigateToDetail(e) {
+      if (!this.resource.authorizedToView) {
+        return;
+      }
+
+      this.commandPressed ? window.open(this.viewURL, '_blank') : Inertia.visit(this.viewURL);
     },
 
     openDeleteModal() {
@@ -235,8 +288,16 @@ export default {
   },
 
   computed: {
+    viewURL() {
+      return this.$url(`/resources/${this.resourceName}/${this.resource.id.value}`);
+    },
+
     availableActions() {
-      return _.filter(this.resource.actions, a => a.showOnTableRow);
+      return filter(this.resource.actions, a => a.showOnTableRow);
+    },
+
+    shouldShowTight() {
+      return this.tableStyle == 'tight';
     },
   },
 };

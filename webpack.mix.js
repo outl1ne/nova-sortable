@@ -1,3 +1,11 @@
-const mix = require('laravel-mix');
+let mix = require('laravel-mix');
+let path = require('path');
 
-mix.setPublicPath('dist').js('resources/js/tool.js', 'js').vue();
+require('./nova.mix');
+
+mix.setPublicPath('dist').js('resources/js/tool.js', 'js').vue({ version: 3 }).nova('optimistdigital/nova-sortable');
+
+mix.alias({
+  'laravel-nova': path.join(__dirname, 'vendor/laravel/nova/resources/js/mixins/packages.js'),
+  '@': path.join(__dirname, 'resources/js/'),
+});

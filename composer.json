@@ -11,14 +11,21 @@
   "require": {
     "php": ">=7.3.0",
     "spatie/eloquent-sortable": "^3.10.0|^4.0",
-    "laravel/nova": "^3.0",
-    "optimistdigital/nova-translations-loader": "^3.0.0"
+    "laravel/nova": "^4.0",
+    "optimistdigital/nova-translations-loader": "^4.0"
   },
+   "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "OptimistDigital\\NovaSortable\\": "src/"
     }
   },
+
   "extra": {
     "laravel": {
       "providers": [
