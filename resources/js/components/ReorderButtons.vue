@@ -4,7 +4,7 @@
     <div class="flex items-center ml-4" v-tooltip="reorderDisabledTooltip" v-if="canSeeReorderButtons">
       <div class="flex flex-col">
         <ChevronUpIcon
-          @click="!reorderDisabled && $emit('moveToStart')"
+          @click.stop="!reorderDisabled && $emit('moveToStart')"
           :custom-class="{
             'cursor-pointer text-gray-400 hover:text-primary-400 active:text-primary-500': !reorderDisabled,
             'cursor-default text-gray-200': reorderDisabled,
@@ -13,7 +13,7 @@
         />
 
         <ChevronDownIcon
-          @click="!reorderDisabled && $emit('moveToEnd')"
+          @click.stop="!reorderDisabled && $emit('moveToEnd')"
           :custom-class="{
             'cursor-pointer text-gray-400 hover:text-primary-400  active:text-primary-500': !reorderDisabled,
             'cursor-default text-gray-200': reorderDisabled,
