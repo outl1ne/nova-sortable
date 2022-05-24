@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 24-05-2022
+
+### Changed
+
+- Bumped Nova requirement to 4.6.0 (thanks to [@mertasan](https://github.com/mertasan))
+- Fixed click events firing twice (thanks to [@ramcda](https://github.com/ramcda))
+
 ## [3.0.0] - 13-05-2022
 
 **NB! Will not working until Nova releases a fix for Vue component overriding. Possibly coming in ^4.5.5.**
