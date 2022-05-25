@@ -1,6 +1,6 @@
 {
-  "novaSortable.reorderingDisabledTooltip.activeSort": "La modification de l'ordre a été désactivée dans les options de la ressource.",
-  "novaSortable.reorderingDisabledTooltip.notAllowed": "Reordering is not allowed for this resource.",
+  "novaSortable.reorderingDisabledTooltip.activeSort": "La modification de l'ordre est désactivée quand un tri est en cours.",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "La modification de l'ordre est désactivée dans les options de la ressource.",
   "novaSortable.moveToStart": "Mettre en première position",
   "novaSortable.moveToEnd": "Mettre en dernière position",
   "novaSortable.reorderSuccessful": "Les ressources ont été réordonnées avec succès.",
