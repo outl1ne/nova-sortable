@@ -211,11 +211,15 @@ You can add your translations to `resources/lang/vendor/nova-sortable/` by creat
 This package overwrites the `indexQuery` of the Resource and if you still want to use it, you can do it as follows:
 
 ```php
+use HasSortableRows {
+    indexQuery as indexSortableQuery;
+}
+
 public static function indexQuery(NovaRequest $request, $query)
 {
   // Do whatever with the query
   // ie $query->withCount(['children', 'descendants', 'modules']);
-  return parent::indexQuery($request, HasSortableRows::indexQuery($request, $query));
+  return parent::indexQuery($request, static::indexSortableQuery($request, $query));
 }
 ```
 
