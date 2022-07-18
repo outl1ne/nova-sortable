@@ -27,9 +27,9 @@
       >
         <ResourceTableRow
           v-for="(resource, index) in fakeResources"
-          :key="`${resource.id.value}-items-${index}`"
           @actionExecuted="$emit('actionExecuted')"
           :testId="`${resourceName}-items-${index}`"
+          :key="`${resource.id.value}-items-${index}`"
           :delete-resource="deleteResource"
           :restore-resource="restoreResource"
           :resource="resource"
@@ -46,6 +46,7 @@
           :should-show-column-borders="shouldShowColumnBorders"
           :table-style="tableStyle"
           :update-selection-status="updateSelectionStatus"
+          :click-action="clickAction"
           @moveToStart="moveToStart(resource)"
           @moveToEnd="moveToEnd(resource)"
         />
@@ -130,28 +131,28 @@ export default {
      * Delete the given resource.
      */
     deleteResource(resource) {
-      this.$emit('delete', [resource]);
+      this.$emit('delete', [resource])
     },
 
     /**
      * Restore the given resource.
      */
     restoreResource(resource) {
-      this.$emit('restore', [resource]);
+      this.$emit('restore', [resource])
     },
 
     /**
      * Broadcast that the ordering should be updated.
      */
     requestOrderByChange(field) {
-      this.$emit('order', field);
+      this.$emit('order', field)
     },
 
     /**
      * Broadcast that the ordering should be reset.
      */
     resetOrderBy(field) {
-      this.$emit('reset-order-by', field);
+      this.$emit('reset-order-by', field)
     },
   },
 
@@ -161,7 +162,7 @@ export default {
      */
     fields() {
       if (this.resources) {
-        return this.resources[0].fields;
+        return this.resources[0].fields
       }
     },
 
@@ -169,25 +170,34 @@ export default {
      * Determine if the current resource listing is via a many-to-many relationship.
      */
     viaManyToMany() {
-      return this.relationshipType == 'belongsToMany' || this.relationshipType == 'morphToMany';
+      return (
+        this.relationshipType == 'belongsToMany' ||
+        this.relationshipType == 'morphToMany'
+      )
     },
 
     /**
      * Determine if the current resource listing is via a has-one relationship.
      */
     viaHasOne() {
-      return this.relationshipType == 'hasOne' || this.relationshipType == 'morphOne';
+      return (
+        this.relationshipType == 'hasOne' || this.relationshipType == 'morphOne'
+      )
     },
 
     /**
      * Determine if the resource table should show column borders.
      */
     shouldShowColumnBorders() {
-      return this.resourceInformation.showColumnBorders;
+      return this.resourceInformation.showColumnBorders
     },
 
     tableStyle() {
-      return this.resourceInformation.tableStyle;
+      return this.resourceInformation.tableStyle
+    },
+
+    clickAction() {
+      return this.resourceInformation.clickAction
     },
   },
 };

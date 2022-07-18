@@ -6,7 +6,6 @@
     @click.stop.prevent="navigateToDetail"
   >
     <!-- Resource Selection Checkbox -->
-
     <td
       v-if="shouldShowCheckboxes || canSeeReorderButtons"
       :class="{
@@ -49,7 +48,7 @@
         'border-r': shouldShowColumnBorders,
         'border-t border-gray-100 dark:border-gray-700': true,
         'whitespace-nowrap': !field.wrapping,
-        'cursor-pointer': resource.authorizedToView,
+        'cursor-pointer': resource.authorizedToView && clickAction !== 'ignore',
       }"
       class="dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
     >
@@ -72,7 +71,7 @@
       }"
       class="px-2 td-fit text-right align-middle dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
     >
-      <div class="flex items-center space-x-0 text-gray-400">
+      <div class="flex items-center justify-end space-x-0 text-gray-400">
         <InlineActionDropdown
           :actions="availableActions"
           :endpoint="actionsEndpoint"
@@ -83,6 +82,7 @@
           :via-resource-id="viaResourceId"
           :via-relationship="viaRelationship"
           @actionExecuted="$emit('actionExecuted')"
+          @show-preview="navigateToPreviewView"
         />
 
         <!-- View Resource Link -->
@@ -103,15 +103,21 @@
         <template v-if="resource.authorizedToUpdate">
           <!-- Edit Pivot Button -->
           <Link
-            v-if="relationshipType == 'belongsToMany' || relationshipType == 'morphToMany'"
+            v-if="
+              relationshipType == 'belongsToMany' ||
+              relationshipType == 'morphToMany'
+            "
             v-tooltip.click="__('Edit Attached')"
             :aria-label="__('Edit Attached')"
             :dusk="`${resource['id'].value}-edit-attached-button`"
             :href="
-              $url(`/resources/${viaResource}/${viaResourceId}/edit-attached/${resourceName}/${resource['id'].value}`, {
-                viaRelationship: viaRelationship,
-                viaPivotId: resource['id'].pivotValue,
-              })
+              $url(
+                `/resources/${viaResource}/${viaResourceId}/edit-attached/${resourceName}/${resource['id'].value}`,
+                {
+                  viaRelationship: viaRelationship,
+                  viaPivotId: resource['id'].pivotValue,
+                }
+              )
             "
             class="toolbar-button hover:text-primary-500"
             @click.stop
@@ -141,7 +147,10 @@
 
         <!-- Delete Resource Link -->
         <button
-          v-if="resource.authorizedToDelete && (!resource.softDeleted || viaManyToMany)"
+          v-if="
+            resource.authorizedToDelete &&
+            (!resource.softDeleted || viaManyToMany)
+          "
           v-tooltip.click="__(viaManyToMany ? 'Detach' : 'Delete')"
           :aria-label="__(viaManyToMany ? 'Detach' : 'Delete')"
           :data-testid="`${testId}-delete-button`"
@@ -154,7 +163,11 @@
 
         <!-- Restore Resource Link -->
         <button
-          v-if="resource.authorizedToRestore && resource.softDeleted && !viaManyToMany"
+          v-if="
+            resource.authorizedToRestore &&
+            resource.softDeleted &&
+            !viaManyToMany
+          "
           v-tooltip.click="__('Restore')"
           :aria-label="__('Restore')"
           :dusk="`${resource['id'].value}-restore-button`"
@@ -171,7 +184,11 @@
           @confirm="confirmDelete"
         />
 
-        <RestoreResourceModal :show="restoreModalOpen" @close="closeRestoreModal" @confirm="confirmRestore">
+        <RestoreResourceModal
+          :show="restoreModalOpen"
+          @close="closeRestoreModal"
+          @confirm="confirmRestore"
+        >
           <ModalHeader v-text="__('Restore Resource')" />
           <ModalContent>
             <p class="leading-normal">
@@ -182,6 +199,15 @@
       </div>
     </td>
   </tr>
+
+  <PreviewResourceModal
+    v-if="previewModalOpen"
+    :resource-id="resource.id.value"
+    :resource-name="resourceName"
+    :show="previewModalOpen"
+    @close="closePreviewModal"
+    @confirm="closePreviewModal"
+  />
 </template>
 
 <script>
@@ -198,7 +224,6 @@ export default {
     'deleteResource',
     'restoreResource',
     'resource',
-    'itemKey',
     'resourcesSelected',
     'resourceName',
     'relationshipType',
@@ -214,22 +239,24 @@ export default {
     'tableStyle',
     'updateSelectionStatus',
     'queryString',
+    'clickAction',
   ],
 
   data: () => ({
     commandPressed: false,
     deleteModalOpen: false,
     restoreModalOpen: false,
+    previewModalOpen: false,
   }),
 
   mounted() {
-    window.addEventListener('keydown', this.handleKeydown);
-    window.addEventListener('keyup', this.handleKeyup);
+    window.addEventListener('keydown', this.handleKeydown)
+    window.addEventListener('keyup', this.handleKeyup)
   },
 
   beforeUnmount() {
-    window.removeEventListener('keydown', this.handleKeydown);
-    window.removeEventListener('keyup', this.handleKeyup);
+    window.removeEventListener('keydown', this.handleKeydown)
+    window.removeEventListener('keyup', this.handleKeyup)
   },
 
   methods: {
@@ -237,68 +264,119 @@ export default {
      * Select the resource in the parent component
      */
     toggleSelection() {
-      this.updateSelectionStatus(this.resource);
+      this.updateSelectionStatus(this.resource)
     },
 
     handleKeydown(e) {
       if (e.key === 'Meta') {
-        this.commandPressed = true;
+        this.commandPressed = true
       }
     },
 
     handleKeyup(e) {
       if (e.key === 'Meta') {
-        this.commandPressed = false;
+        this.commandPressed = false
       }
     },
 
     navigateToDetail(e) {
-      if (!this.resource.authorizedToView) {
-        return;
+      if (this.clickAction === 'edit') {
+        return this.navigateToEditView(e)
+      } else if (this.clickAction === 'select') {
+        return this.toggleSelection()
+      } else if (this.clickAction === 'ignore') {
+        return
+      } else if (this.clickAction === 'detail') {
+        return this.navigateToDetailView(e)
+      } else if (this.clickAction === 'preview') {
+        return this.navigateToPreviewView(e)
+      } else {
+        return this.navigateToDetailView(e)
       }
+    },
 
-      this.commandPressed ? window.open(this.viewURL, '_blank') : Inertia.visit(this.viewURL);
+    navigateToDetailView(e) {
+      if (!this.resource.authorizedToView) {
+        return
+      }
+      this.commandPressed
+        ? window.open(this.viewURL, '_blank')
+        : Inertia.visit(this.viewURL)
+    },
+
+    navigateToEditView(e) {
+      if (!this.resource.authorizedToUpdate) {
+        return
+      }
+      this.commandPressed
+        ? window.open(this.updateURL, '_blank')
+        : Inertia.visit(this.updateURL)
+    },
+
+    navigateToPreviewView(e) {
+      this.openPreviewModal()
+    },
+
+    openPreviewModal() {
+      this.previewModalOpen = true
+    },
+
+    closePreviewModal() {
+      this.previewModalOpen = false
     },
 
     openDeleteModal() {
-      this.deleteModalOpen = true;
+      this.deleteModalOpen = true
     },
 
     confirmDelete() {
-      this.deleteResource(this.resource);
-      this.closeDeleteModal();
+      this.deleteResource(this.resource)
+      this.closeDeleteModal()
     },
 
     closeDeleteModal() {
-      this.deleteModalOpen = false;
+      this.deleteModalOpen = false
     },
 
     openRestoreModal() {
-      this.restoreModalOpen = true;
+      this.restoreModalOpen = true
     },
 
     confirmRestore() {
-      this.restoreResource(this.resource);
-      this.closeRestoreModal();
+      this.restoreResource(this.resource)
+      this.closeRestoreModal()
     },
 
     closeRestoreModal() {
-      this.restoreModalOpen = false;
+      this.restoreModalOpen = false
     },
   },
 
   computed: {
+    updateURL() {
+      return this.$url(
+        `/resources/${this.resourceName}/${this.resource.id.value}/edit`,
+        {
+          viaResource: this.viaResource,
+          viaResourceId: this.viaResourceId,
+          viaRelationship: this.viaRelationship,
+        }
+      )
+    },
+
     viewURL() {
-      return this.$url(`/resources/${this.resourceName}/${this.resource.id.value}`);
+      return this.$url(
+        `/resources/${this.resourceName}/${this.resource.id.value}`
+      )
     },
 
     availableActions() {
-      return filter(this.resource.actions, a => a.showOnTableRow);
+      return filter(this.resource.actions, a => a.showOnTableRow)
     },
 
     shouldShowTight() {
-      return this.tableStyle == 'tight';
+      return this.tableStyle == 'tight'
     },
   },
-};
+}
 </script>
