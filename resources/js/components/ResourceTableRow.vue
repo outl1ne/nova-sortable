@@ -301,7 +301,7 @@ export default {
       }
       this.commandPressed
         ? window.open(this.viewURL, '_blank')
-        : Inertia.visit(this.viewURL)
+        : this.$inertia.visit(this.viewURL) // use this instead of the Inertia.visit to avoid the following issue: https://github.com/outl1ne/nova-sortable/issues/128#issuecomment-1171264760
     },
 
     navigateToEditView(e) {
@@ -310,7 +310,7 @@ export default {
       }
       this.commandPressed
         ? window.open(this.updateURL, '_blank')
-        : Inertia.visit(this.updateURL)
+        : this.$inertia.visit(this.updateURL) // use this instead of the Inertia.visit to avoid the following issue: https://github.com/outl1ne/nova-sortable/issues/128#issuecomment-1171264760
     },
 
     navigateToPreviewView(e) {
