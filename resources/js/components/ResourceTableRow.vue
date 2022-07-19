@@ -211,9 +211,9 @@
 </template>
 
 <script>
-import filter from 'lodash/filter';
-import { Inertia } from '@inertiajs/inertia';
-import ReordersResources from '../mixins/ReordersResources';
+import filter from 'lodash/filter'
+import { Inertia } from '@inertiajs/inertia'
+import ReordersResources from '../mixins/ReordersResources'
 
 export default {
   emits: ['actionExecuted'],

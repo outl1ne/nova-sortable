@@ -56,12 +56,19 @@
 </template>
 
 <script>
-import { InteractsWithResourceInformation } from 'laravel-nova-mixins';
-import { VueDraggableNext } from 'vue-draggable-next';
-import ReordersResources from '../mixins/ReordersResources';
+import { InteractsWithResourceInformation } from 'laravel-nova-mixins'
+import { VueDraggableNext } from 'vue-draggable-next'
+import ReordersResources from '../mixins/ReordersResources'
 
 export default {
-  emits: ['actionExecuted', 'updateOrder', 'delete', 'restore', 'order', 'reset-order-by'],
+  emits: [
+    'actionExecuted',
+    'updateOrder',
+    'delete',
+    'restore',
+    'order',
+    'reset-order-by',
+  ],
 
   mixins: [InteractsWithResourceInformation, ReordersResources],
 
@@ -200,7 +207,7 @@ export default {
       return this.resourceInformation.clickAction
     },
   },
-};
+}
 </script>
 
 <style>
