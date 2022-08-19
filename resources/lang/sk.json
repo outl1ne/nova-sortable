@@ -1,0 +1,11 @@
+{
+  "novaSortable.reorderingDisabledTooltip.activeSort": "Zmena poradia je vypnutá aktívnymi možnosťami zoradenia.",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "Zmena poradia pre tieto položky nie je povolená.",
+  "novaSortable.moveToStart": "Presunúť na začiatok",
+  "novaSortable.moveToEnd": "Presunúť na koniec",
+  "novaSortable.reorderSuccessful": "Položky boli úspešne preradené.",
+  "novaSortable.moveToStartSuccessful": "Položka bola úspešne presunutá na prvé miesto.",
+  "novaSortable.moveToEndSuccessful": "Položka bola úspešne presunutá na poslednú pozíciu.",
+  "novaSortable.reorderError": "Pri pokuse o zmenu poradia položiek sa vyskytla chyba.",
+  "novaSortable.reorderNotAllowedFor": "Zmena poradia položky s ID :id nie je povolená."
+}
