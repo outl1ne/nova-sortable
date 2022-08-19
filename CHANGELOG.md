@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Fixed visual duplicate rows appearing when reordering items
 - Fixed deprecation warnings (thanks to [@mihai-stancu](https://github.com/mihai-stancu))
 - Updated packages
 
