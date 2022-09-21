@@ -12,7 +12,7 @@
   "require": {
     "php": ">=8.0",
     "spatie/eloquent-sortable": "^3.10.0|^4.0",
-    "laravel/nova": "^4.12.0",
+    "laravel/nova": "^4.13.0",
     "outl1ne/nova-translations-loader": "^5.0"
   },
   "repositories": [
