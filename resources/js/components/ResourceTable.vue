@@ -28,9 +28,9 @@
       >
         <ResourceTableRow
           v-for="(resource, index) in fakeResources"
+          :key="`${resourceName}-items-${index}`"
           @actionExecuted="$emit('actionExecuted')"
           :testId="`${resourceName}-items-${index}`"
-          :key="`${resourceName}-items-${index}`"
           :delete-resource="deleteResource"
           :restore-resource="restoreResource"
           :resource="resource"
