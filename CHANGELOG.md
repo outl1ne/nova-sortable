@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rearranged :key on ResourceTable in a theoretical fix for sorting not working
 - Fixed "load more" pagination not working
 - Fixed duplicated "moveToStart" and "moveToEnd" messages
+- Fixed table heading row breaking when there's no checkboxes (thanks to [@shaffe-fr](https://github.com/shaffe-fr))
 - Bumped minimum Nova version to 4.17
 - Updated packages
 
