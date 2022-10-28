@@ -15,6 +15,13 @@ export default {
   beforeMount() {
     this.fakeResources = this.resources;
   },
+  watch: {
+    resources(newVal, oldVal) {
+      if (newVal.length !== oldVal.length) {
+        this.fakeResources = this.resources;
+      }
+    },
+  },
   methods: {
     async updateOrder(event) {
       this.reorderLoading = true;
