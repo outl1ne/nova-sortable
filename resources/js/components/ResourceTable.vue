@@ -16,6 +16,7 @@
         :sortable="sortable"
         @order="requestOrderByChange"
         @reset-order-by="resetOrderBy"
+        :resource="fakeResources[0] || void 0"
       />
       <draggable
         tag="tbody"

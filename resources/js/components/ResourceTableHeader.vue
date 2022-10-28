@@ -1,26 +1,22 @@
 <template>
   <thead class="bg-gray-50 dark:bg-gray-800">
     <tr>
-      <!-- Select Checkbox -->
       <th
         class="td-fit uppercase text-xxs text-gray-500 tracking-wide pl-5 pr-2 py-2"
         :class="{
-          'border-r border-gray-200 dark:border-gray-600':
-            shouldShowColumnBorders,
+          'border-r border-gray-200 dark:border-gray-600': shouldShowColumnBorders,
         }"
         v-if="shouldShowCheckboxes || canSeeReorderButtons"
       >
         <span v-if="shouldShowCheckboxes" class="sr-only">{{ __('Selected Resources') }}</span>
       </th>
 
-      <!-- Field Names -->
       <th
         v-for="(field, index) in fields"
         :key="field.uniqueKey"
         :class="{
           [`text-${field.textAlign}`]: true,
-          'border-r border-gray-200 dark:border-gray-600':
-            shouldShowColumnBorders,
+          'border-r border-gray-200 dark:border-gray-600': shouldShowColumnBorders,
           'px-6': index == 0 && !shouldShowCheckboxes && !canSeeReorderButtons,
           'px-2': index != 0 || shouldShowCheckboxes || canSeeReorderButtons,
           'whitespace-nowrap': !field.wrapping,
@@ -49,7 +45,7 @@
 </template>
 
 <script>
-import ReordersResources from '../mixins/ReordersResources'
+import ReordersResources from '../mixins/ReordersResources';
 
 export default {
   name: 'ResourceTableHeader',
@@ -59,6 +55,7 @@ export default {
   emits: ['order', 'reset-order-by'],
 
   props: {
+    resource: Object | null,
     resourceName: String,
     shouldShowColumnBorders: Boolean,
     shouldShowCheckboxes: Boolean,
@@ -72,15 +69,15 @@ export default {
      * Broadcast that the ordering should be updated.
      */
     requestOrderByChange(field) {
-      this.$emit('order', field)
+      this.$emit('order', field);
     },
 
     /**
      * Broadcast that the ordering should be reset.
      */
     resetOrderBy(field) {
-      this.$emit('reset-order-by', field)
+      this.$emit('reset-order-by', field);
     },
   },
-}
+};
 </script>
