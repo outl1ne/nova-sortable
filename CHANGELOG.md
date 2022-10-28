@@ -5,12 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.3.0] - 19-07-2022
+## [3.3.0] - 28-10-2022
 
 ### Changed
 
+- Rearranged :key on ResourceTable in a theoretical fix for sorting not working
+- Fixed "load more" pagination not working
 - Fixed duplicated "moveToStart" and "moveToEnd" messages
 - Bumped minimum Nova version to 4.17
+- Updated packages
 
 ## [3.2.1] - 19-07-2022
 
