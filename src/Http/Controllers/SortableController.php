@@ -37,9 +37,11 @@ class SortableController
 
             // BelongsToMany
             if ($relationshipType === 'belongsToMany' || $relationshipType === 'morphToMany') {
-                $relatedModels = $relatedModels->pluck(
-                    $model->{$viaRelationship}()->getPivotAccessor()
-                );
+                $relatedModels = $relatedModels->map(function($relatedModel) {
+                    $pivot = $relatedModel->pivot;
+                    $pivot->resourceId = $relatedModel->id; // Save resource ID in case we use a different foreign key.
+                    return $pivot;
+                });
             }
 
             $relatedModel = $relatedModels->first();
@@ -78,7 +80,8 @@ class SortableController
 
                 $relatedModelsCopy = $relatedModels->values();
                 foreach ($resourceIds as $i => $id) {
-                    $_model = $relatedModelsCopy->firstWhere($relatedKeyName, $id);
+                    $_model = $relatedModelsCopy->firstWhere('resourceId', $id);
+                    unset($_model->resourceId); // Unset resource id so we won't update it.
                     $relatedModelsCopy = $relatedModelsCopy->forget($relatedModelsCopy->search($_model));
                     $sortOrderNr = $sortedOrder[$i];
 
