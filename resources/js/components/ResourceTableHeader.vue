@@ -1,14 +1,15 @@
 <template>
-  <thead class="bg-gray-50 dark:bg-gray-800">
+  <thead class="nova-sortable-bg-gray-50 dark:nova-sortable-bg-gray-800">
     <tr>
       <th
-        class="td-fit uppercase text-xxs text-gray-500 tracking-wide pl-5 pr-2 py-2"
+        class="td-fit nova-sortable-uppercase text-xxs nova-sortable-text-gray-500 nova-sortable-tracking-wide nova-sortable-pl-5 nova-sortable-pr-2 nova-sortable-py-2"
         :class="{
-          'border-r border-gray-200 dark:border-gray-600': shouldShowColumnBorders,
+          'nova-sortable-border-r nova-sortable-border-gray-200 dark:nova-sortable-border-gray-600':
+            shouldShowColumnBorders,
         }"
         v-if="shouldShowCheckboxes || canSeeReorderButtons"
       >
-        <span v-if="shouldShowCheckboxes" class="sr-only">{{ __('Selected Resources') }}</span>
+        <span v-if="shouldShowCheckboxes" class="nova-sortable-sr-only">{{ __('Selected Resources') }}</span>
       </th>
 
       <th
@@ -16,12 +17,13 @@
         :key="field.uniqueKey"
         :class="{
           [`text-${field.textAlign}`]: true,
-          'border-r border-gray-200 dark:border-gray-600': shouldShowColumnBorders,
-          'px-6': index == 0 && !shouldShowCheckboxes && !canSeeReorderButtons,
-          'px-2': index != 0 || shouldShowCheckboxes || canSeeReorderButtons,
-          'whitespace-nowrap': !field.wrapping,
+          'nova-sortable-border-r nova-sortable-border-gray-200 dark:nova-sortable-border-gray-600':
+            shouldShowColumnBorders,
+          'nova-sortable-px-6': index == 0 && !shouldShowCheckboxes && !canSeeReorderButtons,
+          'nova-sortable-px-2': index != 0 || shouldShowCheckboxes || canSeeReorderButtons,
+          'nova-sortable-whitespace-nowrap': !field.wrapping,
         }"
-        class="uppercase text-gray-500 text-xxs tracking-wide py-2"
+        class="nova-sortable-uppercase nova-sortable-text-gray-500 text-xxs nova-sortable-tracking-wide nova-sortable-py-2"
       >
         <SortableIcon
           @sort="requestOrderByChange(field)"
@@ -37,8 +39,8 @@
       </th>
 
       <!-- View, Edit, and Delete -->
-      <th class="uppercase text-xxs tracking-wide px-2 py-2">
-        <span class="sr-only">{{ __('Controls') }}</span>
+      <th class="nova-sortable-uppercase text-xxs nova-sortable-tracking-wide nova-sortable-px-2 nova-sortable-py-2">
+        <span class="nova-sortable-sr-only">{{ __('Controls') }}</span>
       </th>
     </tr>
   </thead>

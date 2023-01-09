@@ -9,12 +9,12 @@
     <td
       v-if="shouldShowCheckboxes || canSeeReorderButtons"
       :class="{
-        'py-2': !shouldShowTight,
-        'border-r': shouldShowColumnBorders,
-        'border-t border-gray-100 dark:border-gray-700 px-2': true,
-        'cursor-pointer': resource.authorizedToView,
+        'nova-sortable-py-2': !shouldShowTight,
+        'nova-sortable-border-r': shouldShowColumnBorders,
+        'nova-sortable-border-t nova-sortable-border-gray-100 dark:nova-sortable-border-gray-700 nova-sortable-px-2': true,
+        'nova-sortable-cursor-pointer': resource.authorizedToView,
       }"
-      class="td-fit pl-5 pr-5 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
+      class="td-fit nova-sortable-pl-5 nova-sortable-pr-5 dark:nova-sortable-bg-gray-800 group-hover:nova-sortable-bg-gray-50 dark:group-hover:nova-sortable-bg-gray-900"
       @click.stop
     >
       <ReorderButtons
@@ -42,15 +42,16 @@
       v-for="(field, index) in resource.fields"
       :key="field.uniqueKey"
       :class="{
-        'px-6': index == 0 && !shouldShowCheckboxes,
-        'px-2': index != 0 || shouldShowCheckboxes,
-        'py-2': !shouldShowTight,
-        'border-r': shouldShowColumnBorders,
-        'border-t border-gray-100 dark:border-gray-700': true,
-        'whitespace-nowrap': !field.wrapping,
-        'cursor-pointer': resource.authorizedToView && clickAction !== 'ignore',
+        'nova-sortable-px-6': index == 0 && !shouldShowCheckboxes,
+        'nova-sortable-px-2': index != 0 || shouldShowCheckboxes,
+        'nova-sortable-py-2': !shouldShowTight,
+        'nova-sortable-border-r': shouldShowColumnBorders,
+        'nova-sortable-border-t nova-sortable-border-gray-100 dark:nova-sortable-border-gray-700': true,
+        'nova-sortable-whitespace-nowrap': !field.wrapping,
+        'nova-sortable-cursor-pointer':
+          resource.authorizedToView && clickAction !== 'ignore',
       }"
-      class="dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
+      class="dark:nova-sortable-bg-gray-800 group-hover:nova-sortable-bg-gray-50 dark:group-hover:nova-sortable-bg-gray-900"
     >
       <component
         :is="'index-' + field.component"
@@ -65,13 +66,15 @@
 
     <td
       :class="{
-        'py-2': !shouldShowTight,
-        'border-t border-gray-100 dark:border-gray-700': true,
-        'cursor-pointer': resource.authorizedToView,
+        'nova-sortable-py-2': !shouldShowTight,
+        'nova-sortable-border-t nova-sortable-border-gray-100 dark:nova-sortable-border-gray-700': true,
+        'nova-sortable-cursor-pointer': resource.authorizedToView,
       }"
-      class="px-2 td-fit text-right align-middle dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
+      class="nova-sortable-px-2 td-fit nova-sortable-text-right nova-sortable-align-middle dark:nova-sortable-bg-gray-800 group-hover:nova-sortable-bg-gray-50 dark:group-hover:nova-sortable-bg-gray-900"
     >
-      <div class="flex items-center justify-end space-x-0 text-gray-400">
+      <div
+        class="nova-sortable-flex nova-sortable-items-center nova-sortable-justify-end nova-sortable-space-x-0 nova-sortable-text-gray-400"
+      >
         <InlineActionDropdown
           :actions="availableActions"
           :endpoint="actionsEndpoint"
@@ -93,7 +96,7 @@
             :data-testid="`${testId}-view-button`"
             :dusk="`${resource['id'].value}-view-button`"
             :href="$url(`/resources/${resourceName}/${resource['id'].value}`)"
-            class="toolbar-button hover:text-primary-500 px-2"
+            class="toolbar-button hover:text-primary-500 nova-sortable-px-2"
             @click.stop
           >
             <Icon type="eye" />
@@ -138,7 +141,7 @@
                 viaRelationship: viaRelationship,
               })
             "
-            class="toolbar-button hover:text-primary-500 px-2"
+            class="toolbar-button hover:text-primary-500 nova-sortable-px-2"
             @click.stop
           >
             <Icon type="pencil-alt" />
@@ -155,7 +158,7 @@
           :aria-label="__(viaManyToMany ? 'Detach' : 'Delete')"
           :data-testid="`${testId}-delete-button`"
           :dusk="`${resource['id'].value}-delete-button`"
-          class="toolbar-button hover:text-primary-500 px-2"
+          class="toolbar-button hover:text-primary-500 nova-sortable-px-2"
           @click.stop="openDeleteModal"
         >
           <Icon type="trash" />
@@ -171,7 +174,7 @@
           v-tooltip.click="__('Restore')"
           :aria-label="__('Restore')"
           :dusk="`${resource['id'].value}-restore-button`"
-          class="toolbar-button hover:text-primary-500 px-2"
+          class="toolbar-button hover:text-primary-500 nova-sortable-px-2"
           @click.stop="openRestoreModal"
         >
           <Icon type="refresh" />
@@ -191,7 +194,7 @@
         >
           <ModalHeader v-text="__('Restore Resource')" />
           <ModalContent>
-            <p class="leading-normal">
+            <p class="nova-sortable-leading-normal">
               {{ __('Are you sure you want to restore this resource?') }}
             </p>
           </ModalContent>

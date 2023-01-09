@@ -1,13 +1,18 @@
 <template>
-  <div class="flex items-center">
+  <div class="nova-sortable-flex nova-sortable-items-center">
     <slot></slot>
-    <div class="flex items-center ml-4" v-tooltip="reorderDisabledTooltip" v-if="canSeeReorderButtons">
-      <div class="flex flex-col">
+    <div
+      class="nova-sortable-flex nova-sortable-items-center nova-sortable-ml-4"
+      v-tooltip="reorderDisabledTooltip"
+      v-if="canSeeReorderButtons"
+    >
+      <div class="nova-sortable-flex nova-sortable-flex-col">
         <ChevronUpIcon
           @click.stop="!reorderDisabled && $emit('moveToStart')"
           :custom-class="{
-            'cursor-pointer text-gray-400 hover:text-primary-400 active:text-primary-500': !reorderDisabled,
-            'cursor-default text-gray-200': reorderDisabled,
+            'nova-sortable-cursor-pointer nova-sortable-text-gray-400 hover:text-primary-400 active:text-primary-500':
+              !reorderDisabled,
+            'nova-sortable-cursor-default nova-sortable-text-gray-200': reorderDisabled,
           }"
           v-tooltip="moveToStartTooltip"
         />
@@ -15,8 +20,9 @@
         <ChevronDownIcon
           @click.stop="!reorderDisabled && $emit('moveToEnd')"
           :custom-class="{
-            'cursor-pointer text-gray-400 hover:text-primary-400  active:text-primary-500': !reorderDisabled,
-            'cursor-default text-gray-200': reorderDisabled,
+            'nova-sortable-cursor-pointer nova-sortable-text-gray-400 hover:text-primary-400  active:text-primary-500':
+              !reorderDisabled,
+            'nova-sortable-cursor-default nova-sortable-text-gray-200': reorderDisabled,
           }"
           v-tooltip="moveToEndTooltip"
         />
@@ -25,8 +31,9 @@
       <BurgerIcon
         style="min-width: 22px; width: 22px"
         :custom-class="{
-          'handle cursor-move text-gray-400 hover:text-primary-400 active:text-primary-500': !reorderDisabled,
-          'text-gray-200 cursor-default': reorderDisabled,
+          'handle nova-sortable-cursor-move nova-sortable-text-gray-400 hover:text-primary-400 active:text-primary-500':
+            !reorderDisabled,
+          'nova-sortable-text-gray-200 nova-sortable-cursor-default': reorderDisabled,
         }"
       />
     </div>
