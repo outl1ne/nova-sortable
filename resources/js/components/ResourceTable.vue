@@ -1,10 +1,8 @@
 <template>
-  <div
-    class="nova-sortable-overflow-hidden nova-sortable-overflow-x-auto nova-sortable-relative"
-  >
+  <div class="o1-overflow-hidden o1-overflow-x-auto o1-relative">
     <table
       v-if="resources.length > 0"
-      class="nova-sortable-w-full"
+      class="o1-w-full"
       :class="[`table-${tableStyle}`]"
       cellpadding="0"
       cellspacing="0"
@@ -47,7 +45,7 @@
           :actions-endpoint="actionsEndpoint"
           :should-show-checkboxes="shouldShowCheckboxes"
           :should-show-column-borders="shouldShowColumnBorders"
-          :table-style="nova - sortable - tableStyle"
+          :table-style="tableStyle"
           :update-selection-status="updateSelectionStatus"
           :click-action="clickAction"
           @moveToStart="moveToStart(resource)"

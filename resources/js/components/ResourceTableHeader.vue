@@ -1,15 +1,14 @@
 <template>
-  <thead class="nova-sortable-bg-gray-50 dark:nova-sortable-bg-gray-800">
+  <thead class="o1-bg-gray-50 dark:o1-bg-gray-800">
     <tr>
       <th
-        class="td-fit nova-sortable-uppercase text-xxs nova-sortable-text-gray-500 nova-sortable-tracking-wide nova-sortable-pl-5 nova-sortable-pr-2 nova-sortable-py-2"
+        class="td-fit o1-uppercase text-xxs o1-text-gray-500 o1-tracking-wide o1-pl-5 o1-pr-2 o1-py-2"
         :class="{
-          'nova-sortable-border-r nova-sortable-border-gray-200 dark:nova-sortable-border-gray-600':
-            shouldShowColumnBorders,
+          'o1-border-r o1-border-gray-200 dark:o1-border-gray-600': shouldShowColumnBorders,
         }"
         v-if="shouldShowCheckboxes || canSeeReorderButtons"
       >
-        <span v-if="shouldShowCheckboxes" class="nova-sortable-sr-only">{{ __('Selected Resources') }}</span>
+        <span v-if="shouldShowCheckboxes" class="o1-sr-only">{{ __('Selected Resources') }}</span>
       </th>
 
       <th
@@ -17,13 +16,12 @@
         :key="field.uniqueKey"
         :class="{
           [`text-${field.textAlign}`]: true,
-          'nova-sortable-border-r nova-sortable-border-gray-200 dark:nova-sortable-border-gray-600':
-            shouldShowColumnBorders,
-          'nova-sortable-px-6': index == 0 && !shouldShowCheckboxes && !canSeeReorderButtons,
-          'nova-sortable-px-2': index != 0 || shouldShowCheckboxes || canSeeReorderButtons,
-          'nova-sortable-whitespace-nowrap': !field.wrapping,
+          'o1-border-r o1-border-gray-200 dark:o1-border-gray-600': shouldShowColumnBorders,
+          'o1-px-6': index == 0 && !shouldShowCheckboxes && !canSeeReorderButtons,
+          'o1-px-2': index != 0 || shouldShowCheckboxes || canSeeReorderButtons,
+          'o1-whitespace-nowrap': !field.wrapping,
         }"
-        class="nova-sortable-uppercase nova-sortable-text-gray-500 text-xxs nova-sortable-tracking-wide nova-sortable-py-2"
+        class="o1-uppercase o1-text-gray-500 text-xxs o1-tracking-wide o1-py-2"
       >
         <SortableIcon
           @sort="requestOrderByChange(field)"
@@ -39,8 +37,8 @@
       </th>
 
       <!-- View, Edit, and Delete -->
-      <th class="nova-sortable-uppercase text-xxs nova-sortable-tracking-wide nova-sortable-px-2 nova-sortable-py-2">
-        <span class="nova-sortable-sr-only">{{ __('Controls') }}</span>
+      <th class="o1-uppercase text-xxs o1-tracking-wide o1-px-2 o1-py-2">
+        <span class="o1-sr-only">{{ __('Controls') }}</span>
       </th>
     </tr>
   </thead>

@@ -1,10 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './resources/**/*.{js,vue}',
-  ],
-  prefix: 'nova-sortable-',
-  corePlugins: {
-    preflight: false,
-  }
-}
+  content: ['./resources/**/*.{js,vue}'],
+  prefix: 'o1-',
+  corePlugins: { preflight: false },
+};
