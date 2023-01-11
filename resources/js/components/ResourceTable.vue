@@ -1,8 +1,8 @@
 <template>
-  <div class="overflow-hidden overflow-x-auto relative">
+  <div class="o1-overflow-hidden o1-overflow-x-auto o1-relative">
     <table
       v-if="resources.length > 0"
-      class="w-full"
+      class="o1-w-full"
       :class="[`table-${tableStyle}`]"
       cellpadding="0"
       cellspacing="0"

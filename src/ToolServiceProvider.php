@@ -20,6 +20,7 @@ class ToolServiceProvider extends ServiceProvider
 
         Nova::serving(function (ServingNova $event) {
             Nova::script('nova-sortable', __DIR__ . '/../dist/js/entry.js');
+  	        Nova::style('nova-sortable', __DIR__ . '/../dist/css/tool.css');
         });
 
         $this->loadTranslations(__DIR__ . '/../resources/lang', 'nova-sortable', true);

@@ -1,14 +1,14 @@
 <template>
-  <thead class="bg-gray-50 dark:bg-gray-800">
+  <thead class="o1-bg-gray-50 dark:o1-bg-gray-800">
     <tr>
       <th
-        class="td-fit uppercase text-xxs text-gray-500 tracking-wide pl-5 pr-2 py-2"
+        class="td-fit o1-uppercase text-xxs o1-text-gray-500 o1-tracking-wide o1-pl-5 o1-pr-2 o1-py-2"
         :class="{
-          'border-r border-gray-200 dark:border-gray-600': shouldShowColumnBorders,
+          'o1-border-r o1-border-gray-200 dark:o1-border-gray-600': shouldShowColumnBorders,
         }"
         v-if="shouldShowCheckboxes || canSeeReorderButtons"
       >
-        <span v-if="shouldShowCheckboxes" class="sr-only">{{ __('Selected Resources') }}</span>
+        <span v-if="shouldShowCheckboxes" class="o1-sr-only">{{ __('Selected Resources') }}</span>
       </th>
 
       <th
@@ -16,12 +16,12 @@
         :key="field.uniqueKey"
         :class="{
           [`text-${field.textAlign}`]: true,
-          'border-r border-gray-200 dark:border-gray-600': shouldShowColumnBorders,
-          'px-6': index == 0 && !shouldShowCheckboxes && !canSeeReorderButtons,
-          'px-2': index != 0 || shouldShowCheckboxes || canSeeReorderButtons,
-          'whitespace-nowrap': !field.wrapping,
+          'o1-border-r o1-border-gray-200 dark:o1-border-gray-600': shouldShowColumnBorders,
+          'o1-px-6': index == 0 && !shouldShowCheckboxes && !canSeeReorderButtons,
+          'o1-px-2': index != 0 || shouldShowCheckboxes || canSeeReorderButtons,
+          'o1-whitespace-nowrap': !field.wrapping,
         }"
-        class="uppercase text-gray-500 text-xxs tracking-wide py-2"
+        class="o1-uppercase o1-text-gray-500 text-xxs o1-tracking-wide o1-py-2"
       >
         <SortableIcon
           @sort="requestOrderByChange(field)"
@@ -37,8 +37,8 @@
       </th>
 
       <!-- View, Edit, and Delete -->
-      <th class="uppercase text-xxs tracking-wide px-2 py-2">
-        <span class="sr-only">{{ __('Controls') }}</span>
+      <th class="o1-uppercase text-xxs o1-tracking-wide o1-px-2 o1-py-2">
+        <span class="o1-sr-only">{{ __('Controls') }}</span>
       </th>
     </tr>
   </thead>

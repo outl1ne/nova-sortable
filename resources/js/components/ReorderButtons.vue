@@ -1,13 +1,13 @@
 <template>
-  <div class="flex items-center">
+  <div class="o1-flex o1-items-center">
     <slot></slot>
-    <div class="flex items-center ml-4" v-tooltip="reorderDisabledTooltip" v-if="canSeeReorderButtons">
-      <div class="flex flex-col">
+    <div class="o1-flex o1-items-center o1-ml-4" v-tooltip="reorderDisabledTooltip" v-if="canSeeReorderButtons">
+      <div class="o1-flex o1-flex-col">
         <ChevronUpIcon
           @click.stop="!reorderDisabled && $emit('moveToStart')"
           :custom-class="{
-            'cursor-pointer text-gray-400 hover:text-primary-400 active:text-primary-500': !reorderDisabled,
-            'cursor-default text-gray-200': reorderDisabled,
+            'o1-cursor-pointer o1-text-gray-400 hover:text-primary-400 active:text-primary-500': !reorderDisabled,
+            'o1-cursor-default o1-text-gray-200': reorderDisabled,
           }"
           v-tooltip="moveToStartTooltip"
         />
@@ -15,8 +15,8 @@
         <ChevronDownIcon
           @click.stop="!reorderDisabled && $emit('moveToEnd')"
           :custom-class="{
-            'cursor-pointer text-gray-400 hover:text-primary-400  active:text-primary-500': !reorderDisabled,
-            'cursor-default text-gray-200': reorderDisabled,
+            'o1-cursor-pointer o1-text-gray-400 hover:text-primary-400  active:text-primary-500': !reorderDisabled,
+            'o1-cursor-default o1-text-gray-200': reorderDisabled,
           }"
           v-tooltip="moveToEndTooltip"
         />
@@ -25,8 +25,8 @@
       <BurgerIcon
         style="min-width: 22px; width: 22px"
         :custom-class="{
-          'handle cursor-move text-gray-400 hover:text-primary-400 active:text-primary-500': !reorderDisabled,
-          'text-gray-200 cursor-default': reorderDisabled,
+          'handle o1-cursor-move o1-text-gray-400 hover:text-primary-400 active:text-primary-500': !reorderDisabled,
+          'o1-text-gray-200 o1-cursor-default': reorderDisabled,
         }"
       />
     </div>
