@@ -1,0 +1,11 @@
+{
+  "novaSortable.reorderingDisabledTooltip.activeSort": "السجل معطل مع خيار اعادة الترتيب.",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "لا يمكنك اعادة ترتيب هذا السجل",
+  "novaSortable.moveToStart": "أنقل السجل للبداية",
+  "novaSortable.moveToEnd": "أنقل السجل للنهاية",
+  "novaSortable.reorderSuccessful": "تم اعادة ترتيب السجل بنجاح",
+  "novaSortable.moveToStartSuccessful": "تم نقل السجل الى البداية بنجاح",
+  "novaSortable.moveToEndSuccessful": "تم نقل السجل الى النهاية",
+  "novaSortable.reorderError": "حدث خطأ أثناء محاولة اعادة ترتيب السجلات",
+  "novaSortable.reorderNotAllowedFor": "لا يمكن اعادة ترتيب السجل رقم:  :id ."
+}
