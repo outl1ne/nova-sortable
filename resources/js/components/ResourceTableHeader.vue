@@ -1,6 +1,7 @@
 <template>
   <thead class="o1-bg-gray-50 dark:o1-bg-gray-800">
     <tr>
+      <!-- Select Checkbox -->
       <th
         class="td-fit o1-uppercase text-xxs o1-text-gray-500 o1-tracking-wide o1-pl-5 o1-pr-2 o1-py-2"
         :class="{

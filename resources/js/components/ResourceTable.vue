@@ -2,8 +2,7 @@
   <div class="o1-overflow-hidden o1-overflow-x-auto o1-relative">
     <table
       v-if="resources.length > 0"
-      class="o1-w-full"
-      :class="[`table-${tableStyle}`]"
+      class="o1-w-full o1-divide-y o1-divide-gray-100 dark:o1-divide-gray-700"
       cellpadding="0"
       cellspacing="0"
       data-testid="resource-table"
@@ -25,10 +24,11 @@
         handle=".handle"
         draggable="tr"
         @update="updateOrder"
+        class="o1-divide-y o1-divide-gray-100 dark:o1-divide-gray-700"
       >
         <ResourceTableRow
           v-for="(resource, index) in fakeResources"
-          :key="`${resourceName}-items-${index}`"
+          :key="`${resourceName}-items-${index}-${resource.id.value}`"
           @actionExecuted="$emit('actionExecuted')"
           :testId="`${resourceName}-items-${index}`"
           :delete-resource="deleteResource"
