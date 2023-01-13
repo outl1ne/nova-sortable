@@ -4,7 +4,7 @@
     :dusk="resource['id'].value + '-row'"
     class="group"
     :class="{
-      'o1-divide-x o1-divide-gray-100 dark:o1-divide-gray-700':
+      'o1-divide-x divide-gray-100 dark:divide-gray-700':
         shouldShowColumnBorders,
     }"
     @click.stop.prevent="navigateToDetail"
@@ -14,10 +14,10 @@
       v-if="shouldShowCheckboxes || canSeeReorderButtons"
       :class="{
         'o1-py-2': !shouldShowTight,
-        'o1-border-t o1-border-gray-100 dark:o1-border-gray-700 o1-px-2': true,
+        'o1-border-t border-gray-100 dark:border-gray-700 o1-px-2': true,
         'o1-cursor-pointer': resource.authorizedToView,
       }"
-      class="td-fit o1-pl-5 o1-pr-5 dark:o1-bg-gray-800 group-hover:o1-bg-gray-50 dark:group-hover:o1-bg-gray-900"
+      class="td-fit o1-pl-5 o1-pr-5 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
       @click.stop
     >
       <ReorderButtons
@@ -52,7 +52,7 @@
         'o1-cursor-pointer':
           resource.authorizedToView && clickAction !== 'ignore',
       }"
-      class="dark:o1-bg-gray-800 group-hover:o1-bg-gray-50 dark:group-hover:o1-bg-gray-900"
+      class="dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
     >
       <component
         :is="'index-' + field.component"
@@ -70,10 +70,10 @@
         'o1-py-2': !shouldShowTight,
         'o1-cursor-pointer': resource.authorizedToView,
       }"
-      class="o1-px-2 td-fit o1-text-right o1-align-middle dark:o1-bg-gray-800 group-hover:o1-bg-gray-50 dark:group-hover:o1-bg-gray-900"
+      class="o1-px-2 td-fit o1-text-right o1-align-middle dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
     >
       <div
-        class="o1-flex o1-items-center o1-justify-end o1-space-x-0 o1-text-gray-400"
+        class="o1-flex o1-items-center o1-justify-end o1-space-x-0 text-gray-400"
       >
         <InlineActionDropdown
           :actions="availableActions"

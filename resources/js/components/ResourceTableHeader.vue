@@ -1,11 +1,11 @@
 <template>
-  <thead class="o1-bg-gray-50 dark:o1-bg-gray-800">
+  <thead class="bg-gray-50 dark:bg-gray-800">
     <tr>
       <!-- Select Checkbox -->
       <th
-        class="td-fit o1-uppercase text-xxs o1-text-gray-500 o1-tracking-wide o1-pl-5 o1-pr-2 o1-py-2"
+        class="td-fit o1-uppercase text-xxs text-gray-500 o1-tracking-wide o1-pl-5 o1-pr-2 o1-py-2"
         :class="{
-          'o1-border-r o1-border-gray-200 dark:o1-border-gray-600': shouldShowColumnBorders,
+          'o1-border-r border-gray-200 dark:border-gray-600': shouldShowColumnBorders,
         }"
         v-if="shouldShowCheckboxes || canSeeReorderButtons"
       >
@@ -17,12 +17,12 @@
         :key="field.uniqueKey"
         :class="{
           [`text-${field.textAlign}`]: true,
-          'o1-border-r o1-border-gray-200 dark:o1-border-gray-600': shouldShowColumnBorders,
+          'o1-border-r border-gray-200 dark:border-gray-600': shouldShowColumnBorders,
           'o1-px-6': index == 0 && !shouldShowCheckboxes && !canSeeReorderButtons,
           'o1-px-2': index != 0 || shouldShowCheckboxes || canSeeReorderButtons,
           'o1-whitespace-nowrap': !field.wrapping,
         }"
-        class="o1-uppercase o1-text-gray-500 text-xxs o1-tracking-wide o1-py-2"
+        class="o1-uppercase text-gray-500 text-xxs o1-tracking-wide o1-py-2"
       >
         <SortableIcon
           @sort="requestOrderByChange(field)"
