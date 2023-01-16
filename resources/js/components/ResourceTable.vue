@@ -1,5 +1,5 @@
 <template>
-  <div class="o1-overflow-hidden o1-overflow-x-auto o1-relative">
+  <div class="o1-overflow-y-hidden o1-overflow-x-auto o1-relative">
     <table
       v-if="resources.length > 0"
       class="o1-w-full o1-divide-y o1-divide-gray-100 dark:o1-divide-gray-700"
