@@ -1,0 +1,11 @@
+{
+  "novaSortable.reorderingDisabledTooltip.activeSort": "Il riordino è disabilitato con le opzioni di ordinamento attive.",
+  "novaSortable.reorderingDisabledTooltip.notAllowed": "Il riordinamento non è consentito per questa risorsa.",
+  "novaSortable.moveToStart": "Sposta in cima",
+  "novaSortable.moveToEnd": "Sposta in fondo",
+  "novaSortable.reorderSuccessful": "Risorse riordinate correttamente.",
+  "novaSortable.moveToStartSuccessful": "Risorsa spostata correttamente in prima posizione.",
+  "novaSortable.moveToEndSuccessful": "Risorsa spostata correttamente nell'ultima posizione.",
+  "novaSortable.reorderError": "Si è verificato un errore durante il tentativo di riordinare la risorsa.",
+  "novaSortable.reorderNotAllowedFor": "Riordino della risorsa con ID :id non consentito."
+}
