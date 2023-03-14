@@ -36,12 +36,13 @@ export default {
           relationshipType: this.relationshipType,
           relatedResource: this.viaResource,
         });
+        await this.refreshResourcesList();
         Nova.success(this.__('novaSortable.reorderSuccessful'));
       } catch (e) {
         if (e && e.response && e.response.data && e.response.data.canNotReorder) {
           const id = e.response.data.canNotReorder;
           Nova.error(this.__('novaSortable.reorderNotAllowedFor', { id }));
-          this.refreshResourcesList();
+          await this.refreshResourcesList();
           return;
         }
         Nova.error(this.__('novaSortable.reorderError'));
