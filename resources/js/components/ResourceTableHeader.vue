@@ -38,8 +38,8 @@
       </th>
 
       <!-- View, Edit, and Delete -->
-      <th class="o1-uppercase text-xxs o1-tracking-wide o1-px-2 o1-py-2">
-        <span class="o1-sr-only">{{ __('Controls') }}</span>
+      <th class="uppercase text-xxs tracking-wide px-2 py-2">
+        <span class="sr-only">{{ __('Controls') }}</span>
       </th>
     </tr>
   </thead>

@@ -1,10 +1,8 @@
 <template>
-  <div class="o1-overflow-y-hidden o1-overflow-x-auto o1-relative">
+  <div class="overflow-hidden overflow-x-auto relative">
     <table
       v-if="resources.length > 0"
-      class="o1-w-full o1-divide-y o1-divide-gray-100 dark:o1-divide-gray-700"
-      cellpadding="0"
-      cellspacing="0"
+      class="w-full divide-y divide-gray-100 dark:divide-gray-700"
       data-testid="resource-table"
     >
       <ResourceTableHeader
@@ -15,11 +13,10 @@
         :sortable="sortable"
         @order="requestOrderByChange"
         @reset-order-by="resetOrderBy"
-        :resource="fakeResources[0] || void 0"
+        :resource="{ ...(fakeResources[0] || {}) }"
       />
       <draggable
         tag="tbody"
-        item-key="id"
         v-model="fakeResources"
         handle=".handle"
         draggable="tr"
@@ -28,9 +25,9 @@
       >
         <ResourceTableRow
           v-for="(resource, index) in fakeResources"
-          :key="`${resourceName}-items-${index}-${resource.id.value}`"
           @actionExecuted="$emit('actionExecuted')"
           :testId="`${resourceName}-items-${index}`"
+          :key="`${resourceName}-items-${index}`"
           :delete-resource="deleteResource"
           :restore-resource="restoreResource"
           :resource="resource"
@@ -62,14 +59,7 @@ import { VueDraggableNext } from 'vue-draggable-next'
 import ReordersResources from '../mixins/ReordersResources'
 
 export default {
-  emits: [
-    'actionExecuted',
-    'updateOrder',
-    'delete',
-    'restore',
-    'order',
-    'reset-order-by',
-  ],
+  emits: ['actionExecuted', 'delete', 'restore', 'order', 'reset-order-by'],
 
   mixins: [InteractsWithResourceInformation, ReordersResources],
 

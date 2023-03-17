@@ -1,5 +1,5 @@
 import ResourceTable from './components/ResourceTable';
-import ResourceTableHeader from './components/ResourceTableRow';
+import ResourceTableHeader from './components/ResourceTableHeader';
 import ResourceTableRow from './components/ResourceTableRow';
 import ReorderButtons from './components/ReorderButtons';
 

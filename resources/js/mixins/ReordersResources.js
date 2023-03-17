@@ -17,9 +17,7 @@ export default {
   },
   watch: {
     resources(newVal, oldVal) {
-      if (newVal.length !== oldVal.length) {
-        this.fakeResources = this.resources;
-      }
+      this.fakeResources = this.resources;
     },
   },
   methods: {
@@ -41,7 +39,7 @@ export default {
         if (e && e.response && e.response.data && e.response.data.canNotReorder) {
           const id = e.response.data.canNotReorder;
           Nova.error(this.__('novaSortable.reorderNotAllowedFor', { id }));
-          this.refreshResourcesList();
+          await this.refreshResourcesList();
           return;
         }
         Nova.error(this.__('novaSortable.reorderError'));
