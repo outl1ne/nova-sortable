@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Fixed update order failing with global scopes (thanks to [@kiritokatklian](https://github.com/kiritokatklian))
+- Fixed light/dark theme handling when set to "System"
 - Updated packages
 
 ## [3.4.2] - 16-01-2023
