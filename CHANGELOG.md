@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.4.3] - 17-03-2023
 
-### Changed
+### Added
 
 - Added Italian translations (thanks to [@trippo](https://github.com/trippo))
+
+### Changed
+
 - Fixed item duplication on drag-and-drop move
 - Fixed update order failing with global scopes (thanks to [@kiritokatklian](https://github.com/kiritokatklian))
 - Fixed light/dark theme handling when set to "System"
