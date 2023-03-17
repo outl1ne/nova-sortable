@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added Italian translations (thanks to [@trippo](https://github.com/trippo))
+- Fixed item duplication on drag-and-drop move
 - Fixed update order failing with global scopes (thanks to [@kiritokatklian](https://github.com/kiritokatklian))
 - Fixed light/dark theme handling when set to "System"
 - Updated packages
