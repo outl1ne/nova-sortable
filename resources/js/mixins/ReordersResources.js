@@ -39,7 +39,7 @@ export default {
         if (e && e.response && e.response.data && e.response.data.canNotReorder) {
           const id = e.response.data.canNotReorder;
           Nova.error(this.__('novaSortable.reorderNotAllowedFor', { id }));
-          await this.refreshResourcesList();
+          this.refreshResourcesList();
           return;
         }
         Nova.error(this.__('novaSortable.reorderError'));
