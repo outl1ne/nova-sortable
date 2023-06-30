@@ -49,8 +49,7 @@
         'o1-px-2': index != 0 || shouldShowCheckboxes,
         'o1-py-2': !shouldShowTight,
         'o1-whitespace-nowrap': !field.wrapping,
-        'o1-cursor-pointer':
-          resource.authorizedToView && clickAction !== 'ignore',
+        'o1-cursor-pointer': clickableRow,
       }"
       class="dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
     >
@@ -76,6 +75,7 @@
         class="o1-flex o1-items-center o1-justify-end o1-space-x-0 text-gray-400"
       >
         <InlineActionDropdown
+          v-if="shouldShowActionDropdown"
           :actions="availableActions"
           :endpoint="actionsEndpoint"
           :resource="resource"
@@ -220,8 +220,8 @@
 
 <script>
 import filter from 'lodash/filter'
-import { Inertia } from '@inertiajs/inertia'
 import ReordersResources from '../mixins/ReordersResources'
+import { mapGetters } from 'vuex'
 
 export default {
   emits: ['actionExecuted'],
@@ -329,6 +329,9 @@ export default {
     },
 
     navigateToPreviewView(e) {
+      if (!this.resource.authorizedToView) {
+        return
+      }
       this.openPreviewModal()
     },
 
@@ -368,6 +371,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['currentUser']),
+
     updateURL() {
       return this.$url(
         `/resources/${this.resourceName}/${this.resource.id.value}/edit`,
@@ -390,7 +395,42 @@ export default {
     },
 
     shouldShowTight() {
-      return this.tableStyle == 'tight'
+      return this.tableStyle === 'tight'
+    },
+
+    clickableRow() {
+      if (this.clickAction === 'edit') {
+        return this.resource.authorizedToUpdate
+      } else if (this.clickAction === 'select') {
+        return this.shouldShowCheckboxes
+      } else if (this.clickAction === 'ignore') {
+        return false
+      } else if (this.clickAction === 'detail') {
+        return this.resource.authorizedToView
+      } else if (this.clickAction === 'preview') {
+        return this.resource.authorizedToView
+      } else {
+        return this.resource.authorizedToView
+      }
+    },
+
+    shouldShowActionDropdown() {
+      return this.availableActions.length > 0 || this.userHasAnyOptions
+    },
+    shouldShowPreviewLink() {
+      return this.resource.authorizedToView && this.resource.previewHasFields
+    },
+    userHasAnyOptions() {
+      return (
+        this.resource.authorizedToReplicate ||
+        this.shouldShowPreviewLink ||
+        this.canBeImpersonated
+      )
+    },
+    canBeImpersonated() {
+      return (
+        this.currentUser.canImpersonate && this.resource.authorizedToImpersonate
+      )
     },
   },
 }
