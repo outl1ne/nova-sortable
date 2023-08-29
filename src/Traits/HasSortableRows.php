@@ -2,6 +2,7 @@
 
 namespace Outl1ne\NovaSortable\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\EloquentSortable\SortableTrait;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -109,7 +110,7 @@ trait HasSortableRows
         return array_merge(parent::serializeForIndex($request, $fields), $sortabilityData);
     }
 
-    public static function indexQuery(NovaRequest $request, $query)
+    public static function indexQuery(NovaRequest $request, $query): Builder
     {
         $sortability = static::getSortability($request);
 
