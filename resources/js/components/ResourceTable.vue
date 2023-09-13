@@ -27,7 +27,7 @@
           v-for="(resource, index) in fakeResources"
           @actionExecuted="$emit('actionExecuted')"
           :testId="`${resourceName}-items-${index}`"
-          :key="`${resourceName}-items-${index}`"
+          :key="`${resourceName}-items-${index}-${resource.id.value}`"
           :delete-resource="deleteResource"
           :restore-resource="restoreResource"
           :resource="resource"
