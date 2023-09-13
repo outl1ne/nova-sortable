@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.6] - 13-09-2023
+
+### Changed
+
+- Fixed resource table keys causing items to not re-render when searching inside the table
+- Fixed indexQuery return type (#176) (thanks to [@mennotempelaar](https://github.com/mennotempelaar))
+
+## [3.4.5] - 18-08-2023
+
+### Changed
+
+- Fixed unstyled disabled buttons in dark mode (issue #174)
+
+## [3.4.4] - 30-06-2023
+
+### Changed
+
+- Fixed an issue with Nova where the inline actions button would appear even if there aren't any actions defined (#172)
+- Bumped minimum Nova version to 4.24.0
+
 ## [3.4.3] - 17-03-2023
 
 ### Added
