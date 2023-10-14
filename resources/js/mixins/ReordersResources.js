@@ -2,6 +2,8 @@ import { canSortResource } from './canSortResource';
 
 export default {
   data: () => ({
+    futureIndex: null,
+    movingIndex: null,
     reorderLoading: false,
     fakeResources: [],
   }),
@@ -21,7 +23,13 @@ export default {
     },
   },
   methods: {
+    handleMove(e) {
+      this.futureIndex = e.related.getAttribute('index');
+      this.movingIndex = e.dragged.getAttribute('index');
+      return false;
+    },
     async updateOrder(event) {
+      this.fakeResources[this.movingIndex] = this.fakeResources.splice(this.futureIndex, 1, this.fakeResources[this.movingIndex])[0];
       this.reorderLoading = true;
 
       try {
@@ -44,7 +52,6 @@ export default {
         }
         Nova.error(this.__('novaSortable.reorderError'));
       }
-
       this.reorderLoading = false;
     },
 
