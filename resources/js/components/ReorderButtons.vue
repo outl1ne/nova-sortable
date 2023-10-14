@@ -1,6 +1,6 @@
 <template>
     <div class="ml-2 inline-block align-middle" v-tooltip="reorderDisabledTooltip" v-if="canSeeReorderButtons">
-      <div class="o1-flex o1-flex-col">
+      <div class="o1-flex o1-flex-col" v-if="displayMoveToButtons">
         <ChevronUpIcon
           @click.stop="!reorderDisabled && $emit('moveToStart')"
           :custom-class="{
