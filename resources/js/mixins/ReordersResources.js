@@ -58,6 +58,7 @@ export default {
     async moveToStart(resource) {
       this.reorderLoading = true;
       try {
+        console.log('nova-sortable:','move-to-start');
         await Nova.request().post(`/nova-vendor/nova-sortable/sort/${this.resourceName}/move-to-start`, {
           resourceId: resource.id.value,
           viaResource: this.viaResource,
@@ -77,6 +78,7 @@ export default {
     async moveToEnd(resource) {
       this.reorderLoading = true;
       try {
+        console.log('nova-sortable:','move-to-end');
         await Nova.request().post(`/nova-vendor/nova-sortable/sort/${this.resourceName}/move-to-end`, {
           resourceId: resource.id.value,
           viaResource: this.viaResource,

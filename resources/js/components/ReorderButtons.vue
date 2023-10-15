@@ -1,10 +1,10 @@
 <template>
     <div class="ml-2 inline-block align-middle" v-tooltip="reorderDisabledTooltip" v-if="canSeeReorderButtons">
-      <div class="o1-flex o1-flex-col" v-if="displayMoveToButtons">
+      <div class="inline-flex flex-col align-middle mr-1" v-if="displayMoveToButtons">
         <ChevronUpIcon
           @click.stop="!reorderDisabled && $emit('moveToStart')"
           :custom-class="{
-            'o1-cursor-pointer text-gray-400 hover:text-primary-400 active:text-primary-500': !reorderDisabled,
+            'o1-cursor-pointer text-gray-400 hover:text-primary-500 active:text-primary-500': !reorderDisabled,
             'o1-cursor-default text-gray-200 dark:text-gray-600': reorderDisabled,
           }"
           v-tooltip="moveToStartTooltip"
@@ -19,7 +19,7 @@
           v-tooltip="moveToEndTooltip"
         />
       </div>
-      <heroicons-outline-menu width="24" height="24" href="/"
+      <heroicons-outline-menu class="inline-flex flex-col align-middle" width="24" height="24" href="/"
         :class="{
           'handle o1-cursor-move text-gray-400 hover:text-primary-500 active:text-primary-500': !reorderDisabled,
           'o1-cursor-default text-gray-200 dark:text-gray-600': reorderDisabled,
@@ -36,7 +36,7 @@ import { canSortResource } from '../mixins/canSortResource';
 export default {
   components: { ChevronUpIcon, ChevronDownIcon },
 
-  props: ['resource', 'viaResourceId', 'relationshipType', 'viaRelationship', 'resourceName'],
+  props: ['resource', 'viaResourceId', 'relationshipType', 'viaRelationship', 'resourceName', 'displayMoveToButtons'],
 
   computed: {
     canSeeReorderButtons() {

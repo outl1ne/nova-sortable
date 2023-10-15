@@ -15,6 +15,8 @@ const handleDarkMode = () => {
   }
 };
 
+const config = Nova.config('nova-sortable')
+
 Nova.booting((app, router, store) => {
   handleDarkMode();
   new MutationObserver(handleDarkMode).observe(document.documentElement, {
@@ -66,6 +68,7 @@ Nova.booting((app, router, store) => {
                        relationshipType: this.relationshipType,
                        viaRelationship: this.viaRelationship,
                        resourceName: this.resourceName,
+                       displayMoveToButtons: config.displayMoveToButtons
                     });
 
                     ReorderButtonsVNode.appContext = app._context

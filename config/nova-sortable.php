@@ -1,7 +1,5 @@
 <?php
 
     return [
-      "options" => [
-         "displayMoveToButtons" => false
-      ],
+        "displayMoveToButtons" => true
     ];
