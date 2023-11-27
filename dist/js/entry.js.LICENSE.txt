@@ -1,6 +1,6 @@
 /*!
-  * vue-draggable-next v2.1.0
-  * (c) 2021 Anish George
+  * vue-draggable-next v2.2.0
+  * (c) 2023 Anish George
   * @license MIT
   */
 
