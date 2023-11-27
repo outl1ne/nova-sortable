@@ -20,8 +20,20 @@ class ToolServiceProvider extends ServiceProvider
 
         Nova::serving(function (ServingNova $event) {
             Nova::script('nova-sortable', __DIR__ . '/../dist/js/entry.js');
-  	        Nova::style('nova-sortable', __DIR__ . '/../dist/css/tool.css');
+  	    Nova::style('nova-sortable', __DIR__ . '/../dist/css/tool.css');
+
+            Nova::provideToScript([
+                'nova-sortable' => config('nova-sortable'),
+            ]);
+
         });
+
+        if ($this->app->runningInConsole()) {
+            // Publish config
+            $this->publishes([
+                __DIR__ . '/../config/' => config_path(),
+            ], 'config');
+        }
 
         $this->loadTranslations(__DIR__ . '/../resources/lang', 'nova-sortable', true);
     }
@@ -40,5 +52,12 @@ class ToolServiceProvider extends ServiceProvider
             ->domain(config('nova.domain', null))
             ->namespace('\Outl1ne\NovaSortable\Http\Controllers')
             ->group(__DIR__ . '/../routes/api.php');
+    }
+
+    public function register(): void
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/nova-sortable.php', 'nova-sortable',
+        );
     }
 }

@@ -1,12 +1,10 @@
 <template>
-  <div class="o1-flex o1-items-center">
-    <slot></slot>
-    <div class="o1-flex o1-items-center o1-ml-4" v-tooltip="reorderDisabledTooltip" v-if="canSeeReorderButtons">
-      <div class="o1-flex o1-flex-col">
+    <div class="ml-2 inline-block align-middle" v-tooltip="reorderDisabledTooltip" v-if="canSeeReorderButtons">
+      <div class="inline-flex flex-col align-middle mr-1" v-if="displayMoveToButtons">
         <ChevronUpIcon
           @click.stop="!reorderDisabled && $emit('moveToStart')"
           :custom-class="{
-            'o1-cursor-pointer text-gray-400 hover:text-primary-400 active:text-primary-500': !reorderDisabled,
+            'o1-cursor-pointer text-gray-400 hover:text-primary-500 active:text-primary-500': !reorderDisabled,
             'o1-cursor-default text-gray-200 dark:text-gray-600': reorderDisabled,
           }"
           v-tooltip="moveToStartTooltip"
@@ -15,34 +13,30 @@
         <ChevronDownIcon
           @click.stop="!reorderDisabled && $emit('moveToEnd')"
           :custom-class="{
-            'o1-cursor-pointer text-gray-400 hover:text-primary-400  active:text-primary-500': !reorderDisabled,
+            'o1-cursor-pointer text-gray-400 hover:text-primary-500  active:text-primary-500': !reorderDisabled,
             'o1-cursor-default text-gray-200 dark:text-gray-600': reorderDisabled,
           }"
           v-tooltip="moveToEndTooltip"
         />
       </div>
-
-      <BurgerIcon
-        style="min-width: 22px; width: 22px"
-        :custom-class="{
-          'handle o1-cursor-move text-gray-400 hover:text-primary-400 active:text-primary-500': !reorderDisabled,
+      <heroicons-outline-menu class="inline-flex flex-col align-middle" width="24" height="24" href="/"
+        :class="{
+          'handle o1-cursor-move text-gray-400 hover:text-primary-500 active:text-primary-500': !reorderDisabled,
           'o1-cursor-default text-gray-200 dark:text-gray-600': reorderDisabled,
         }"
       />
     </div>
-  </div>
 </template>
 
 <script>
 import ChevronUpIcon from '../icons/ChevronUpIcon';
 import ChevronDownIcon from '../icons/ChevronDownIcon';
-import BurgerIcon from '../icons/BurgerIcon';
 import { canSortResource } from '../mixins/canSortResource';
 
 export default {
-  components: { ChevronUpIcon, ChevronDownIcon, BurgerIcon },
+  components: { ChevronUpIcon, ChevronDownIcon },
 
-  props: ['resource', 'viaResourceId', 'relationshipType', 'viaRelationship', 'resourceName'],
+  props: ['resource', 'viaResourceId', 'relationshipType', 'viaRelationship', 'resourceName', 'displayMoveToButtons'],
 
   computed: {
     canSeeReorderButtons() {

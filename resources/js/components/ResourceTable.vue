@@ -1,10 +1,16 @@
 <template>
   <div class="overflow-hidden overflow-x-auto relative">
-    <table
-      v-if="resources.length > 0"
-      class="w-full divide-y divide-gray-100 dark:divide-gray-700"
-      data-testid="resource-table"
-    >
+    <draggable
+        v-if="resources.length > 0"
+        tag="table"
+        v-model="fakeResources"
+        handle=".handle"
+        filter="thead"
+        draggable="tbody"
+        @end="updateOrder"
+        :move="handleMove"
+        data-testid="resource-table"
+     >
       <ResourceTableHeader
         :resource-name="resourceName"
         :fields="fields"
@@ -15,16 +21,8 @@
         @reset-order-by="resetOrderBy"
         :resource="{ ...(fakeResources[0] || {}) }"
       />
-      <draggable
-        tag="tbody"
-        v-model="fakeResources"
-        handle=".handle"
-        draggable="tr"
-        @update="updateOrder"
-        class="o1-divide-y o1-divide-gray-100 dark:o1-divide-gray-700"
-      >
+      <tbody class="draggable" v-for="(resource, index) in fakeResources" :index="index">
         <ResourceTableRow
-          v-for="(resource, index) in fakeResources"
           @actionExecuted="$emit('actionExecuted')"
           :testId="`${resourceName}-items-${index}`"
           :key="`${resourceName}-items-${index}-${resource.id.value}`"
@@ -48,8 +46,8 @@
           @moveToStart="moveToStart(resource)"
           @moveToEnd="moveToEnd(resource)"
         />
-      </draggable>
-    </table>
+      </tbody>
+    </draggable>
   </div>
 </template>
 
@@ -153,7 +151,6 @@ export default {
       this.$emit('reset-order-by', field)
     },
   },
-
   computed: {
     /**
      * Get all of the available fields for the resources.
