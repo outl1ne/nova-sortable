@@ -4,6 +4,7 @@
       v-if="resources.length > 0"
       class="w-full divide-y divide-gray-100 dark:divide-gray-700"
       data-testid="resource-table"
+      dusk="resource-table"
     >
       <ResourceTableHeader
         :resource-name="resourceName"
