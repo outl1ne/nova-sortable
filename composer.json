@@ -68,9 +68,6 @@
       "Composer\\Config::disableProcessTimeout",
       "@build",
       "@php vendor/bin/testbench serve --ansi"
-    ],
-    "lint": [
-      "@php vendor/bin/phpstan analyse --verbose --ansi"
     ]
   }
 }
