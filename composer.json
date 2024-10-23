@@ -1,41 +1,76 @@
 {
-  "name": "outl1ne/nova-sortable",
-  "description": "This Laravel Nova package allows you to reorder models in a Nova resource's index view using drag & drop.",
-  "keywords": [
-    "laravel",
-    "nova",
-    "eloquent-sortable",
-    "optimistdigital",
-    "outl1ne"
-  ],
-  "license": "MIT",
-  "require": {
-    "php": ">=8.0",
-    "spatie/eloquent-sortable": "^3.10.0|^4.0",
-    "laravel/nova": "^4.24.0",
-    "outl1ne/nova-translations-loader": "^5.0"
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://nova.laravel.com"
+    "name": "outl1ne/nova-sortable",
+    "description": "This Laravel Nova package allows you to reorder models in a Nova resource's index view using drag & drop.",
+    "keywords": [
+        "laravel",
+        "nova",
+        "eloquent-sortable",
+        "optimistdigital",
+        "outl1ne"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1",
+        "spatie/eloquent-sortable": "^3.10.0|^4.0",
+        "laravel/nova": "*",
+        "outl1ne/nova-translations-loader": "^5.0"
+    },
+    "require-dev": {
+        "laravel/nova-devtool": "^1.0"
+    },
+    "repositories": [
+        {
+            "type": "artifact",
+            "url": "artifacts"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/laravel/nova-devtool"
+        },
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Outl1ne\\NovaSortable\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Outl1ne\\NovaSortable\\ToolServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload-dev": {
+        "psr-4": {
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
+        "lint": [
+            "@php vendor/bin/phpstan analyse --verbose --ansi"
+        ]
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Outl1ne\\NovaSortable\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Outl1ne\\NovaSortable\\ToolServiceProvider"
-      ]
-    }
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
 }
