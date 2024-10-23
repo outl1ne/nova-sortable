@@ -37,6 +37,13 @@
       "Outl1ne\\NovaSortable\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Workbench\\App\\": "workbench/app/",
+      "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+      "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+    }
+  },
   "extra": {
     "laravel": {
       "providers": [
@@ -49,13 +56,6 @@
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
-  "autoload-dev": {
-    "psr-4": {
-      "Workbench\\App\\": "workbench/app/",
-      "Workbench\\Database\\Factories\\": "workbench/database/factories/",
-      "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
-    }
-  },
   "scripts": {
     "post-autoload-dump": [
       "@clear",
