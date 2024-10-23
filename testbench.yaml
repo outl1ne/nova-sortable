@@ -1,8 +1,8 @@
 providers:
-  - Spatie\EloquentSortable\EloquentSortableServiceProvider
   - Laravel\Nova\NovaCoreServiceProvider
-
   - Workbench\App\Providers\NovaServiceProvider
+  - Spatie\EloquentSortable\EloquentSortableServiceProvider
+  - Outl1ne\NovaSortable\ToolServiceProvider
 
 migrations:
   - workbench/database/migrations
