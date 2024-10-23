@@ -12,12 +12,9 @@
   },
   "devDependencies": {
     "laravel-nova-devtool": "file:vendor/laravel/nova-devtool",
-    "prettier": "^2.7.1",
-    "vue-loader": "^16.8.3"
+    "prettier": "^2.7.1"
   },
   "dependencies": {
-    "axios": "^1.7.4",
-    "inflector-js": "^1.0.1",
     "vue-draggable-next": "^2.1.1"
   }
 }
