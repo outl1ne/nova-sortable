@@ -46,12 +46,8 @@
 </template>
 
 <script>
-import ReordersResources from '../mixins/ReordersResources';
-
 export default {
   name: 'ResourceTableHeader',
-
-  mixins: [ReordersResources],
 
   emits: ['order', 'reset-order-by'],
 
@@ -60,6 +56,7 @@ export default {
     resourceName: String,
     shouldShowColumnBorders: Boolean,
     shouldShowCheckboxes: Boolean,
+    canSeeReorderButtons: Boolean,
     fields: {
       type: [Object, Array],
     },
