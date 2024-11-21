@@ -220,12 +220,10 @@
 
 <script>
 import filter from 'lodash/filter'
-import ReordersResources from '../mixins/ReordersResources'
 import { mapGetters } from 'vuex'
 
 export default {
   emits: ['actionExecuted'],
-  mixins: [ReordersResources],
 
   inject: [
     'authorizedToViewAnyResources',
@@ -250,6 +248,7 @@ export default {
     'actionsAreAvailable',
     'actionsEndpoint',
     'shouldShowCheckboxes',
+    'canSeeReorderButtons',
     'shouldShowColumnBorders',
     'tableStyle',
     'updateSelectionStatus',
