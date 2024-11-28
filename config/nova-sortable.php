@@ -1,5 +1,5 @@
 <?php
 
-    return [
-        "displayMoveToButtons" => true
-    ];
+return [
+    'displayMoveToButtons' => false,
+];
