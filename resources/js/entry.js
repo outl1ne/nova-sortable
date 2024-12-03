@@ -53,14 +53,15 @@ Nova.booting((app, router, store) => {
                 const checkbox = document.querySelector(`table[data-testid="resource-table"] tr[dusk="${ rowId }-row"] > td`);
 
                 if (element) {
+                    checkbox.classList.add('flex', 'items-center');
                     checkbox.appendChild(handleContainer);
 
-			/*
+		    /*
                     const tbody = document.createElement('tbody')
                     element.parentNode.insertBefore(tbody, element);
                     tbody.appendChild(element);
                     tbody.insertAdjacentElement('afterend',dropTbody);
-			*/
+	            */
 
                     const ReorderButtonsVNode = createVNode(ReorderButtons, {
                        resource: this.resource,
@@ -77,6 +78,7 @@ Nova.booting((app, router, store) => {
                     this.toDestroy.push(handleContainer)
                 }
             }
+
         },
    });
 
