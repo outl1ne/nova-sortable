@@ -1,9 +1,9 @@
 <?php
 
-namespace Workbench\Database\Seeders;
+namespace Database\Seeders;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
-use Workbench\Database\Factories\UserFactory;
 
 class DatabaseSeeder extends Seeder
 {

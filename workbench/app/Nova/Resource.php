@@ -1,6 +1,6 @@
 <?php
 
-namespace Workbench\App\Nova;
+namespace App\Nova;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;

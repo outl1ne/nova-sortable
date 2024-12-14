@@ -16,17 +16,9 @@
     "outl1ne/nova-translations-loader": "^5.0"
   },
   "require-dev": {
-    "laravel/nova-devtool": "^1.0"
+    "laravel/nova-devtool": "^1.0.1"
   },
   "repositories": [
-    {
-      "type": "artifact",
-      "url": "artifacts"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/laravel/nova-devtool"
-    },
     {
       "type": "composer",
       "url": "https://nova.laravel.com"
@@ -39,9 +31,9 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Workbench\\App\\": "workbench/app/",
-      "Workbench\\Database\\Factories\\": "workbench/database/factories/",
-      "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+      "App\\": "workbench/app/",
+      "Database\\Factories\\": "workbench/database/factories/",
+      "Database\\Seeders\\": "workbench/database/seeders/"
     }
   },
   "extra": {

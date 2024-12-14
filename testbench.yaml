@@ -1,14 +1,11 @@
 providers:
   - Laravel\Nova\NovaCoreServiceProvider
-  - Workbench\App\Providers\NovaServiceProvider
+  - App\Providers\NovaServiceProvider
   - Spatie\EloquentSortable\EloquentSortableServiceProvider
   - Outl1ne\NovaSortable\ToolServiceProvider
 
 migrations:
   - workbench/database/migrations
-
-seeders:
-  - Workbench\Database\Seeders\DatabaseSeeder
 
 workbench:
   start: /nova
@@ -18,7 +15,8 @@ workbench:
     - asset-publish
     - create-sqlite-db
     - db:wipe
-    - migrate:refresh
+    - migrate:refresh:
+        --seed: true
   assets:
     - nova-assets
   sync: []
