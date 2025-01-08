@@ -1,5 +1,4 @@
 /.idea
-/artifacts
 /vendor
 /node_modules
 composer.phar
