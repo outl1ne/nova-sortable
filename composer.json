@@ -10,10 +10,13 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=8.0",
-    "spatie/eloquent-sortable": "^3.10.0|^4.0",
-    "laravel/nova": "^4.24.0",
+    "php": ">=8.1",
+    "spatie/eloquent-sortable": "^4.0",
+    "laravel/nova": "^5.0",
     "outl1ne/nova-translations-loader": "^5.0"
+  },
+  "require-dev": {
+    "laravel/nova-devtool": "^1.0.1"
   },
   "repositories": [
     {
@@ -24,6 +27,13 @@
   "autoload": {
     "psr-4": {
       "Outl1ne\\NovaSortable\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\": "workbench/app/",
+      "Database\\Factories\\": "workbench/database/factories/",
+      "Database\\Seeders\\": "workbench/database/seeders/"
     }
   },
   "extra": {
@@ -37,5 +47,19 @@
     "sort-packages": true
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "scripts": {
+    "post-autoload-dump": [
+      "@clear",
+      "@prepare"
+    ],
+    "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+    "prepare": "@php vendor/bin/testbench package:discover --ansi",
+    "build": "@php vendor/bin/testbench workbench:build --ansi",
+    "serve": [
+      "Composer\\Config::disableProcessTimeout",
+      "@build",
+      "@php vendor/bin/testbench serve --ansi"
+    ]
+  }
 }

@@ -2,10 +2,10 @@
 
 namespace Outl1ne\NovaSortable;
 
-use Laravel\Nova\Nova;
-use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Nova\Events\ServingNova;
+use Laravel\Nova\Nova;
 use Outl1ne\NovaTranslationsLoader\LoadsNovaTranslations;
 
 class ToolServiceProvider extends ServiceProvider
@@ -19,11 +19,11 @@ class ToolServiceProvider extends ServiceProvider
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-sortable', __DIR__ . '/../dist/js/entry.js');
-  	        Nova::style('nova-sortable', __DIR__ . '/../dist/css/tool.css');
+            Nova::script('nova-sortable', __DIR__.'/../dist/js/entry.js');
+            Nova::style('nova-sortable', __DIR__.'/../dist/css/tool.css');
         });
 
-        $this->loadTranslations(__DIR__ . '/../resources/lang', 'nova-sortable', true);
+        $this->loadTranslations(__DIR__.'/../resources/lang', 'nova-sortable', true);
     }
 
     /**
@@ -33,12 +33,14 @@ class ToolServiceProvider extends ServiceProvider
      */
     protected function routes()
     {
-        if ($this->app->routesAreCached()) return;
+        if ($this->app->routesAreCached()) {
+            return;
+        }
 
         Route::middleware(['nova'])
             ->prefix('nova-vendor/nova-sortable')
             ->domain(config('nova.domain', null))
             ->namespace('\Outl1ne\NovaSortable\Http\Controllers')
-            ->group(__DIR__ . '/../routes/api.php');
+            ->group(__DIR__.'/../routes/api.php');
     }
 }

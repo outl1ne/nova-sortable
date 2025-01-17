@@ -1,0 +1,27 @@
+providers:
+  - Laravel\Nova\NovaCoreServiceProvider
+  - App\Providers\NovaServiceProvider
+  - Spatie\EloquentSortable\EloquentSortableServiceProvider
+  - Outl1ne\NovaSortable\ToolServiceProvider
+
+migrations:
+  - workbench/database/migrations
+
+workbench:
+  start: /nova
+  user: nova@laravel.com
+  build:
+    - package:discover
+    - asset-publish
+    - create-sqlite-db
+    - db:wipe
+    - migrate:refresh:
+        --seed: true
+  assets:
+    - nova-assets
+  sync: []
+
+purge:
+  directories:
+    - lang/*
+    - public/vendor/*
