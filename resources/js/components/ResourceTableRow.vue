@@ -92,84 +92,71 @@
         <Link
           v-if="authorizedToViewAnyResources"
           :as="!resource.authorizedToView ? 'button' : 'a'"
-          :disabled="!resource.authorizedToView"
-          v-tooltip.click="__('View')"
-          :aria-label="__('View')"
+          :href="viewURL"
+          :disabled="!resource.authorizedToView ? true : null"
+          @click.stop
+          class="inline-flex items-center justify-center h-9 w-9"
+          :class="
+            resource.authorizedToView
+              ? 'text-gray-500 dark:text-gray-400 hover:[&:not(:disabled)]:text-primary-500 dark:hover:[&:not(:disabled)]:text-primary-500'
+              : 'disabled:cursor-not-allowed disabled:opacity-50'
+          "
           :dusk="`${resource['id'].value}-view-button`"
-          :href="$url(`/resources/${resourceName}/${resource['id'].value}`)"
-          class="toolbar-button hover:o1-text-primary-500 o1-px-2 disabled:o1-opacity-50 disabled:o1-pointer-events-none"
-          @click.stop
+          :aria-label="__('View')"
+          v-tooltip.click="__('View')"
         >
-          <Icon type="eye" />
+          <span class="flex items-center gap-1">
+            <span>
+              <Icon name="eye" />
+            </span>
+          </span>
         </Link>
 
-        <!-- Edit Pivot Button -->
+        <!-- Edit Button -->
         <Link
-          v-if="
-            authorizedToUpdateAnyResources &&
-            (relationshipType == 'belongsToMany' ||
-              relationshipType == 'morphToMany')
-          "
+          v-if="authorizedToUpdateAnyResources"
           :as="!resource.authorizedToUpdate ? 'button' : 'a'"
-          :disabled="!resource.authorizedToUpdate"
-          v-tooltip.click="__('Edit Attached')"
-          :aria-label="__('Edit Attached')"
-          :dusk="`${resource['id'].value}-edit-attached-button`"
-          :href="
-            $url(
-              `/resources/${viaResource}/${viaResourceId}/edit-attached/${resourceName}/${resource['id'].value}`,
-              {
-                viaRelationship: viaRelationship,
-                viaPivotId: resource['id'].pivotValue,
-              }
-            )
-          "
-          class="toolbar-button hover:o1-text-primary-500 o1-px-2 disabled:o1-opacity-50 disabled:o1-pointer-events-none"
+          :href="updateURL"
+          :disabled="!resource.authorizedToUpdate ? true : null"
           @click.stop
-        >
-          <Icon type="pencil-alt" />
-        </Link>
-
-        <!-- Edit Resource Link -->
-        <Link
-          v-else-if="authorizedToUpdateAnyResources"
-          :as="!resource.authorizedToUpdate ? 'button' : 'a'"
-          :disabled="!resource.authorizedToUpdate"
-          v-tooltip.click="__('Edit')"
-          :aria-label="__('Edit')"
-          :dusk="`${resource['id'].value}-edit-button`"
-          :href="
-            $url(`/resources/${resourceName}/${resource['id'].value}/edit`, {
-              viaResource: viaResource,
-              viaResourceId: viaResourceId,
-              viaRelationship: viaRelationship,
-            })
+          class="inline-flex items-center justify-center h-9 w-9"
+          :class="
+            resource.authorizedToUpdate
+              ? 'text-gray-500 dark:text-gray-400 hover:[&:not(:disabled)]:text-primary-500 dark:hover:[&:not(:disabled)]:text-primary-500'
+              : 'disabled:cursor-not-allowed disabled:opacity-50'
           "
-          class="toolbar-button hover:o1-text-primary-500 o1-px-2 disabled:o1-opacity-50 disabled:o1-pointer-events-none"
-          @click.stop
+          :dusk="
+            viaManyToMany
+              ? `${resource['id'].value}-edit-attached-button`
+              : `${resource['id'].value}-edit-button`
+          "
+          :aria-label="viaManyToMany ? __('Edit Attached') : __('Edit')"
+          v-tooltip.click="viaManyToMany ? __('Edit Attached') : __('Edit')"
         >
-          <Icon type="pencil-alt" />
+          <span class="flex items-center gap-1">
+            <span>
+              <Icon name="pencil-square" />
+            </span>
+          </span>
         </Link>
 
         <!-- Delete Resource Link -->
-        <button
+        <Button
           v-if="
             authorizedToDeleteAnyResources &&
             (!resource.softDeleted || viaManyToMany)
           "
+          @click.stop="openDeleteModal"
           v-tooltip.click="__(viaManyToMany ? 'Detach' : 'Delete')"
           :aria-label="__(viaManyToMany ? 'Detach' : 'Delete')"
-          :data-testid="`${testId}-delete-button`"
+          :dusk="`${resource.id.value}-delete-button`"
+          icon="trash"
+          variant="action"
           :disabled="!resource.authorizedToDelete"
-          :dusk="`${resource['id'].value}-delete-button`"
-          class="toolbar-button hover:o1-text-primary-500 o1-px-2 disabled:o1-opacity-50 disabled:o1-pointer-events-none"
-          @click.stop="openDeleteModal"
-        >
-          <Icon type="trash" />
-        </button>
+        />
 
         <!-- Restore Resource Link -->
-        <button
+        <Button
           v-if="
             authorizedToRestoreAnyResources &&
             resource.softDeleted &&
@@ -178,12 +165,12 @@
           v-tooltip.click="__('Restore')"
           :aria-label="__('Restore')"
           :disabled="!resource.authorizedToRestore"
-          :dusk="`${resource['id'].value}-restore-button`"
-          class="toolbar-button hover:o1-text-primary-500 o1-px-2 disabled:o1-opacity-50 disabled:o1-pointer-events-none"
+          :dusk="`${resource.id.value}-restore-button`"
+          type="button"
           @click.stop="openRestoreModal"
-        >
-          <Icon type="refresh" />
-        </button>
+          icon="arrow-path"
+          variant="action"
+        />
 
         <DeleteResourceModal
           :mode="viaManyToMany ? 'detach' : 'delete'"
@@ -199,7 +186,7 @@
         >
           <ModalHeader v-text="__('Restore Resource')" />
           <ModalContent>
-            <p class="o1-leading-normal">
+            <p class="leading-normal">
               {{ __('Are you sure you want to restore this resource?') }}
             </p>
           </ModalContent>
@@ -222,10 +209,12 @@
 import filter from 'lodash/filter'
 import ReordersResources from '../mixins/ReordersResources'
 import { mapGetters } from 'vuex'
+import { Button, Icon } from 'laravel-nova-ui'
 
 export default {
   emits: ['actionExecuted'],
   mixins: [ReordersResources],
+  components: {Button, Icon},
 
   inject: [
     'authorizedToViewAnyResources',
