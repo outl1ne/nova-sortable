@@ -363,6 +363,16 @@ export default {
     ...mapGetters(['currentUser']),
 
     updateURL() {
+      if (this.viaManyToMany) {
+        return this.$url(
+          `/resources/${this.viaResource}/${this.viaResourceId}/edit-attached/${this.resourceName}/${this.resource.id.value}`,
+          {
+            viaRelationship: this.viaRelationship,
+            viaPivotId: this.resource.id.pivotValue,
+          }
+        )
+      }
+ 
       return this.$url(
         `/resources/${this.resourceName}/${this.resource.id.value}/edit`,
         {
