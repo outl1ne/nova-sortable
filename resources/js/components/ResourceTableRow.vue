@@ -214,7 +214,7 @@ import { Button, Icon } from 'laravel-nova-ui'
 export default {
   emits: ['actionExecuted'],
   mixins: [ReordersResources],
-  components: {Button, Icon},
+  components: { Button, Icon },
 
   inject: [
     'authorizedToViewAnyResources',
@@ -372,7 +372,7 @@ export default {
           }
         )
       }
- 
+
       return this.$url(
         `/resources/${this.resourceName}/${this.resource.id.value}/edit`,
         {
