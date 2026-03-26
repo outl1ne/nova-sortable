@@ -142,7 +142,7 @@ trait HasSortableRows
                     $shouldSort = false;
                 }
 
-                if (empty($request->get('orderBy')) && $shouldSort) {
+                if (empty($request->input('orderBy')) && $shouldSort) {
                     $query->getQuery()->orders = [];
                     $direction = static::getOrderByDirection($sortability->sortable);
                     $queryColumn = "{$sortability->model->getTable()}.{$sortability->model->determineOrderColumnName()}";
