@@ -2,7 +2,7 @@
   <div class="o1-flex o1-items-center">
     <slot></slot>
     <div class="o1-flex o1-items-center o1-ml-4" v-tooltip="reorderDisabledTooltip" v-if="canSeeReorderButtons">
-      <div class="o1-flex o1-flex-col">
+      <div class="o1-flex o1-flex-col" v-if="!hideReorderButtons">
         <ChevronUpIcon
           @click.stop="!reorderDisabled && $emit('moveToStart')"
           :custom-class="{
@@ -47,6 +47,10 @@ export default {
   computed: {
     canSeeReorderButtons() {
       return canSortResource(this.resource, this.relationshipType);
+    },
+
+    hideReorderButtons() {
+      return this.resource.nova_hide_reorder_buttons || false;
     },
 
     // Returns reason string why reordering is disabled

@@ -112,6 +112,7 @@ trait HasSortableRows
             'sort_on_index' => $sortability->sortable && ! $sortability->sortOnHasMany,
             'sort_on_has_many' => $sortability->sortable && $sortability->sortOnHasMany,
             'sort_on_belongs_to' => $sortability->sortable && $sortability->sortOnBelongsTo,
+            'nova_hide_reorder_buttons' => $sortability->sortable['nova_hide_reorder_buttons'] ?? false,
         ] : ['sort_not_allowed' => ! ($sortability->canSort ?? true)]);
 
         return array_merge(parent::serializeForIndex($request, $fields), $sortabilityData);
