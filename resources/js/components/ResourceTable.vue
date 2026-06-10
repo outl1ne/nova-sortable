@@ -11,6 +11,7 @@
         :fields="fields"
         :should-show-column-borders="shouldShowColumnBorders"
         :should-show-checkboxes="shouldShowCheckboxes"
+        :should-show-select-all-checkboxes="shouldShowSelectAllCheckboxes"
         :sortable="sortable"
         @order="requestOrderByChange"
         @reset-order-by="resetOrderBy"
@@ -22,7 +23,7 @@
         handle=".handle"
         draggable="tr"
         @update="updateOrder"
-        class="o1-divide-y o1-divide-gray-100 dark:o1-divide-gray-700"
+        class="o1-divide-y o1-divide-gray-100 dark:divide-gray-700"
       >
         <ResourceTableRow
           v-for="(resource, index) in fakeResources"
@@ -42,6 +43,7 @@
           :actions-are-available="actionsAreAvailable"
           :actions-endpoint="actionsEndpoint"
           :should-show-checkboxes="shouldShowCheckboxes"
+          :should-show-select-all-checkboxes="shouldShowSelectAllCheckboxes"
           :should-show-column-borders="shouldShowColumnBorders"
           :table-style="tableStyle"
           :update-selection-status="updateSelectionStatus"
@@ -87,6 +89,7 @@ export default {
       default: [],
     },
     selectedResourceIds: {},
+    shouldShowSelectAllCheckboxes: { type: Boolean, default: false },
     shouldShowCheckboxes: {
       type: Boolean,
       default: false,

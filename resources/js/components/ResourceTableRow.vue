@@ -11,7 +11,7 @@
   >
     <!-- Resource Selection Checkbox -->
     <td
-      v-if="shouldShowCheckboxes || canSeeReorderButtons"
+      v-if="showShowCheckboxesRow || canSeeReorderButtons"
       :class="{
         'o1-py-2': !shouldShowTight,
         'o1-border-t border-gray-100 dark:border-gray-700 o1-px-2': true,
@@ -30,7 +30,7 @@
         @moveToStart="$emit('moveToStart')"
       >
         <Checkbox
-          v-if="shouldShowCheckboxes"
+          v-if="showShowCheckboxesRow"
           :aria-label="__('Select Resource :title', { title: resource.title })"
           :checked="checked"
           :data-testid="`${testId}-checkbox`"
@@ -239,6 +239,7 @@ export default {
     'actionsAreAvailable',
     'actionsEndpoint',
     'shouldShowCheckboxes',
+    'shouldShowSelectAllCheckboxes',
     'shouldShowColumnBorders',
     'tableStyle',
     'updateSelectionStatus',
@@ -411,6 +412,10 @@ export default {
       } else {
         return this.resource.authorizedToView
       }
+    },
+
+    showShowCheckboxesRow() {
+      return this.shouldShowSelectAllCheckboxes || this.shouldShowCheckboxes
     },
 
     shouldShowActionDropdown() {
