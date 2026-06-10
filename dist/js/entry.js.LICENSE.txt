@@ -1,16 +1,10 @@
 /*!
-  * vue-draggable-next v2.2.0
-  * (c) 2023 Anish George
-  * @license MIT
-  */
-
-/*!
  * vuex v4.1.0
  * (c) 2022 Evan You
  * @license MIT
  */
 
-/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */
 
 /**!
  * Sortable 1.14.0
