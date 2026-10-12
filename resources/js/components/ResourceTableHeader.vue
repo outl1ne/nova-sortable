@@ -7,9 +7,9 @@
         :class="{
           'o1-border-r border-gray-200 dark:border-gray-600': shouldShowColumnBorders,
         }"
-        v-if="shouldShowCheckboxes || canSeeReorderButtons"
+        v-if="showShowCheckboxesRow || canSeeReorderButtons"
       >
-        <span v-if="shouldShowCheckboxes" class="o1-sr-only">{{ __('Selected Resources') }}</span>
+        <span v-if="showShowCheckboxesRow" class="o1-sr-only">{{ __('Selected Resources') }}</span>
       </th>
 
       <th
@@ -60,6 +60,7 @@ export default {
     resourceName: String,
     shouldShowColumnBorders: Boolean,
     shouldShowCheckboxes: Boolean,
+    shouldShowSelectAllCheckboxes: Boolean,
     fields: {
       type: [Object, Array],
     },
@@ -78,6 +79,12 @@ export default {
      */
     resetOrderBy(field) {
       this.$emit('reset-order-by', field);
+    },
+  },
+
+  computed: {
+    showShowCheckboxesRow() {
+      return this.shouldShowSelectAllCheckboxes || this.shouldShowCheckboxes;
     },
   },
 };
