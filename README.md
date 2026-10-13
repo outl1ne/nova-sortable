@@ -160,6 +160,27 @@ class SomeModel extends Eloquent implements Sortable
 }
 ```
 
+### Hiding reorder buttons
+
+If you want to hide the ChevronUp and ChevronDown buttons (move to start/end) and only show the drag handle, you can use the `nova_hide_reorder_buttons` flag:
+
+```diff
+class SomeModel extends Eloquent implements Sortable
+{
+  use SortableTrait;
+
+  public $sortable = [
+    'order_column_name' => 'sort_order',
+    'sort_when_creating' => true,
++   'nova_hide_reorder_buttons' => true,
+  ];
+
+  ...
+}
+```
+
+This is useful if you prefer a cleaner interface with only drag-and-drop sorting enabled.
+
 ## Sorting on HasMany relationship
 
 **NB!** The resource can only be sorted on **either** the Index view **or** the HasMany list view, but not both!
