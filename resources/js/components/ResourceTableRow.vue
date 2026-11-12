@@ -191,18 +191,20 @@
             </p>
           </ModalContent>
         </RestoreResourceModal>
+
+        <!-- Keep inside the <tr>: a second root node turns each row into a
+             fragment, and the DOM desyncs from Vue after a drag. -->
+        <PreviewResourceModal
+          v-if="previewModalOpen"
+          :resource-id="resource.id.value"
+          :resource-name="resourceName"
+          :show="previewModalOpen"
+          @close="closePreviewModal"
+          @confirm="closePreviewModal"
+        />
       </div>
     </td>
   </tr>
-
-  <PreviewResourceModal
-    v-if="previewModalOpen"
-    :resource-id="resource.id.value"
-    :resource-name="resourceName"
-    :show="previewModalOpen"
-    @close="closePreviewModal"
-    @confirm="closePreviewModal"
-  />
 </template>
 
 <script>
