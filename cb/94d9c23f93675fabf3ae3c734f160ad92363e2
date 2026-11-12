@@ -1,0 +1,21 @@
+dist/js/entry.js
+  s_dbe637d8efa7ae::t_7ad0c5507ebdde 2
+resources/js/components/ResourceTableRow.vue
+  s_dbe637d8efa7ae::t_7ad0c5507ebdde 194-204
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cb94d9c23f93675fabf3ae3c734f160ad92363e2",
+  "prompts": {},
+  "sessions": {
+    "s_dbe637d8efa7ae": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7eaf4b32-daee-4586-9740-1db17e9ef14c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Tarvo Reinpalu <tarvo@versioon.ee>"
+    }
+  }
+}
